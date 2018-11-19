@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Happy Birthday</string>
+    <string name="message_hint">پیام ارسالی</string>
+    <string name="date_hint">تاریخ تولد</string>
+    <string name="name_hint">نام و نام خانوادگی</string>
+    <string name="register_person">ثبت</string>
 </resources>
