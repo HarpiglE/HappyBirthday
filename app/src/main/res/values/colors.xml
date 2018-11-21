@@ -10,4 +10,9 @@
 
     <color name="editTextBg">#E6EE9C</color>
     <color name="editTextBorder">#DCE775</color>
+
+    <!-- Date Picker colors -->
+    <color name="mdtp_accent_color">@color/colorPrimary</color>
+    <color name="mdtp_accent_color_dark">@color/colorPrimaryDark</color>
+
 </resources>

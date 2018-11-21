@@ -8,4 +8,6 @@
     <string name="birth_date">تاریخ</string>
     <string name="birth_time">ساعت</string>
     <string name="date_not_selected">تاریخ انتخاب نشده است</string>
+    <string name="persian_date_picker">PersianDatePicker</string>
+    <string name="persian_time_picker">PersianTimePicker</string>
 </resources>
