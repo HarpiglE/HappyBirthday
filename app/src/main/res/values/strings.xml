@@ -4,4 +4,8 @@
     <string name="date_hint">تاریخ تولد</string>
     <string name="name_hint">نام و نام خانوادگی</string>
     <string name="register_person">ثبت</string>
+    <string name="birth_date_and_time">زمان تولد</string>
+    <string name="birth_date">تاریخ</string>
+    <string name="birth_time">ساعت</string>
+    <string name="date_not_selected">تاریخ انتخاب نشده است</string>
 </resources>
