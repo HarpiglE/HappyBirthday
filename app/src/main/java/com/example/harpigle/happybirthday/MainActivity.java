@@ -1,5 +1,7 @@
 package com.example.harpigle.happybirthday;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if (isInformationTrue()) {
-
+                    registeringPerson();
                 }
             }
         });
@@ -149,6 +152,43 @@ public class MainActivity extends AppCompatActivity
         }
 
         return truthFlag;
+    }
+
+    private void registeringPerson() {
+        String nameString = nameEdt.getText().toString();
+
+        // These are different from variables in onDateSet and onTimeSet listener
+        String dateString = String.valueOf(
+                String.valueOf(year) + String.valueOf(month) + String.valueOf(day)
+        );
+        String timeString = String.valueOf(String.valueOf(hour) + String.valueOf(minute));
+
+        String[] nameAndTime = {nameString, timeString};
+        Gson gson = new Gson();
+        String nameAndTimeJson = gson.toJson(nameAndTime);
+
+        SharedPreferences personsInfoSharedPref = getSharedPreferences(
+                getString(R.string.birthday_shared_preferences), Context.MODE_PRIVATE
+        );
+        SharedPreferences.Editor sharedPrefEditor = personsInfoSharedPref.edit();
+        sharedPrefEditor.putString(dateString, nameAndTimeJson);
+        sharedPrefEditor.apply();
+
+        Toast.makeText(
+                this,
+                getString(R.string.person_registered, nameString),
+                Toast.LENGTH_SHORT
+        ).show();
+
+        emptyFields();
+    }
+
+    private void emptyFields() {
+        nameEdt.setText("");
+        dateShow.setText("");
+        timeShow.setText("");
+        dateShow.setHint(getString(R.string.date_not_entered));
+        timeShow.setHint(getString(R.string.time_not_entered));
     }
 
     @Override
