@@ -1,7 +1,7 @@
 package com.example.harpigle.happybirthday;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +14,6 @@ import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
 import java.util.Calendar;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -69,6 +68,14 @@ public class MainActivity extends AppCompatActivity
                     configureTimePicker();
             }
         });
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isInformationTrue()) {
+
+                }
+            }
+        });
     }
 
     private void configureDatePicker() {
@@ -111,6 +118,37 @@ public class MainActivity extends AppCompatActivity
                 true
         );
         timePickerDialog.show(getFragmentManager(), getString(R.string.persian_time_picker));
+    }
+
+    private boolean isInformationTrue() {
+        boolean truthFlag = true;
+
+        if (nameEdt.getText().toString().equals("")) {
+            Toast.makeText(
+                    this,
+                    getString(R.string.time_not_entered),
+                    Toast.LENGTH_SHORT
+            ).show();
+            truthFlag = false;
+        }
+        if (year == 0) {
+            Toast.makeText(
+                    this,
+                    getString(R.string.date_not_entered),
+                    Toast.LENGTH_SHORT
+            ).show();
+            truthFlag = false;
+        }
+        if (hour == 0) {
+            Toast.makeText(
+                    this,
+                    getString(R.string.time_not_entered),
+                    Toast.LENGTH_SHORT
+            ).show();
+            truthFlag = false;
+        }
+
+        return truthFlag;
     }
 
     @Override
