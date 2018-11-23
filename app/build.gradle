@@ -28,4 +28,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation 'com.mohamadamin:persianmaterialdatetimepicker:1.2.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
 }
