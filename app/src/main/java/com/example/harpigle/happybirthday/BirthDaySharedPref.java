@@ -2,10 +2,15 @@ package com.example.harpigle.happybirthday;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONArray;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Arrays;
 
 public final class BirthDaySharedPref {
@@ -40,16 +45,18 @@ public final class BirthDaySharedPref {
     }
 
     public boolean put(String key, String[] value) {
-        JSONArray array = null;
+        JSONArray jsonArray = null;
+
+        // Store key and values to the shared preferences
         try {
-            array = new JSONArray(Arrays.toString(value));
+            jsonArray = new JSONArray(Arrays.toString(value));
         }
-        catch (JSONException e) {
+        catch (Exception e) {
             e.printStackTrace();
         }
 
-        if (array != null) {
-            editor.putString(key, array.toString());
+        if (jsonArray != null) {
+            editor.putString(key, jsonArray.toString());
             editor.apply();
             return true;
         }
@@ -60,14 +67,20 @@ public final class BirthDaySharedPref {
     public JSONArray get(String key) {
         String personInformationJson = sharedPreferences.getString(key, "KeyNotAvailable");
 
-        JSONArray array = null;
-        try {
-            array = new JSONArray(personInformationJson);
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
+        if (personInformationJson.equals("KeyNotAvailable"))
+            return null;
+        else {
+            JSONArray jsonArray = null;
+
+            try {
+                jsonArray = new JSONArray(personInformationJson);
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return jsonArray;
         }
 
-        return array;
     }
 }

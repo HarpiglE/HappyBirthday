@@ -2,6 +2,7 @@ package com.example.harpigle.happybirthday;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,11 @@ import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
+import org.json.JSONException;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
@@ -153,6 +159,7 @@ public class MainActivity extends AppCompatActivity
 
     private void registeringPerson() {
         String nameString = nameEdt.getText().toString();
+        String encodedNameString = "";
 
         // These are different from variables in onDateSet and onTimeSet listener
         String dateString = String.valueOf(
@@ -160,8 +167,14 @@ public class MainActivity extends AppCompatActivity
         );
         String timeString = String.valueOf(String.valueOf(hour) + String.valueOf(minute));
 
-        String[] nameAndTime = {nameString, timeString};
+        // Encoded nameString to utf-8 to store properly in shared preferences
+        try {
+            encodedNameString = URLEncoder.encode(nameString, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
+        String[] nameAndTime = {encodedNameString, timeString};
         BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance(MainActivity.this);
         if (birthDaySharedPref.put(dateString, nameAndTime)) {
             Toast.makeText(
