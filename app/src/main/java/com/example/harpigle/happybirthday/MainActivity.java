@@ -1,7 +1,5 @@
 package com.example.harpigle.happybirthday;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,7 +8,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
@@ -164,21 +161,15 @@ public class MainActivity extends AppCompatActivity
         String timeString = String.valueOf(String.valueOf(hour) + String.valueOf(minute));
 
         String[] nameAndTime = {nameString, timeString};
-        Gson gson = new Gson();
-        String nameAndTimeJson = gson.toJson(nameAndTime);
 
-        SharedPreferences personsInfoSharedPref = getSharedPreferences(
-                getString(R.string.birthday_shared_preferences), Context.MODE_PRIVATE
-        );
-        SharedPreferences.Editor sharedPrefEditor = personsInfoSharedPref.edit();
-        sharedPrefEditor.putString(dateString, nameAndTimeJson);
-        sharedPrefEditor.apply();
-
-        Toast.makeText(
-                this,
-                getString(R.string.person_registered, nameString),
-                Toast.LENGTH_SHORT
-        ).show();
+        BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance(MainActivity.this);
+        if (birthDaySharedPref.put(dateString, nameAndTime)) {
+            Toast.makeText(
+                    this,
+                    getString(R.string.person_registered, nameString),
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
 
         emptyFields();
     }
