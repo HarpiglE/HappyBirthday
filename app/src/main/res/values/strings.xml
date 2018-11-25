@@ -19,4 +19,5 @@
     <string name="birthday_shared_preferences">BirthDay</string>
     <string name="person_registered">%s ثبت شد!</string>
     <string name="person_exists">%d شخص با این نام موجود است</string>
+    <string name="person_not_exists">شخصی با این نام موجود نیست</string>
 </resources>

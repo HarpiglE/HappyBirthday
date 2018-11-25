@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private EditText nameEdt;
+    private Button checkExistence;
+    private TextView existenceMessage;
     private Button datePicker;
     private Button timePicker;
     private TextView dateShow;
@@ -37,7 +39,13 @@ public class MainActivity extends AppCompatActivity
     private int hour;
     private int minute;
 
-    byte dateRegisteringCounter = 0;
+    private byte dateIdCounter = 0;
+    private byte numberOfPersonExistence = 0;
+
+    private String nameString;
+    private String dateString;
+    private String timeString;
+    private String encodedNameString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +58,8 @@ public class MainActivity extends AppCompatActivity
 
     private void findViews() {
         nameEdt = findViewById(R.id.name_edt);
+        checkExistence = findViewById(R.id.existence_check_btn);
+        existenceMessage = findViewById(R.id.existence_message_tv);
         datePicker = findViewById(R.id.birth_date_picker);
         timePicker = findViewById(R.id.birth_time_picker);
         dateShow = findViewById(R.id.date_show_tv);
@@ -58,6 +68,29 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setButtonsListener() {
+        checkExistence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nameString = nameEdt.getText().toString();
+
+                // Encoded nameString to utf-8 to store properly in shared preferences
+                encodedNameString = encodeString(nameString);
+
+                isPersonExited(encodedNameString);
+
+                if (numberOfPersonExistence > 0) {
+                    existenceMessage.setText(getString(
+                            R.string.person_exists,
+                            numberOfPersonExistence
+                    ));
+                    registerBtn.setEnabled(false);
+                    numberOfPersonExistence = 0;
+                } else {
+                    existenceMessage.setText(getString(R.string.person_not_exists));
+                    registerBtn.setEnabled(true);
+                }
+            }
+        });
         datePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +113,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if (isInformationTrue()) {
+                    createDateAndTimeString();
                     registeringPerson();
+                    emptyEverything();
                 }
             }
         });
@@ -159,20 +194,15 @@ public class MainActivity extends AppCompatActivity
         return truthFlag;
     }
 
-    private void registeringPerson() {
-        String nameString = nameEdt.getText().toString();
-
+    private void createDateAndTimeString() {
         // These two variables are different from variables in onDateSet and onTimeSet listener
-        String dateString = String.valueOf(
+        dateString = String.valueOf(
                 String.valueOf(year) + String.valueOf(month) + String.valueOf(day)
         );
-        String timeString = String.valueOf(String.valueOf(hour) + String.valueOf(minute));
+        timeString = String.valueOf(String.valueOf(hour) + String.valueOf(minute));
+    }
 
-        // Encoded nameString to utf-8 to store properly in shared preferences
-        String encodedNameString;
-        encodedNameString = encodeString(nameString);
-
-        byte numberOfPersonExistence = isPersonExited(dateString, encodedNameString);
+    private void registeringPerson() {
         if (numberOfPersonExistence > 0) {
             Toast.makeText(
                     this,
@@ -180,9 +210,11 @@ public class MainActivity extends AppCompatActivity
                     Toast.LENGTH_SHORT
             ).show();
         } else {
+            // If there's no name such the given name, then find the proper date id and store it
+             findDateId();
+
             // Register date by 000000_00 pattern to count number of them properly
-            dateString += ("_0" + String.valueOf(dateRegisteringCounter));
-            dateRegisteringCounter = 0;
+            dateString += ("_0" + String.valueOf(dateIdCounter));
 
             String[] nameAndTime = {encodedNameString, timeString};
 
@@ -194,8 +226,6 @@ public class MainActivity extends AppCompatActivity
                         Toast.LENGTH_SHORT
                 ).show();
             }
-
-            emptyFields();
         }
     }
 
@@ -208,28 +238,29 @@ public class MainActivity extends AppCompatActivity
         return string;
     }
 
-    private byte isPersonExited(String date, String name) {
+    private void isPersonExited(String name) {
         BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance(MainActivity.this);
 
         // Searching whole shared prefs if there is a name equals to specified name
-        byte givenNameExitedCounts = 0;
         ArrayList<JSONArray> allPrefs = birthDaySharedPref.getAll();
         for (int i = 0; i < allPrefs.size(); i++) {
             try {
                 if (allPrefs.get(i).get(0).equals(name)) {
-                    ++givenNameExitedCounts;
+                    ++numberOfPersonExistence;
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
 
-        // If there's no name such the given name, then find the proper date id and store it
-        if (givenNameExitedCounts == 0) {
+    private void findDateId() {
+        BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance();
+        if (numberOfPersonExistence == 0) {
             String tempDate;
             while (true) {
-                ++dateRegisteringCounter;
-                tempDate = date + "_0" + String.valueOf(dateRegisteringCounter);
+                ++dateIdCounter;
+                tempDate = dateString + "_0" + String.valueOf(dateIdCounter);
                 if (birthDaySharedPref.isKeyExited(tempDate)) {
                     continue;
                 } else {
@@ -237,16 +268,21 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         }
-
-        return givenNameExitedCounts;
     }
 
-    private void emptyFields() {
+    private void emptyEverything() {
         nameEdt.setText("");
+        existenceMessage.setText("");
         dateShow.setText("");
         timeShow.setText("");
-        dateShow.setHint(getString(R.string.date_not_entered));
-        timeShow.setHint(getString(R.string.time_not_entered));
+
+        dateIdCounter = 0;
+        numberOfPersonExistence = 0;
+        nameString = "";
+        dateString = "";
+        timeString = "";
+        encodedNameString = "";
+
     }
 
     @Override
@@ -256,18 +292,18 @@ public class MainActivity extends AppCompatActivity
         this.day = dayOfMonth;
 
         // Format date display in text view properly
-        String dateString = year + "/";
+        String properFormattingDateString = year + "/";
         if (monthOfYear < 10)
-            dateString += String.valueOf("0" + monthOfYear);
+            properFormattingDateString += String.valueOf("0" + monthOfYear);
         else
-            dateString += String.valueOf(monthOfYear);
-        dateString += "/";
+            properFormattingDateString += String.valueOf(monthOfYear);
+        properFormattingDateString += "/";
         if (dayOfMonth < 10)
-            dateString += String.valueOf("0" + dayOfMonth);
+            properFormattingDateString += String.valueOf("0" + dayOfMonth);
         else
-            dateString += String.valueOf(dayOfMonth);
+            properFormattingDateString += String.valueOf(dayOfMonth);
 
-        dateShow.setText(dateString);
+        dateShow.setText(properFormattingDateString);
     }
 
     @Override
@@ -276,17 +312,17 @@ public class MainActivity extends AppCompatActivity
         this.minute = minute;
 
         // Format time display in text view properly
-        String timeString;
+        String properFormattingTimeString;
         if (hourOfDay < 10)
-            timeString = String.valueOf("0" + hourOfDay);
+            properFormattingTimeString = String.valueOf("0" + hourOfDay);
         else
-            timeString = String.valueOf(hourOfDay);
-        timeString += ":";
+            properFormattingTimeString = String.valueOf(hourOfDay);
+        properFormattingTimeString += ":";
         if (minute < 10)
-            timeString += String.valueOf("0" + minute);
+            properFormattingTimeString += String.valueOf("0" + minute);
         else
-            timeString += String.valueOf(minute);
+            properFormattingTimeString += String.valueOf(minute);
 
-        timeShow.setText(timeString);
+        timeShow.setText(properFormattingTimeString);
     }
 }
