@@ -288,6 +288,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        ++monthOfYear;
+
         this.year = year;
         this.month = monthOfYear;
         this.day = dayOfMonth;
