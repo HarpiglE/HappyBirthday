@@ -2,7 +2,6 @@ package com.example.harpigle.happybirthday;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -99,19 +98,20 @@ public class MainActivity extends AppCompatActivity
         datePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (dateShow.getText() != "")
-                    configureCurrentPickedDateOnPicker();
-                else
+                if (dateShow.getHint().equals(getString(R.string.wrong_date))
+                        || dateShow.getHint().equals(getString(R.string.date_not_selected)))
                     configureDatePicker();
+                else
+                    configureCurrentPickedDateOnPicker();
             }
         });
         timePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (timeShow.getText() != "")
-                    configureCurrentPickedTimeOnPicker();
-                else
+                if (timeShow.getHint().equals(getString(R.string.time_not_selected)))
                     configureTimePicker();
+                else
+                    configureCurrentPickedTimeOnPicker();
             }
         });
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -302,23 +302,38 @@ public class MainActivity extends AppCompatActivity
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         ++monthOfYear;
 
-        this.year = year;
-        this.month = monthOfYear;
-        this.day = dayOfMonth;
+        PersianCalendar persianCalendar = new PersianCalendar();
+        if (year == persianCalendar.getPersianYear()
+                && monthOfYear >= persianCalendar.getPersianMonth()
+                && dayOfMonth > persianCalendar.getPersianDay()) {
 
-        // Format date display in text view properly
-        String properFormattingDateString = year + "/";
-        if (monthOfYear < 10)
-            properFormattingDateString += String.valueOf("0" + monthOfYear);
-        else
-            properFormattingDateString += String.valueOf(monthOfYear);
-        properFormattingDateString += "/";
-        if (dayOfMonth < 10)
-            properFormattingDateString += String.valueOf("0" + dayOfMonth);
-        else
-            properFormattingDateString += String.valueOf(dayOfMonth);
+            dateShow.setText("");
+            dateShow.setHint(getString(R.string.wrong_date));
 
-        dateShow.setText(properFormattingDateString);
+        } else if (year > persianCalendar.getPersianYear()) {
+
+            dateShow.setText("");
+            dateShow.setHint(getString(R.string.wrong_date));
+
+        } else {
+            this.year = year;
+            this.month = monthOfYear;
+            this.day = dayOfMonth;
+
+            // Format date display in text view properly
+            String properFormattingDateString = year + "/";
+            if (monthOfYear < 10)
+                properFormattingDateString += String.valueOf("0" + monthOfYear);
+            else
+                properFormattingDateString += String.valueOf(monthOfYear);
+            properFormattingDateString += "/";
+            if (dayOfMonth < 10)
+                properFormattingDateString += String.valueOf("0" + dayOfMonth);
+            else
+                properFormattingDateString += String.valueOf(dayOfMonth);
+
+            dateShow.setText(properFormattingDateString);
+        }
     }
 
     @Override

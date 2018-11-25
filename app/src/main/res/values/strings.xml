@@ -11,6 +11,7 @@
     <string name="birth_date">تاریخ</string>
     <string name="birth_time">ساعت</string>
     <string name="date_not_selected">تاریخ انتخاب نشده است</string>
+    <string name="time_not_selected">زمان انتخاب نشده است</string>
     <string name="persian_date_picker">PersianDatePicker</string>
     <string name="persian_time_picker">PersianTimePicker</string>
     <string name="name_not_entered">لطفا نام و نام خانوادگی را وارد نمایید</string>
@@ -21,4 +22,5 @@
     <string name="person_exists">%d شخص با این نام موجود است</string>
     <string name="person_not_exists">شخصی با این نام موجود نیست</string>
     <string name="first_click_check_btn">لطفا ابتدا دکمه ی بررسی را بزنید</string>
+    <string name="wrong_date">تاریخ نادرست</string>
 </resources>

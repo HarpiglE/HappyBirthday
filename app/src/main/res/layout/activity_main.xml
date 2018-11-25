@@ -160,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/eight_dp"
                 android:gravity="center"
-                android:hint="@string/date_not_selected"
+                android:hint="@string/time_not_selected"
                 android:textColor="@color/primaryText"
                 android:textSize="16sp" />
 
