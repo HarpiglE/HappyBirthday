@@ -2,6 +2,7 @@ package com.example.harpigle.happybirthday;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -169,7 +170,7 @@ public class MainActivity extends AppCompatActivity
         if (nameEdt.getText().toString().equals("")) {
             Toast.makeText(
                     this,
-                    getString(R.string.time_not_entered),
+                    getString(R.string.name_not_entered),
                     Toast.LENGTH_SHORT
             ).show();
             truthFlag = false;
