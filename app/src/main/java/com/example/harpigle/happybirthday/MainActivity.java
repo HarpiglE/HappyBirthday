@@ -2,7 +2,6 @@ package com.example.harpigle.happybirthday;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,11 +13,12 @@ import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
@@ -37,12 +37,22 @@ public class MainActivity extends AppCompatActivity
     private int hour;
     private int minute;
 
+    byte dateRegisteringCounter = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         findViews();
+
+        nameEdt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String name = nameEdt.getText().toString();
+            }
+        });
+
         setButtonsListener();
     }
 
@@ -159,32 +169,84 @@ public class MainActivity extends AppCompatActivity
 
     private void registeringPerson() {
         String nameString = nameEdt.getText().toString();
-        String encodedNameString = "";
 
-        // These are different from variables in onDateSet and onTimeSet listener
+        // These two variables are different from variables in onDateSet and onTimeSet listener
         String dateString = String.valueOf(
                 String.valueOf(year) + String.valueOf(month) + String.valueOf(day)
         );
         String timeString = String.valueOf(String.valueOf(hour) + String.valueOf(minute));
 
         // Encoded nameString to utf-8 to store properly in shared preferences
+        String encodedNameString;
+        encodedNameString = encodeString(nameString);
+
+        byte numberOfPersonExistence = isPersonExited(dateString, encodedNameString);
+        if (numberOfPersonExistence > 0) {
+            Toast.makeText(
+                    this,
+                    getString(R.string.person_exists, numberOfPersonExistence),
+                    Toast.LENGTH_SHORT
+            ).show();
+        } else {
+            // Register date by 000000_00 pattern to count number of them properly
+            dateString += ("_0" + String.valueOf(dateRegisteringCounter));
+            dateRegisteringCounter = 0;
+
+            String[] nameAndTime = {encodedNameString, timeString};
+
+            BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance();
+            if (birthDaySharedPref.put(dateString, nameAndTime)) {
+                Toast.makeText(
+                        this,
+                        getString(R.string.person_registered, nameString),
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+
+            emptyFields();
+        }
+    }
+
+    private String encodeString(String string) {
         try {
-            encodedNameString = URLEncoder.encode(nameString, "utf-8");
+            string = URLEncoder.encode(string, "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+        return string;
+    }
 
-        String[] nameAndTime = {encodedNameString, timeString};
+    private byte isPersonExited(String date, String name) {
         BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance(MainActivity.this);
-        if (birthDaySharedPref.put(dateString, nameAndTime)) {
-            Toast.makeText(
-                    this,
-                    getString(R.string.person_registered, nameString),
-                    Toast.LENGTH_SHORT
-            ).show();
+
+        // Searching whole shared prefs if there is a name equals to specified name
+        byte givenNameExitedCounts = 0;
+        ArrayList<JSONArray> allPrefs = birthDaySharedPref.getAll();
+        for (int i = 0; i < allPrefs.size(); i++) {
+            try {
+                if (allPrefs.get(i).get(0).equals(name)) {
+                    ++givenNameExitedCounts;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
-        emptyFields();
+        // If there's no name such the given name, then find the proper date id and store it
+        if (givenNameExitedCounts == 0) {
+            String tempDate;
+            while (true) {
+                ++dateRegisteringCounter;
+                tempDate = date + "_0" + String.valueOf(dateRegisteringCounter);
+                if (birthDaySharedPref.isKeyExited(tempDate)) {
+                    continue;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        return givenNameExitedCounts;
     }
 
     private void emptyFields() {

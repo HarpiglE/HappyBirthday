@@ -2,16 +2,13 @@ package com.example.harpigle.happybirthday;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONArray;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 public final class BirthDaySharedPref {
 
@@ -50,8 +47,7 @@ public final class BirthDaySharedPref {
         // Store key and values to the shared preferences
         try {
             jsonArray = new JSONArray(Arrays.toString(value));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -59,8 +55,7 @@ public final class BirthDaySharedPref {
             editor.putString(key, jsonArray.toString());
             editor.apply();
             return true;
-        }
-        else
+        } else
             return false;
     }
 
@@ -74,13 +69,44 @@ public final class BirthDaySharedPref {
 
             try {
                 jsonArray = new JSONArray(personInformationJson);
-            }
-            catch (JSONException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             return jsonArray;
         }
 
+    }
+
+    public ArrayList<JSONArray> getAll() {
+        Map<String, ?> allPrefs = sharedPreferences.getAll();
+
+        ArrayList<JSONArray> jsonArrays = new ArrayList<>();
+
+        String[] stringsToJsonArrays = new String[allPrefs.size()];
+        allPrefs.values().toArray(stringsToJsonArrays);
+
+        for (int i = 0; i < allPrefs.size(); i++) {
+            JSONArray jsonArray = null;
+
+            try {
+                jsonArray = new JSONArray(stringsToJsonArrays[i]);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            jsonArrays.add(jsonArray);
+        }
+
+        return jsonArrays;
+    }
+
+    public boolean isKeyExited(String key) {
+        String value = sharedPreferences.getString(key, "KeyNotAvailable");
+
+        if (value.equals("KeyNotAvailable"))
+            return false;
+        else
+            return true;
     }
 }
