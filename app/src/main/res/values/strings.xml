@@ -2,7 +2,10 @@
     <string name="app_name">Happy Birthday</string>
     <string name="message_hint">پیام ارسالی</string>
     <string name="date_hint">تاریخ تولد</string>
-    <string name="name_hint">نام و نام خانوادگی</string>
+    <string name="name">نام و نام خانوادگی</string>
+    <string name="existence_message_hint">نام را وارد کرده و دکمه ی بررسی را بزنید</string>
+    <string name="existence_check">بررسی</string>
+    <string name="name_hint">رحمان محمدی</string>
     <string name="register_person">ثبت</string>
     <string name="birth_date_and_time">زمان تولد</string>
     <string name="birth_date">تاریخ</string>

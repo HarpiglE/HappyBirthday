@@ -45,14 +45,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         findViews();
-
-        nameEdt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                String name = nameEdt.getText().toString();
-            }
-        });
-
         setButtonsListener();
     }
 
