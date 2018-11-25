@@ -74,21 +74,25 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v) {
                 nameString = nameEdt.getText().toString();
 
-                // Encoded nameString to utf-8 to store properly in shared preferences
-                encodedNameString = encodeString(nameString);
-
-                isPersonExited(encodedNameString);
-
-                if (numberOfPersonExistence > 0) {
-                    existenceMessage.setText(getString(
-                            R.string.person_exists,
-                            numberOfPersonExistence
-                    ));
-                    registerBtn.setEnabled(false);
-                    numberOfPersonExistence = 0;
+                if (nameString.equals("")) {
+                    existenceMessage.setText(getString(R.string.name_not_entered));
                 } else {
-                    existenceMessage.setText(getString(R.string.person_not_exists));
-                    registerBtn.setEnabled(true);
+                    // Encoded nameString to utf-8 to store properly in shared preferences
+                    encodedNameString = encodeString(nameString);
+
+                    isPersonExited(encodedNameString);
+
+                    if (numberOfPersonExistence > 0) {
+                        existenceMessage.setText(getString(
+                                R.string.person_exists,
+                                numberOfPersonExistence
+                        ));
+                        registerBtn.setEnabled(false);
+                        numberOfPersonExistence = 0;
+                    } else {
+                        existenceMessage.setText(getString(R.string.person_not_exists));
+                        registerBtn.setEnabled(true);
+                    }
                 }
             }
         });
@@ -113,10 +117,18 @@ public class MainActivity extends AppCompatActivity
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isInformationTrue()) {
-                    createDateAndTimeString();
-                    registeringPerson();
-                    emptyEverything();
+                if (existenceMessage.getText().toString().equals("")) {
+                    Toast.makeText(
+                            MainActivity.this,
+                            getString(R.string.first_click_check_btn),
+                            Toast.LENGTH_SHORT
+                    ).show();
+                } else {
+                    if (isInformationTrue()) {
+                        createDateAndTimeString();
+                        registeringPerson();
+                        emptyEverything();
+                    }
                 }
             }
         });
@@ -212,7 +224,7 @@ public class MainActivity extends AppCompatActivity
             ).show();
         } else {
             // If there's no name such the given name, then find the proper date id and store it
-             findDateId();
+            findDateId();
 
             // Register date by 000000_00 pattern to count number of them properly
             dateString += ("_0" + String.valueOf(dateIdCounter));

@@ -20,4 +20,5 @@
     <string name="person_registered">%s ثبت شد!</string>
     <string name="person_exists">%d شخص با این نام موجود است</string>
     <string name="person_not_exists">شخصی با این نام موجود نیست</string>
+    <string name="first_click_check_btn">لطفا ابتدا دکمه ی بررسی را بزنید</string>
 </resources>
