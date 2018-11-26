@@ -1,7 +1,9 @@
 package com.example.harpigle.happybirthday;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +26,7 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
+    private Toolbar toolbar;
     private EditText nameEdt;
     private Button checkExistence;
     private TextView existenceMessage;
@@ -53,10 +56,12 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         findViews();
+        setActionBar();
         setButtonsListener();
     }
 
     private void findViews() {
+        toolbar = findViewById(R.id.toolbar);
         nameEdt = findViewById(R.id.name_edt);
         checkExistence = findViewById(R.id.existence_check_btn);
         existenceMessage = findViewById(R.id.existence_message_tv);
@@ -65,6 +70,11 @@ public class MainActivity extends AppCompatActivity
         dateShow = findViewById(R.id.date_show_tv);
         timeShow = findViewById(R.id.time_show_tv);
         registerBtn = findViewById(R.id.register_btn);
+    }
+
+    private void setActionBar() {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
     }
 
     private void setButtonsListener() {
