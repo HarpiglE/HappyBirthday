@@ -288,6 +288,8 @@ public class MainActivity extends AppCompatActivity
         existenceMessage.setText("");
         dateShow.setText("");
         timeShow.setText("");
+        dateShow.setHint(getString(R.string.date_not_selected));
+        timeShow.setHint(getString(R.string.time_not_selected));
 
         dateIdCounter = 0;
         numberOfPersonExistence = 0;
@@ -307,10 +309,16 @@ public class MainActivity extends AppCompatActivity
                 && monthOfYear >= persianCalendar.getPersianMonth()
                 && dayOfMonth > persianCalendar.getPersianDay()) {
 
+            // Assign zero to year so when user clicked register button, there's no correct date
+            this.year = 0;
+
             dateShow.setText("");
             dateShow.setHint(getString(R.string.wrong_date));
 
         } else if (year > persianCalendar.getPersianYear()) {
+
+            // Assign zero to year so when user clicked register button, there's no correct date
+            this.year = 0;
 
             dateShow.setText("");
             dateShow.setHint(getString(R.string.wrong_date));
