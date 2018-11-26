@@ -1,9 +1,12 @@
 package com.example.harpigle.happybirthday;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -386,6 +389,20 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        super.onOptionsItemSelected(item);
+
+        switch (item.getItemId()) {
+            case R.id.show_information_popup:
+                FragmentTransaction informationFragmentTransaction =
+                        getSupportFragmentManager().beginTransaction();
+
+                informationFragmentTransaction
+                        .add(R.id.fragment_container, new BirthdayInformationFragment());
+
+                informationFragmentTransaction.addToBackStack(null);
+                informationFragmentTransaction.commit();
+        }
+
+        return true;
     }
 }
