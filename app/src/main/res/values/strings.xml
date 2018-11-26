@@ -23,4 +23,6 @@
     <string name="person_not_exists">شخصی با این نام موجود نیست</string>
     <string name="first_click_check_btn">لطفا ابتدا دکمه ی بررسی را بزنید</string>
     <string name="wrong_date">تاریخ نادرست</string>
+    <string name="show_information_popup">نمایش اطلاعات</string>
+    <string name="setting_popup">تنظیمات</string>
 </resources>

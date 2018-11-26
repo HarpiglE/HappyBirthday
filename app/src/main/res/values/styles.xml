@@ -6,6 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="popupTheme">@style/PopUpMenu</item>
+    </style>
+
+    <style name="PopUpMenu" parent="Theme.AppCompat.Light">
+        <item name="android:tint">@color/colorPrimaryLight</item>
+        <item name="android:textColor">@color/primaryText</item>
     </style>
 
 </resources>
