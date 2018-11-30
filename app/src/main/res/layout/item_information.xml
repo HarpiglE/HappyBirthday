@@ -92,7 +92,7 @@
             app:layout_constraintRight_toLeftOf="@id/date_fragment"
             app:layout_constraintTop_toBottomOf="@id/time_title_fragment" />
 
-        <view
+        <View
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="@color/primaryText"
@@ -112,7 +112,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/name_fragment" />
 
-        <view
+        <View
             android:id="@+id/icons_divider_fragment"
             android:layout_width="1dp"
             android:layout_height="0dp"
