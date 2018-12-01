@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,23 +62,17 @@ public class BirthdayInformationFragment extends Fragment {
 
         // Get data from shared prefs and store to a array list that contains static string arrays
         for (int i = 0; i < sharedPrefsList.size(); i++) {
-            String[] valuesList = new String[2];
+            String[] valuesList = new String[3];
 
             try {
-                // Get encoded name, decode it and store to index 0 of the valuesList
-                valuesList[0] = URLDecoder.decode(
-                        sharedPrefsList.get(i).get(0).toString(),
-                        "utf-8"
-                );
-
-                // Get date and store it at index 1 of the valuesList
-                valuesList[1] = URLDecoder.decode(
-                        sharedPrefsList.get(i).get(1).toString()
-                );
+                /* Get encoded name, date and time respectively;
+                   decode them and store in the valuesList
+                 */
+                valuesList[0] = decodeString(sharedPrefsList.get(i).get(0).toString());
+                valuesList[1] = decodeString(sharedPrefsList.get(i).get(1).toString());
+                valuesList[2] = decodeString(sharedPrefsList.get(i).get(2).toString());
 
             } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
 
@@ -87,5 +80,15 @@ public class BirthdayInformationFragment extends Fragment {
         }
 
         return adapterList;
+    }
+
+    String decodeString(String string) {
+        String decodedString = "";
+        try {
+            decodedString = URLDecoder.decode(string, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return decodedString;
     }
 }

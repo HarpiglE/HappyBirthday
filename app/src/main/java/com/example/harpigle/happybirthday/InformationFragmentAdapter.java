@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class InformationFragmentAdapter
@@ -34,6 +32,7 @@ public class InformationFragmentAdapter
         viewHolder.counter.setText(String.valueOf(i + 1));
         viewHolder.name.setText(information.get(i)[0]);
         viewHolder.date.setText(information.get(i)[1]);
+        viewHolder.time.setText(information.get(i)[2]);
     }
 
     @Override
