@@ -1,12 +1,10 @@
 package com.example.harpigle.happybirthday;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,7 +50,7 @@ public class MainActivity extends AppCompatActivity
 
     private String nameString;
     private String dateString;
-    private String timeString;
+    private String properFormattingTimeString;
     private String encodedNameString;
 
     @Override
@@ -223,11 +221,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void createDateAndTimeString() {
-        // These two variables are different from variables in onDateSet and onTimeSet listener
+        // This variable is different from variable in onDateSet listener
         dateString = String.valueOf(
                 String.valueOf(year) + String.valueOf(month) + String.valueOf(day)
         );
-        timeString = String.valueOf(String.valueOf(hour) + String.valueOf(minute));
     }
 
     private void registeringPerson() {
@@ -244,7 +241,10 @@ public class MainActivity extends AppCompatActivity
             // Register date by 000000_00 pattern to count number of them properly
             dateString += ("_0" + String.valueOf(dateIdCounter));
 
-            String[] nameAndTime = {encodedNameString, timeString};
+            // Encode time string to store in shared prefs
+            properFormattingTimeString = encodeString(properFormattingTimeString);
+
+            String[] nameAndTime = {encodedNameString, properFormattingTimeString};
 
             BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance();
             if (birthDaySharedPref.put(dateString, nameAndTime)) {
@@ -310,7 +310,7 @@ public class MainActivity extends AppCompatActivity
         numberOfPersonExistence = 0;
         nameString = "";
         dateString = "";
-        timeString = "";
+        properFormattingTimeString = "";
         encodedNameString = "";
 
     }
@@ -365,7 +365,6 @@ public class MainActivity extends AppCompatActivity
         this.minute = minute;
 
         // Format time display in text view properly
-        String properFormattingTimeString;
         if (hourOfDay < 10)
             properFormattingTimeString = String.valueOf("0" + hourOfDay);
         else

@@ -73,7 +73,9 @@ public class BirthdayInformationFragment extends Fragment {
                 );
 
                 // Get date and store it at index 1 of the valuesList
-                valuesList[1] = sharedPrefsList.get(i).get(1).toString();
+                valuesList[1] = URLDecoder.decode(
+                        sharedPrefsList.get(i).get(1).toString()
+                );
 
             } catch (JSONException e) {
                 e.printStackTrace();
