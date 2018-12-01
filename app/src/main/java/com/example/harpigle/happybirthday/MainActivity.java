@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity
     private byte numberOfPersonExistence = 0;
 
     private String nameString;
-    private String dateString;
+    private String identifierDate;
+    private String properFormattingDateString;
     private String properFormattingTimeString;
     private String encodedNameString;
 
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity
                     ).show();
                 } else {
                     if (isInformationTrue()) {
-                        createDateAndTimeString();
+                        createIdentifierDate();
                         registeringPerson();
                         emptyEverything();
                     }
@@ -220,9 +221,11 @@ public class MainActivity extends AppCompatActivity
         return truthFlag;
     }
 
-    private void createDateAndTimeString() {
-        // This variable is different from variable in onDateSet listener
-        dateString = String.valueOf(
+    private void createIdentifierDate() {
+        /* This variable is important. the program will look at the current system date and compare
+           it and will send SMS according to this variable
+          */
+        identifierDate = String.valueOf(
                 String.valueOf(year) + String.valueOf(month) + String.valueOf(day)
         );
     }
@@ -239,15 +242,17 @@ public class MainActivity extends AppCompatActivity
             findDateId();
 
             // Register date by 000000_00 pattern to count number of them properly
-            dateString += ("_0" + String.valueOf(dateIdCounter));
+            identifierDate += ("_0" + String.valueOf(dateIdCounter));
 
-            // Encode time string to store in shared prefs
+            // Encode date and time string to store in the shared prefs
+            properFormattingDateString = encodeString(properFormattingDateString);
             properFormattingTimeString = encodeString(properFormattingTimeString);
 
-            String[] nameAndTime = {encodedNameString, properFormattingTimeString};
+            String[] nameAndTime =
+                    {encodedNameString, properFormattingDateString, properFormattingTimeString};
 
             BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance();
-            if (birthDaySharedPref.put(dateString, nameAndTime)) {
+            if (birthDaySharedPref.put(identifierDate, nameAndTime)) {
                 Toast.makeText(
                         this,
                         getString(R.string.person_registered, nameString),
@@ -273,7 +278,7 @@ public class MainActivity extends AppCompatActivity
         ArrayList<JSONArray> allPrefs = birthDaySharedPref.getAll();
         for (int i = 0; i < allPrefs.size(); i++) {
             try {
-                if (allPrefs.get(i).get(0).equals(name)) {
+                if (allPrefs.get(i).get(1).equals(name)) {
                     ++numberOfPersonExistence;
                 }
             } catch (JSONException e) {
@@ -288,7 +293,7 @@ public class MainActivity extends AppCompatActivity
             String tempDate;
             while (true) {
                 ++dateIdCounter;
-                tempDate = dateString + "_0" + String.valueOf(dateIdCounter);
+                tempDate = identifierDate + "_0" + String.valueOf(dateIdCounter);
                 if (birthDaySharedPref.isKeyExited(tempDate)) {
                     continue;
                 } else {
@@ -309,10 +314,10 @@ public class MainActivity extends AppCompatActivity
         dateIdCounter = 0;
         numberOfPersonExistence = 0;
         nameString = "";
-        dateString = "";
+        identifierDate = "";
+        properFormattingDateString = "";
         properFormattingTimeString = "";
         encodedNameString = "";
-
     }
 
     @Override
@@ -344,7 +349,7 @@ public class MainActivity extends AppCompatActivity
             this.day = dayOfMonth;
 
             // Format date display in text view properly
-            String properFormattingDateString = year + "/";
+            properFormattingDateString = year + "/";
             if (monthOfYear < 10)
                 properFormattingDateString += String.valueOf("0" + monthOfYear);
             else
