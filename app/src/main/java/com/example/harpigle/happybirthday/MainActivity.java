@@ -1,5 +1,6 @@
 package com.example.harpigle.happybirthday;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -397,14 +398,11 @@ public class MainActivity extends AppCompatActivity
 
         switch (item.getItemId()) {
             case R.id.show_information_popup:
-                FragmentTransaction informationFragmentTransaction =
-                        getSupportFragmentManager().beginTransaction();
-
-                informationFragmentTransaction
-                        .add(R.id.fragment_container, new BirthdayInformationFragment());
-
-                informationFragmentTransaction.addToBackStack(null);
-                informationFragmentTransaction.commit();
+                Intent birthdayInformationActivity = new Intent(
+                        MainActivity.this,
+                        BirthdayInformationActivity.class
+                );
+                startActivity(birthdayInformationActivity);
         }
 
         return true;
