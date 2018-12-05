@@ -55,7 +55,7 @@ public class BirthdayInformationActivity extends AppCompatActivity {
         BirthDaySharedPref birthDaySharedPref =
                 BirthDaySharedPref.getInstance(BirthdayInformationActivity.this);
 
-        ArrayList<JSONArray> sharedPrefsList = birthDaySharedPref.getAll();
+        ArrayList<JSONArray> sharedPrefsList = birthDaySharedPref.getValues();
         ArrayList<String[]> adapterList = new ArrayList<>();
 
         // Get data from shared prefs and store to a array list that contains static string arrays

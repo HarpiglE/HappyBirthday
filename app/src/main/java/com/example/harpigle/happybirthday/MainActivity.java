@@ -2,7 +2,6 @@ package com.example.harpigle.happybirthday;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,12 +18,8 @@ import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
@@ -45,9 +40,6 @@ public class MainActivity extends AppCompatActivity
     private int day;
     private int hour;
     private int minute;
-
-    private byte dateIdCounter = 0;
-    private byte numberOfPersonExistence = 0;
 
     private String nameString;
     private String identifierDate;
@@ -94,15 +86,9 @@ public class MainActivity extends AppCompatActivity
                     // Encoded nameString to utf-8 to store properly in shared preferences
                     encodedNameString = encodeString(nameString);
 
-                    isPersonExited(encodedNameString);
-
-                    if (numberOfPersonExistence > 0) {
-                        existenceMessage.setText(getString(
-                                R.string.person_exists,
-                                numberOfPersonExistence
-                        ));
+                    if (isPersonExited(encodedNameString)) {
+                        existenceMessage.setText(getString(R.string.person_exists));
                         registerBtn.setEnabled(false);
-                        numberOfPersonExistence = 0;
                     } else {
                         existenceMessage.setText(getString(R.string.person_not_exists));
                         registerBtn.setEnabled(true);
@@ -232,34 +218,23 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void registeringPerson() {
-        if (numberOfPersonExistence > 0) {
+        // Register date by 'date_encodedName' pattern
+        identifierDate += ("_" + encodedNameString);
+
+        // Encode date and time string to store in the shared prefs
+        properFormattingDateString = encodeString(properFormattingDateString);
+        properFormattingTimeString = encodeString(properFormattingTimeString);
+
+        String[] nameAndTime =
+                {encodedNameString, properFormattingDateString, properFormattingTimeString};
+
+        BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance();
+        if (birthDaySharedPref.put(identifierDate, nameAndTime)) {
             Toast.makeText(
                     this,
-                    getString(R.string.person_exists, numberOfPersonExistence),
+                    getString(R.string.person_registered, nameString),
                     Toast.LENGTH_SHORT
             ).show();
-        } else {
-            // If there's no name such the given name, then find the proper date id and store it
-            findDateId();
-
-            // Register date by 000000_00 pattern to count number of them properly
-            identifierDate += ("_0" + String.valueOf(dateIdCounter));
-
-            // Encode date and time string to store in the shared prefs
-            properFormattingDateString = encodeString(properFormattingDateString);
-            properFormattingTimeString = encodeString(properFormattingTimeString);
-
-            String[] nameAndTime =
-                    {encodedNameString, properFormattingDateString, properFormattingTimeString};
-
-            BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance();
-            if (birthDaySharedPref.put(identifierDate, nameAndTime)) {
-                Toast.makeText(
-                        this,
-                        getString(R.string.person_registered, nameString),
-                        Toast.LENGTH_SHORT
-                ).show();
-            }
         }
     }
 
@@ -272,36 +247,17 @@ public class MainActivity extends AppCompatActivity
         return string;
     }
 
-    private void isPersonExited(String name) {
+    private boolean isPersonExited(String name) {
         BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance(MainActivity.this);
+        String[] keys = birthDaySharedPref.getKeys();
 
-        // Searching whole shared prefs if there is a name equals to specified name
-        ArrayList<JSONArray> allPrefs = birthDaySharedPref.getAll();
-        for (int i = 0; i < allPrefs.size(); i++) {
-            try {
-                if (allPrefs.get(i).get(1).equals(name)) {
-                    ++numberOfPersonExistence;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+        for (int i = 0; i < keys.length; i++) {
+            if (keys[i].contains(name)) {
+                return true;
             }
         }
-    }
 
-    private void findDateId() {
-        BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance();
-        if (numberOfPersonExistence == 0) {
-            String tempDate;
-            while (true) {
-                ++dateIdCounter;
-                tempDate = identifierDate + "_0" + String.valueOf(dateIdCounter);
-                if (birthDaySharedPref.isKeyExited(tempDate)) {
-                    continue;
-                } else {
-                    break;
-                }
-            }
-        }
+        return false;
     }
 
     private void emptyEverything() {
@@ -312,8 +268,6 @@ public class MainActivity extends AppCompatActivity
         dateShow.setHint(getString(R.string.date_not_selected));
         timeShow.setHint(getString(R.string.time_not_selected));
 
-        dateIdCounter = 0;
-        numberOfPersonExistence = 0;
         nameString = "";
         identifierDate = "";
         properFormattingDateString = "";

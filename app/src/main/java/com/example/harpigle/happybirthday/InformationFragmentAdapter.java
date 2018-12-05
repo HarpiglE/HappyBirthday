@@ -50,10 +50,10 @@ public class InformationFragmentAdapter
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            counter = itemView.findViewById(R.id.number_fragment);
-            name = itemView.findViewById(R.id.name_fragment);
-            date = itemView.findViewById(R.id.date_fragment);
-            time = itemView.findViewById(R.id.time_fragment);
+            counter = itemView.findViewById(R.id.number_information);
+            name = itemView.findViewById(R.id.name_information);
+            date = itemView.findViewById(R.id.date_information);
+            time = itemView.findViewById(R.id.time_information);
         }
     }
 }

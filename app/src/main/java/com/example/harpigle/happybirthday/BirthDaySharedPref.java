@@ -2,6 +2,7 @@ package com.example.harpigle.happybirthday;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,7 +79,16 @@ public final class BirthDaySharedPref {
 
     }
 
-    public ArrayList<JSONArray> getAll() {
+    public String[] getKeys() {
+        Map<String, ?> allPrefs = sharedPreferences.getAll();
+
+        String[] keysArray = new String[allPrefs.size()];
+        allPrefs.keySet().toArray(keysArray);
+
+        return keysArray;
+    }
+
+    public ArrayList<JSONArray> getValues() {
         Map<String, ?> allPrefs = sharedPreferences.getAll();
 
         ArrayList<JSONArray> jsonArrays = new ArrayList<>();
@@ -99,14 +109,5 @@ public final class BirthDaySharedPref {
         }
 
         return jsonArrays;
-    }
-
-    public boolean isKeyExited(String key) {
-        String value = sharedPreferences.getString(key, "KeyNotAvailable");
-
-        if (value.equals("KeyNotAvailable"))
-            return false;
-        else
-            return true;
     }
 }
