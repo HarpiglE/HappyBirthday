@@ -25,4 +25,9 @@
     <string name="wrong_date">تاریخ نادرست</string>
     <string name="show_information_popup">نمایش اطلاعات</string>
     <string name="setting_popup">تنظیمات</string>
+    <string name="deletion_prompt_message">آیا از حذف %s مطمئن هستید؟</string>
+    <string name="deletion_prompt_yes">بله</string>
+    <string name="deletion_prompt_no">خیر</string>
+    <string name="deletion_successful">%s با موفقیت حذف شد</string>
+    <string name="deletion_failed">فرآیند حذف با مشکل روبرو شده است</string>
 </resources>

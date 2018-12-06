@@ -2,11 +2,12 @@ package com.example.harpigle.happybirthday;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
@@ -109,5 +110,27 @@ public final class BirthDaySharedPref {
         }
 
         return jsonArrays;
+    }
+
+    public boolean remove(String name) {
+        String[] keys = this.getKeys();
+
+        // Encode name to compare with keys in shared prefs
+        try {
+            name = URLEncoder.encode(name, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        // Look for a key that contains the given name and remove it
+        for (int i = 0; i < keys.length; i++) {
+            if (keys[i].contains(name)) {
+                editor.remove(keys[i]);
+                editor.apply();
+                return true;
+            }
+        }
+
+        return false;
     }
 }

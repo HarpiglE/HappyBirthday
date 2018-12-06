@@ -1,3 +1,5 @@
+//BirthdayInformationActivity
+
 package com.example.harpigle.happybirthday;
 
 import android.os.Bundle;
@@ -19,7 +21,8 @@ import java.util.ArrayList;
 public class BirthdayInformationActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private InformationFragmentAdapter adapter;
+    private InformationActivityAdapter adapter;
+    private InformationItemClickListener listener;
 
     private Toolbar toolbar;
 
@@ -32,6 +35,21 @@ public class BirthdayInformationActivity extends AppCompatActivity {
         configureActionBar();
 
         ArrayList<String[]> information = extractInformation();
+
+        listener = new InformationItemClickListener() {
+            @Override
+            public void onClickListener(String date, String name) {
+                InformationActivityAlertDialog dialog = new InformationActivityAlertDialog();
+
+                Bundle bundle = new Bundle(2);
+                bundle.putInt("prompt_type", 0);
+                bundle.putString("date", date);
+                bundle.putString("name", name);
+                dialog.setArguments(bundle);
+
+                dialog.show(getSupportFragmentManager(), "DELETION_DIALOG");
+            }
+        };
 
         setUpRecyclerView(information);
     }
@@ -91,7 +109,7 @@ public class BirthdayInformationActivity extends AppCompatActivity {
     }
 
     private void setUpRecyclerView(ArrayList<String[]> information) {
-        adapter = new InformationFragmentAdapter(information);
+        adapter = new InformationActivityAdapter(information, listener);
         recyclerView.setLayoutManager(new LinearLayoutManager(
                 this,
                 LinearLayoutManager.VERTICAL,
