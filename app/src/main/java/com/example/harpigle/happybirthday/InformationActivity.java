@@ -19,11 +19,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 
-public class InformationActivity extends AppCompatActivity {
+public class InformationActivity extends AppCompatActivity
+        implements InformationActivityDeletionDialog.DeletionDialogListener {
 
     private RecyclerView recyclerView;
     private InformationActivityAdapter adapter;
-    private InformationActivityItemClickListener listener;
+    private InformationActivityItemClickListener itemClickListener;
 
     private Toolbar toolbar;
 
@@ -35,9 +36,7 @@ public class InformationActivity extends AppCompatActivity {
         findViews();
         configureActionBar();
 
-        ArrayList<String[]> information = extractInformation();
-
-        listener = new InformationActivityItemClickListener() {
+        itemClickListener = new InformationActivityItemClickListener() {
             @Override
             public void onClickListener(
                     @NonNull String name,
@@ -48,13 +47,14 @@ public class InformationActivity extends AppCompatActivity {
 
                 Bundle info = new Bundle();
                 info.putString("name", name);
-                info.putString("date", date);
-                info.putString("time", time);
-                dialog.setArguments(info);
 
-                if (date == null && time == null)
+                if (date == null && time == null) {
+                    dialog.setArguments(info);
                     dialog.show(getSupportFragmentManager(), "DELETION_DIALOG");
-                else {
+                } else {
+                    info.putString("date", date);
+                    info.putString("time", time);
+
                     Intent informationActivityEditionDialog = new Intent(
                             InformationActivity.this,
                             InformationActivityEditionDialog.class
@@ -65,7 +65,7 @@ public class InformationActivity extends AppCompatActivity {
             }
         };
 
-        setUpRecyclerView(information);
+        setUpRecyclerView();
     }
 
     private void findViews() {
@@ -122,14 +122,22 @@ public class InformationActivity extends AppCompatActivity {
         return decodedString;
     }
 
-    private void setUpRecyclerView(ArrayList<String[]> information) {
-        adapter = new InformationActivityAdapter(information, listener);
+    private void setUpRecyclerView() {
+        ArrayList<String[]> information = extractInformation();
+
+        adapter = new InformationActivityAdapter(information, itemClickListener);
         recyclerView.setLayoutManager(new LinearLayoutManager(
                 this,
                 LinearLayoutManager.VERTICAL,
                 false
         ));
         recyclerView.setAdapter(adapter);
+    }
+
+    // Deletion dialog callback
+    @Override
+    public void deletionDone() {
+        setUpRecyclerView();
     }
 
     @Override
