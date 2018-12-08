@@ -27,6 +27,7 @@ public class RegisterActivity extends AppCompatActivity
 
     private Toolbar toolbar;
     private EditText nameEdt;
+    private EditText phoneNumberEdt;
     private Button datePicker;
     private Button timePicker;
     private TextView dateShow;
@@ -56,8 +57,9 @@ public class RegisterActivity extends AppCompatActivity
     }
 
     private void findViews() {
-        toolbar = findViewById(R.id.toolbar);
-        nameEdt = findViewById(R.id.name_edt);
+        toolbar = findViewById(R.id.toolbar_register);
+        nameEdt = findViewById(R.id.name_register);
+        phoneNumberEdt = findViewById(R.id.phone_number_register);
         datePicker = findViewById(R.id.birth_date_picker);
         timePicker = findViewById(R.id.birth_time_picker);
         dateShow = findViewById(R.id.date_show_tv);

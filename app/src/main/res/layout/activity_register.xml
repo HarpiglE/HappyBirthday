@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAppBackground"
-    tools:context="com.example.harpigle.happybirthday.RegisterActivity">
+    android:background="@color/colorAppBackground">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_register"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
@@ -18,161 +16,160 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/name_container"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/sixteen_dp"
-        android:layout_marginRight="@dimen/sixteen_dp"
-        app:layout_constraintBottom_toTopOf="@id/birth_date_and_time_container"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/sixteen_dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintTop_toBottomOf="@id/toolbar_register">
 
         <TextView
-            android:id="@+id/name_text"
+            android:id="@+id/title_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/sixteen_dp"
-            android:text="@string/name"
+            android:text="@string/register_title"
             android:textColor="@color/primaryText"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/name_edt"
+            app:layout_constraintBottom_toTopOf="@id/name_register"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/name_edt"
+            android:id="@+id/name_register"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/eight_dp"
             android:background="@drawable/edit_text_style"
             android:gravity="right"
-            android:hint="@string/name_hint"
+            android:hint="@string/name"
             android:inputType="textPersonName"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/phone_number_register"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_text" />
+            app:layout_constraintTop_toBottomOf="@id/title_register" />
 
-    </android.support.constraint.ConstraintLayout>
+        <EditText
+            android:id="@+id/phone_number_register"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/sixteen_dp"
+            android:layout_marginTop="@dimen/sixteen_dp"
+            android:background="@drawable/edit_text_style"
+            android:hint="@string/phone_number"
+            android:inputType="phone"
+            app:layout_constraintBottom_toTopOf="@+id/birth_date_and_time_container_register"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name_register" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/birth_date_and_time_container"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/sixteen_dp"
-        android:layout_marginRight="@dimen/sixteen_dp"
-        app:layout_constraintBottom_toTopOf="@id/register_btn"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/name_container">
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/birth_date_and_time_container_register"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/register_btn"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/phone_number_register">
 
-        <TextView
-            android:id="@+id/birth_time_text"
+            <TextView
+                android:id="@+id/birth_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/birth_date_and_time"
+                android:textColor="@color/primaryText"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@id/birth_date_container"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/birth_date_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/eight_dp"
+                android:layout_marginRight="@dimen/eight_dp"
+                android:layout_marginTop="@dimen/sixteen_dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/birth_time_container"
+                app:layout_constraintTop_toBottomOf="@id/birth_time_text">
+
+                <Button
+                    android:id="@+id/birth_date_picker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/sixteen_dp"
+                    android:paddingTop="@dimen/sixteen_dp"
+                    android:text="@string/birth_date"
+                    android:textColor="@color/primaryText"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/date_show_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/eight_dp"
+                    android:gravity="center"
+                    android:hint="@string/date_not_selected"
+                    android:textColor="@color/primaryText"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/birth_time_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/eight_dp"
+                android:layout_marginStart="@dimen/eight_dp"
+                android:layout_marginTop="@dimen/sixteen_dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/birth_date_container"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/birth_time_text">
+
+                <Button
+                    android:id="@+id/birth_time_picker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/sixteen_dp"
+                    android:paddingTop="@dimen/sixteen_dp"
+                    android:text="@string/birth_time"
+                    android:textColor="@color/primaryText"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/time_show_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/eight_dp"
+                    android:gravity="center"
+                    android:hint="@string/time_not_selected"
+                    android:textColor="@color/primaryText"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <Button
+            android:id="@+id/register_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/birth_date_and_time"
+            android:padding="@dimen/sixteen_dp"
+            android:text="@string/register_person"
             android:textColor="@color/primaryText"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/birth_date_container"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/birth_date_container"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/eight_dp"
-            android:layout_marginRight="@dimen/eight_dp"
-            android:layout_marginTop="@dimen/sixteen_dp"
-            android:orientation="vertical"
+            android:textSize="19sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/birth_time_container"
-            app:layout_constraintTop_toBottomOf="@id/birth_time_text">
-
-            <Button
-                android:id="@+id/birth_date_picker"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/sixteen_dp"
-                android:paddingTop="@dimen/sixteen_dp"
-                android:text="@string/birth_date"
-                android:textColor="@color/primaryText"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/date_show_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/eight_dp"
-                android:gravity="center"
-                android:hint="@string/date_not_selected"
-                android:textColor="@color/primaryText"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/birth_time_container"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/eight_dp"
-            android:layout_marginStart="@dimen/eight_dp"
-            android:layout_marginTop="@dimen/sixteen_dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/birth_date_container"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/birth_time_text">
-
-            <Button
-                android:id="@+id/birth_time_picker"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/sixteen_dp"
-                android:paddingTop="@dimen/sixteen_dp"
-                android:text="@string/birth_time"
-                android:textColor="@color/primaryText"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/time_show_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/eight_dp"
-                android:gravity="center"
-                android:hint="@string/time_not_selected"
-                android:textColor="@color/primaryText"
-                android:textSize="16sp" />
-
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@id/birth_date_and_time_container_register" />
 
     </android.support.constraint.ConstraintLayout>
-
-    <Button
-        android:id="@+id/register_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/sixteen_dp"
-        android:text="@string/register_person"
-        android:textColor="@color/primaryText"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/birth_date_and_time_container" />
-
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:elevation="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 </android.support.constraint.ConstraintLayout>
