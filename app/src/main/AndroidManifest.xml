@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".RegisterActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,8 +19,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BirthdayInformationActivity"
+            android:name=".InformationActivity"
             android:screenOrientation="portrait" />
+
+        <!-- if you are using ActionBarActivity (or AppCompat theme),
+             you'll need to use @style/Theme.AppCompat.Dialog.
+             else you can use @android:style/Theme.Holo.Dialog-->
+        <activity
+            android:name=".InformationActivityEditionDialog"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
     </application>
 
 </manifest>

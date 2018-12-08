@@ -1,8 +1,9 @@
-//BirthdayInformationActivity
-
 package com.example.harpigle.happybirthday;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,36 +19,49 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 
-public class BirthdayInformationActivity extends AppCompatActivity {
+public class InformationActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private InformationActivityAdapter adapter;
-    private InformationItemClickListener listener;
+    private InformationActivityItemClickListener listener;
 
     private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_birthday_information);
+        setContentView(R.layout.activity_information);
 
         findViews();
         configureActionBar();
 
         ArrayList<String[]> information = extractInformation();
 
-        listener = new InformationItemClickListener() {
+        listener = new InformationActivityItemClickListener() {
             @Override
-            public void onClickListener(String date, String name) {
-                InformationActivityAlertDialog dialog = new InformationActivityAlertDialog();
+            public void onClickListener(
+                    @NonNull String name,
+                    @Nullable String date,
+                    @Nullable String time
+            ) {
+                InformationActivityDeletionDialog dialog = new InformationActivityDeletionDialog();
 
-                Bundle bundle = new Bundle(2);
-                bundle.putInt("prompt_type", 0);
-                bundle.putString("date", date);
-                bundle.putString("name", name);
-                dialog.setArguments(bundle);
+                Bundle info = new Bundle();
+                info.putString("name", name);
+                info.putString("date", date);
+                info.putString("time", time);
+                dialog.setArguments(info);
 
-                dialog.show(getSupportFragmentManager(), "DELETION_DIALOG");
+                if (date == null && time == null)
+                    dialog.show(getSupportFragmentManager(), "DELETION_DIALOG");
+                else {
+                    Intent informationActivityEditionDialog = new Intent(
+                            InformationActivity.this,
+                            InformationActivityEditionDialog.class
+                    );
+                    informationActivityEditionDialog.putExtra("information", info);
+                    startActivity(informationActivityEditionDialog);
+                }
             }
         };
 
@@ -71,7 +85,7 @@ public class BirthdayInformationActivity extends AppCompatActivity {
 
     private ArrayList<String[]> extractInformation() {
         BirthDaySharedPref birthDaySharedPref =
-                BirthDaySharedPref.getInstance(BirthdayInformationActivity.this);
+                BirthDaySharedPref.getInstance(InformationActivity.this);
 
         ArrayList<JSONArray> sharedPrefsList = birthDaySharedPref.getValues();
         ArrayList<String[]> adapterList = new ArrayList<>();

@@ -1,5 +1,3 @@
-//InformationFragmentAdapter
-
 package com.example.harpigle.happybirthday;
 
 import android.support.annotation.NonNull;
@@ -16,10 +14,10 @@ public class InformationActivityAdapter
         extends RecyclerView.Adapter<InformationActivityAdapter.ViewHolder> {
 
     private ArrayList<String[]> information = new ArrayList<>();
-    private InformationItemClickListener listener;
+    private InformationActivityItemClickListener listener;
 
     public InformationActivityAdapter(ArrayList<String[]> information,
-                                      InformationItemClickListener listener) {
+                                      InformationActivityItemClickListener listener) {
         this.information = information;
         this.listener = listener;
     }
@@ -29,7 +27,7 @@ public class InformationActivityAdapter
     public InformationActivityAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater
                 .from(viewGroup.getContext())
-                .inflate(R.layout.item_information, viewGroup, false);
+                .inflate(R.layout.item_information_activity, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -54,6 +52,7 @@ public class InformationActivityAdapter
         private TextView time;
 
         private ImageView delete;
+        private ImageView edit;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,14 +62,19 @@ public class InformationActivityAdapter
             date = itemView.findViewById(R.id.date_information);
             time = itemView.findViewById(R.id.time_information);
             delete = itemView.findViewById(R.id.delete_information);
+            edit = itemView.findViewById(R.id.edit_information);
 
             delete.setOnClickListener(this);
+            edit.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             String[] item = information.get(getAdapterPosition());
-            listener.onClickListener(item[1], item[0]);
+            if (v.toString().contains("delete_information"))
+                listener.onClickListener(item[0], null, null);
+            else
+                listener.onClickListener(item[0], item[1], item[2]);
         }
     }
 }

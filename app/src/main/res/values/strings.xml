@@ -30,4 +30,7 @@
     <string name="deletion_prompt_no">خیر</string>
     <string name="deletion_successful">%s با موفقیت حذف شد</string>
     <string name="deletion_failed">فرآیند حذف با مشکل روبرو شده است</string>
+    <string name="edition_title">ویرایش اطلاعات</string>
+    <string name="edition_conform">تأیید</string>
+    <string name="edition_cancel">لغو</string>
 </resources>

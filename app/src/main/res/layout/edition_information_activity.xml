@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/edition_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/sixteen_dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:padding="@dimen/sixteen_dp"
+        android:text="@string/edition_title"
+        android:textColor="@color/colorAppBackground"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/name_edt_dialog"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/name_edt_dialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/sixteen_dp"
+        android:layout_marginRight="@dimen/sixteen_dp"
+        android:background="@drawable/edit_text_style"
+        android:gravity="right"
+        android:hint="@string/name"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@id/birth_date_container_dialog"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edition_title" />
+
+    <LinearLayout
+        android:id="@+id/birth_date_container_dialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/eight_dp"
+        android:layout_marginLeft="@dimen/sixteen_dp"
+        android:layout_marginRight="@dimen/eight_dp"
+        android:layout_marginTop="@dimen/sixteen_dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/birth_time_container_dialog"
+        app:layout_constraintTop_toBottomOf="@id/name_edt_dialog">
+
+        <Button
+            android:id="@+id/birth_date_picker_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/sixteen_dp"
+            android:paddingTop="@dimen/sixteen_dp"
+            android:text="@string/birth_date"
+            android:textColor="@color/primaryText"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/date_show_tv_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/eight_dp"
+            android:gravity="center"
+            android:hint="@string/date_not_selected"
+            android:textColor="@color/primaryText"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/birth_time_container_dialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/eight_dp"
+        android:layout_marginRight="@dimen/sixteen_dp"
+        android:layout_marginStart="@dimen/eight_dp"
+        android:layout_marginTop="@dimen/sixteen_dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toRightOf="@id/birth_date_container_dialog"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name_edt_dialog">
+
+        <Button
+            android:id="@+id/birth_time_picker_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/sixteen_dp"
+            android:paddingTop="@dimen/sixteen_dp"
+            android:text="@string/birth_time"
+            android:textColor="@color/primaryText"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/time_show_tv_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/eight_dp"
+            android:gravity="center"
+            android:hint="@string/time_not_selected"
+            android:textColor="@color/primaryText"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/conform_dialog"
+        style="@style/FlatButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/eight_dp"
+        android:layout_marginTop="@dimen/sixteen_dp"
+        android:text="@string/edition_conform"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/birth_time_container_dialog" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/cancel_dialog"
+        style="@style/FlatButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/sixteen_dp"
+        android:text="@string/edition_cancel"
+        app:layout_constraintRight_toLeftOf="@id/conform_dialog"
+        app:layout_constraintTop_toBottomOf="@id/birth_time_container_dialog" />
+
+</android.support.constraint.ConstraintLayout>

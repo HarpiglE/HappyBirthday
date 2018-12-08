@@ -22,7 +22,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity
+public class RegisterActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private Toolbar toolbar;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_register);
 
         findViews();
         setActionBar();
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v) {
                 if (existenceMessage.getText().toString().equals("")) {
                     Toast.makeText(
-                            MainActivity.this,
+                            RegisterActivity.this,
                             getString(R.string.first_click_check_btn),
                             Toast.LENGTH_SHORT
                     ).show();
@@ -225,11 +225,11 @@ public class MainActivity extends AppCompatActivity
         properFormattingDateString = encodeString(properFormattingDateString);
         properFormattingTimeString = encodeString(properFormattingTimeString);
 
-        String[] nameAndTime =
+        String[] info =
                 {encodedNameString, properFormattingDateString, properFormattingTimeString};
 
         BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance();
-        if (birthDaySharedPref.put(identifierDate, nameAndTime)) {
+        if (birthDaySharedPref.put(identifierDate, info)) {
             Toast.makeText(
                     this,
                     getString(R.string.person_registered, nameString),
@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private boolean isPersonExited(String name) {
-        BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance(MainActivity.this);
+        BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance(RegisterActivity.this);
         String[] keys = birthDaySharedPref.getKeys();
 
         for (int i = 0; i < keys.length; i++) {
@@ -353,8 +353,8 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.show_information_popup:
                 Intent birthdayInformationActivity = new Intent(
-                        MainActivity.this,
-                        BirthdayInformationActivity.class
+                        RegisterActivity.this,
+                        InformationActivity.class
                 );
                 startActivity(birthdayInformationActivity);
         }
