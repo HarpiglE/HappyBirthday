@@ -50,37 +50,10 @@
             android:gravity="right"
             android:hint="@string/name_hint"
             android:inputType="textPersonName"
-            app:layout_constraintBaseline_toBaselineOf="@id/existence_check_btn"
-            app:layout_constraintBottom_toTopOf="@+id/existence_message_tv"
-            app:layout_constraintLeft_toRightOf="@id/existence_check_btn"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_text" />
-
-        <Button
-            android:id="@+id/existence_check_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="@string/existence_check"
-            android:textColor="@color/primaryText"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@id/name_edt"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/name_edt"
-            app:layout_constraintTop_toTopOf="@id/name_edt" />
-
-        <TextView
-            android:id="@+id/existence_message_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/eight_dp"
-            android:gravity="center"
-            android:hint="@string/existence_message_hint"
-            android:textColor="@color/primaryText"
-            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="@id/name_edt"
-            app:layout_constraintTop_toBottomOf="@id/name_edt" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_text" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -27,8 +27,6 @@ public class RegisterActivity extends AppCompatActivity
 
     private Toolbar toolbar;
     private EditText nameEdt;
-    private Button checkExistence;
-    private TextView existenceMessage;
     private Button datePicker;
     private Button timePicker;
     private TextView dateShow;
@@ -60,8 +58,6 @@ public class RegisterActivity extends AppCompatActivity
     private void findViews() {
         toolbar = findViewById(R.id.toolbar);
         nameEdt = findViewById(R.id.name_edt);
-        checkExistence = findViewById(R.id.existence_check_btn);
-        existenceMessage = findViewById(R.id.existence_message_tv);
         datePicker = findViewById(R.id.birth_date_picker);
         timePicker = findViewById(R.id.birth_time_picker);
         dateShow = findViewById(R.id.date_show_tv);
@@ -75,27 +71,6 @@ public class RegisterActivity extends AppCompatActivity
     }
 
     private void setButtonsListener() {
-        checkExistence.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nameString = nameEdt.getText().toString();
-
-                if (nameString.equals("")) {
-                    existenceMessage.setText(getString(R.string.name_not_entered));
-                } else {
-                    // Encoded nameString to utf-8 to store properly in shared preferences
-                    encodedNameString = encodeString(nameString);
-
-                    if (isPersonExited(encodedNameString)) {
-                        existenceMessage.setText(getString(R.string.person_exists));
-                        registerBtn.setEnabled(false);
-                    } else {
-                        existenceMessage.setText(getString(R.string.person_not_exists));
-                        registerBtn.setEnabled(true);
-                    }
-                }
-            }
-        });
         datePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,14 +93,19 @@ public class RegisterActivity extends AppCompatActivity
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (existenceMessage.getText().toString().equals("")) {
-                    Toast.makeText(
-                            RegisterActivity.this,
-                            getString(R.string.first_click_check_btn),
-                            Toast.LENGTH_SHORT
-                    ).show();
-                } else {
-                    if (isInformationTrue()) {
+                nameString = nameEdt.getText().toString();
+
+                // Encoded nameString to utf-8 to store properly in shared preferences
+                encodedNameString = encodeString(nameString);
+
+                if (isInformationTrue()) {
+                    if (isPersonExited(encodedNameString))
+                        Toast.makeText(
+                                RegisterActivity.this,
+                                getString(R.string.person_exists),
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    else {
                         createIdentifierDate();
                         registeringPerson();
                         emptyEverything();
@@ -262,7 +242,6 @@ public class RegisterActivity extends AppCompatActivity
 
     private void emptyEverything() {
         nameEdt.setText("");
-        existenceMessage.setText("");
         dateShow.setText("");
         timeShow.setText("");
         dateShow.setHint(getString(R.string.date_not_selected));
@@ -273,6 +252,9 @@ public class RegisterActivity extends AppCompatActivity
         properFormattingDateString = "";
         properFormattingTimeString = "";
         encodedNameString = "";
+
+        year = 0;
+        hour = 0;
     }
 
     @Override
