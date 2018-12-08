@@ -60,7 +60,7 @@ public class InformationActivity extends AppCompatActivity
                             InformationActivityEditionDialog.class
                     );
                     informationActivityEditionDialog.putExtra("information", info);
-                    startActivity(informationActivityEditionDialog);
+                    startActivityForResult(informationActivityEditionDialog, 0);
                 }
             }
         };
@@ -138,6 +138,14 @@ public class InformationActivity extends AppCompatActivity
     @Override
     public void deletionDone() {
         setUpRecyclerView();
+    }
+
+    // Edition dialog callback
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 && resultCode == RESULT_OK)
+            setUpRecyclerView();
     }
 
     @Override
