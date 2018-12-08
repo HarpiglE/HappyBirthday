@@ -87,31 +87,7 @@ public class InformationActivity extends AppCompatActivity
         BirthDaySharedPref birthDaySharedPref =
                 BirthDaySharedPref.getInstance(InformationActivity.this);
 
-        ArrayList<JSONArray> sharedPrefsList = birthDaySharedPref.getValues();
-        ArrayList<String[]> adapterList = new ArrayList<>();
-
-        EncodeDecodeString decoding = new EncodeDecodeString();
-
-        // Get data from shared prefs and store to a array list that contains static string arrays
-        for (int i = 0; i < sharedPrefsList.size(); i++) {
-            String[] valuesList = new String[3];
-
-            try {
-                /* Get encoded name, date and time respectively;
-                   decode them and store in the valuesList
-                 */
-                valuesList[0] = decoding.decodeIt(sharedPrefsList.get(i).get(0).toString());
-                valuesList[1] = decoding.decodeIt(sharedPrefsList.get(i).get(1).toString());
-                valuesList[2] = decoding.decodeIt(sharedPrefsList.get(i).get(2).toString());
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            adapterList.add(valuesList);
-        }
-
-        return adapterList;
+        return birthDaySharedPref.getValues();
     }
 
     private void setUpRecyclerView() {

@@ -2,6 +2,7 @@ package com.example.harpigle.happybirthday;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,27 +90,36 @@ public final class BirthDaySharedPref {
         return keysArray;
     }
 
-    public ArrayList<JSONArray> getValues() {
+    public ArrayList<String[]> getValues() {
         Map<String, ?> allPrefs = sharedPreferences.getAll();
-
-        ArrayList<JSONArray> jsonArrays = new ArrayList<>();
 
         String[] stringsToJsonArrays = new String[allPrefs.size()];
         allPrefs.values().toArray(stringsToJsonArrays);
 
+        ArrayList<String[]> ListsArray = new ArrayList<>();
+        EncodeDecodeString decoding = new EncodeDecodeString();
+
         for (int i = 0; i < allPrefs.size(); i++) {
-            JSONArray jsonArray = null;
+            JSONArray jsonArray;
+            String[] valuesList = new String[3];
 
             try {
                 jsonArray = new JSONArray(stringsToJsonArrays[i]);
+
+                /* Get encoded name, date and time respectively;
+                   decode them and store in the valuesList
+                 */
+                valuesList[0] = decoding.decodeIt(jsonArray.get(0).toString());
+                valuesList[1] = decoding.decodeIt(jsonArray.get(1).toString());
+                valuesList[2] = decoding.decodeIt(jsonArray.get(2).toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            jsonArrays.add(jsonArray);
+            ListsArray.add(valuesList);
         }
 
-        return jsonArrays;
+        return ListsArray;
     }
 
     public boolean remove(String name) {
