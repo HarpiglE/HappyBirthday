@@ -117,13 +117,14 @@ public class InformationActivityEditionDialog extends AppCompatActivity
 
                 // Prepare the new key and value to store in shared prefs
                 name = nameEdt.getText().toString();
-                encodedName = encodeString(name);
+                EncodeDecodeString encoding = new EncodeDecodeString();
+                encodedName = encoding.encodeIt(name);
                 identifierDate = String.valueOf(
                         String.valueOf(year) + String.valueOf(month) + String.valueOf(day)
                 );
                 identifierDate += ("_" + encodedName);
-                encodedDate = encodeString(date);
-                encodedTime = encodeString(time);
+                encodedDate = encoding.encodeIt(date);
+                encodedTime = encoding.encodeIt(time);
                 String[] info = {encodedName, encodedDate, encodedTime};
 
                 // Store the new ones
@@ -190,15 +191,6 @@ public class InformationActivityEditionDialog extends AppCompatActivity
                 true
         );
         timePickerDialog.show(getFragmentManager(), getString(R.string.persian_time_picker));
-    }
-
-    private String encodeString(String string) {
-        try {
-            string = URLEncoder.encode(string, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return string;
     }
 
     @Override

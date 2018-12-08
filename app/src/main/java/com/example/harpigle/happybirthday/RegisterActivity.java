@@ -46,6 +46,8 @@ public class RegisterActivity extends AppCompatActivity
     private String properFormattingTimeString;
     private String encodedNameString;
 
+    EncodeDecodeString encoding = new EncodeDecodeString();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity
                 nameString = nameEdt.getText().toString();
 
                 // Encoded nameString to utf-8 to store properly in shared preferences
-                encodedNameString = encodeString(nameString);
+                encodedNameString = encoding.encodeIt(nameString);
 
                 if (isInformationTrue()) {
                     if (isPersonExited(encodedNameString))
@@ -204,8 +206,8 @@ public class RegisterActivity extends AppCompatActivity
         identifierDate += ("_" + encodedNameString);
 
         // Encode date and time string to store in the shared prefs
-        properFormattingDateString = encodeString(properFormattingDateString);
-        properFormattingTimeString = encodeString(properFormattingTimeString);
+        properFormattingDateString = encoding.encodeIt(properFormattingDateString);
+        properFormattingTimeString = encoding.encodeIt(properFormattingTimeString);
 
         String[] info =
                 {encodedNameString, properFormattingDateString, properFormattingTimeString};
@@ -218,15 +220,6 @@ public class RegisterActivity extends AppCompatActivity
                     Toast.LENGTH_SHORT
             ).show();
         }
-    }
-
-    private String encodeString(String string) {
-        try {
-            string = URLEncoder.encode(string, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return string;
     }
 
     private boolean isPersonExited(String name) {

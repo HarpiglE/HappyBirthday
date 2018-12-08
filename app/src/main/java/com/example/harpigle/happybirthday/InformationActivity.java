@@ -90,6 +90,8 @@ public class InformationActivity extends AppCompatActivity
         ArrayList<JSONArray> sharedPrefsList = birthDaySharedPref.getValues();
         ArrayList<String[]> adapterList = new ArrayList<>();
 
+        EncodeDecodeString decoding = new EncodeDecodeString();
+
         // Get data from shared prefs and store to a array list that contains static string arrays
         for (int i = 0; i < sharedPrefsList.size(); i++) {
             String[] valuesList = new String[3];
@@ -98,9 +100,9 @@ public class InformationActivity extends AppCompatActivity
                 /* Get encoded name, date and time respectively;
                    decode them and store in the valuesList
                  */
-                valuesList[0] = decodeString(sharedPrefsList.get(i).get(0).toString());
-                valuesList[1] = decodeString(sharedPrefsList.get(i).get(1).toString());
-                valuesList[2] = decodeString(sharedPrefsList.get(i).get(2).toString());
+                valuesList[0] = decoding.decodeIt(sharedPrefsList.get(i).get(0).toString());
+                valuesList[1] = decoding.decodeIt(sharedPrefsList.get(i).get(1).toString());
+                valuesList[2] = decoding.decodeIt(sharedPrefsList.get(i).get(2).toString());
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -110,16 +112,6 @@ public class InformationActivity extends AppCompatActivity
         }
 
         return adapterList;
-    }
-
-    String decodeString(String string) {
-        String decodedString = "";
-        try {
-            decodedString = URLDecoder.decode(string, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return decodedString;
     }
 
     private void setUpRecyclerView() {
