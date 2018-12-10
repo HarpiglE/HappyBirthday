@@ -92,6 +92,28 @@
             app:layout_constraintRight_toLeftOf="@id/date_information"
             app:layout_constraintTop_toBottomOf="@id/time_title_information" />
 
+        <TextView
+            android:id="@+id/phone_number_title_information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/phone_number"
+            app:layout_constraintBottom_toTopOf="@id/edit_information"
+            app:layout_constraintLeft_toRightOf="@id/phone_number_information"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_information" />
+
+        <TextView
+            android:id="@+id/phone_number_information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="09112223344"
+            android:textColor="@color/primaryText"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/phone_number_title_information"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/phone_number_title_information"
+            app:layout_constraintTop_toTopOf="@id/phone_number_title_information" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
@@ -110,7 +132,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/icons_divider_information"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_information" />
+            app:layout_constraintTop_toBottomOf="@id/phone_number_information" />
 
         <View
             android:id="@+id/icons_divider_information"
@@ -132,7 +154,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/icons_divider_information"
-            app:layout_constraintTop_toBottomOf="@id/name_information" />
+            app:layout_constraintTop_toBottomOf="@id/phone_number_information" />
 
     </android.support.constraint.ConstraintLayout>
 

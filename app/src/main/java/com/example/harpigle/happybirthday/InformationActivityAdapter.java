@@ -37,6 +37,7 @@ public class InformationActivityAdapter
         viewHolder.name.setText(information.get(i)[0]);
         viewHolder.date.setText(information.get(i)[1]);
         viewHolder.time.setText(information.get(i)[2]);
+        viewHolder.phoneNumber.setText(information.get(i)[3]);
     }
 
     @Override
@@ -50,6 +51,7 @@ public class InformationActivityAdapter
         private TextView name;
         private TextView date;
         private TextView time;
+        private TextView phoneNumber;
 
         private ImageView delete;
         private ImageView edit;
@@ -61,6 +63,7 @@ public class InformationActivityAdapter
             name = itemView.findViewById(R.id.name_information);
             date = itemView.findViewById(R.id.date_information);
             time = itemView.findViewById(R.id.time_information);
+            phoneNumber = itemView.findViewById(R.id.phone_number_information);
             delete = itemView.findViewById(R.id.delete_information);
             edit = itemView.findViewById(R.id.edit_information);
 

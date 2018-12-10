@@ -112,7 +112,7 @@ public final class BirthDaySharedPref {
                 valuesList[0] = decoding.decodeIt(jsonArray.get(0).toString());
                 valuesList[1] = decoding.decodeIt(jsonArray.get(1).toString());
                 valuesList[2] = decoding.decodeIt(jsonArray.get(2).toString());
-                valuesList[3] = decoding.decodeIt(jsonArray.get(3).toString());
+                valuesList[3] = "0" + decoding.decodeIt(jsonArray.get(3).toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

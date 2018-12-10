@@ -179,7 +179,7 @@ public class RegisterActivity extends AppCompatActivity
             ).show();
             truthFlag = false;
         }
-        if (!phoneNumberString.matches("^0?9[0-9]{9}$")) {
+        if (!phoneNumberString.matches("^09[0-9]{9}$")) {
             Toast.makeText(
                     this,
                     getString(R.string.enter_valid_phone_number),
@@ -255,9 +255,6 @@ public class RegisterActivity extends AppCompatActivity
     private boolean isPhoneNumberExited(String phoneNumber) {
         BirthDaySharedPref birthDaySharedPref =
                 BirthDaySharedPref.getInstance(RegisterActivity.this);
-
-        if (phoneNumber.charAt(0) == '0')
-            phoneNumber = phoneNumber.replaceFirst("0", "");
 
         ArrayList<String[]> values = birthDaySharedPref.getValues();
 
