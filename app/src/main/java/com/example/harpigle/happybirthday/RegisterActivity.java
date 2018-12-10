@@ -18,7 +18,6 @@ import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class RegisterActivity extends AppCompatActivity
@@ -46,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity
     private String properFormattingTimeString;
     private String encodedNameString;
 
-    private EncodeDecodeString encoding = new EncodeDecodeString();
+    private BirthdayUtility utility = new BirthdayUtility();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,20 +96,37 @@ public class RegisterActivity extends AppCompatActivity
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 nameString = nameEdt.getText().toString();
                 phoneNumberString = phoneNumberEdt.getText().toString();
 
                 // Encoded nameString to utf-8 to store properly in shared preferences
-                encodedNameString = encoding.encodeIt(nameString);
+                encodedNameString = utility.encodeIt(nameString);
+
+                boolean personFlag =
+                        utility.isPersonExited(RegisterActivity.this, encodedNameString);
+                boolean phoneNumberFlag =
+                        utility.isPhoneNumberExited(RegisterActivity.this, phoneNumberString);
 
                 if (isInformationTrue()) {
-                    if (isPersonExited(encodedNameString))
+                    if (personFlag && phoneNumberFlag) {
                         Toast.makeText(
                                 RegisterActivity.this,
                                 getString(R.string.person_exists),
                                 Toast.LENGTH_SHORT
                         ).show();
-                    else if (isPhoneNumberExited(phoneNumberString))
+                        Toast.makeText(
+                                RegisterActivity.this,
+                                getString(R.string.phone_number_exists),
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    } else if (personFlag)
+                        Toast.makeText(
+                                RegisterActivity.this,
+                                getString(R.string.person_exists),
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    else if (phoneNumberFlag)
                         Toast.makeText(
                                 RegisterActivity.this,
                                 getString(R.string.phone_number_exists),
@@ -221,9 +237,9 @@ public class RegisterActivity extends AppCompatActivity
         identifierDate += ("_" + encodedNameString);
 
         // Encode date and time string to store in the shared prefs
-        properFormattingDateString = encoding.encodeIt(properFormattingDateString);
-        properFormattingTimeString = encoding.encodeIt(properFormattingTimeString);
-        phoneNumberString = encoding.encodeIt(phoneNumberString);
+        properFormattingDateString = utility.encodeIt(properFormattingDateString);
+        properFormattingTimeString = utility.encodeIt(properFormattingTimeString);
+        phoneNumberString = utility.encodeIt(phoneNumberString);
 
         String[] info =
                 {encodedNameString, properFormattingDateString,
@@ -237,33 +253,6 @@ public class RegisterActivity extends AppCompatActivity
                     Toast.LENGTH_SHORT
             ).show();
         }
-    }
-
-    private boolean isPersonExited(String name) {
-        BirthDaySharedPref birthDaySharedPref =
-                BirthDaySharedPref.getInstance(RegisterActivity.this);
-        String[] keys = birthDaySharedPref.getKeys();
-
-        for (int i = 0; i < keys.length; i++) {
-            if (keys[i].contains(name))
-                return true;
-        }
-
-        return false;
-    }
-
-    private boolean isPhoneNumberExited(String phoneNumber) {
-        BirthDaySharedPref birthDaySharedPref =
-                BirthDaySharedPref.getInstance(RegisterActivity.this);
-
-        ArrayList<String[]> values = birthDaySharedPref.getValues();
-
-        for (int i = 0; i < values.size(); i++) {
-            if (values.get(i)[3].equals(phoneNumber))
-                return true;
-        }
-
-        return false;
     }
 
     private void emptyEverything() {

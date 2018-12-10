@@ -122,17 +122,17 @@ public class InformationActivityEditionDialog extends AppCompatActivity
                 name = nameEdt.getText().toString();
                 phoneNumber = phoneNumberEdt.getText().toString();
 
-                EncodeDecodeString encoding = new EncodeDecodeString();
-                encodedName = encoding.encodeIt(name);
+                BirthdayUtility utility = new BirthdayUtility();
+                encodedName = utility.encodeIt(name);
 
                 identifierDate = String.valueOf(
                         String.valueOf(year) + String.valueOf(month) + String.valueOf(day)
                 );
                 identifierDate += ("_" + encodedName);
 
-                encodedPhoneNumber = encoding.encodeIt(phoneNumber);
-                encodedDate = encoding.encodeIt(date);
-                encodedTime = encoding.encodeIt(time);
+                encodedPhoneNumber = utility.encodeIt(phoneNumber);
+                encodedDate = utility.encodeIt(date);
+                encodedTime = utility.encodeIt(time);
                 // EOF
 
                 String[] info = {encodedName, encodedDate, encodedTime, encodedPhoneNumber};

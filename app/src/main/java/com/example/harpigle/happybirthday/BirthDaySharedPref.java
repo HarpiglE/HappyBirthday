@@ -96,7 +96,7 @@ public final class BirthDaySharedPref {
         allPrefs.values().toArray(stringsToJsonArrays);
 
         ArrayList<String[]> ListsArray = new ArrayList<>();
-        EncodeDecodeString decoding = new EncodeDecodeString();
+        BirthdayUtility utility = new BirthdayUtility();
 
         /*
         Get encoded name, date, time and phone number respectively;
@@ -109,10 +109,10 @@ public final class BirthDaySharedPref {
             try {
                 jsonArray = new JSONArray(stringsToJsonArrays[i]);
 
-                valuesList[0] = decoding.decodeIt(jsonArray.get(0).toString());
-                valuesList[1] = decoding.decodeIt(jsonArray.get(1).toString());
-                valuesList[2] = decoding.decodeIt(jsonArray.get(2).toString());
-                valuesList[3] = "0" + decoding.decodeIt(jsonArray.get(3).toString());
+                valuesList[0] = utility.decodeIt(jsonArray.get(0).toString());
+                valuesList[1] = utility.decodeIt(jsonArray.get(1).toString());
+                valuesList[2] = utility.decodeIt(jsonArray.get(2).toString());
+                valuesList[3] = "0" + utility.decodeIt(jsonArray.get(3).toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
