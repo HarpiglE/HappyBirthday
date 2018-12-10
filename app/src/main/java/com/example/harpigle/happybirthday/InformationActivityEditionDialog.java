@@ -15,17 +15,16 @@ import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 public class InformationActivityEditionDialog extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private String name;
     private String date;
     private String time;
+    private String phoneNumber;
 
     private EditText nameEdt;
+    private EditText phoneNumberEdt;
     private Button dateBtn;
     private Button timeBtn;
     private TextView dateHint;
@@ -63,10 +62,12 @@ public class InformationActivityEditionDialog extends AppCompatActivity
         name = info.getString("name");
         date = info.getString("date");
         time = info.getString("time");
+        phoneNumber = info.getString("phone_number");
     }
 
     private void findViews() {
         nameEdt = findViewById(R.id.name_edt_dialog);
+        phoneNumberEdt = findViewById(R.id.phone_number_edt_dialog);
         dateBtn = findViewById(R.id.birth_date_picker_dialog);
         timeBtn = findViewById(R.id.birth_time_picker_dialog);
         dateHint = findViewById(R.id.date_show_tv_dialog);
@@ -77,6 +78,7 @@ public class InformationActivityEditionDialog extends AppCompatActivity
 
     private void setTextsIntoViews() {
         nameEdt.setText(name);
+        phoneNumberEdt.setText(phoneNumber);
         dateHint.setText(date);
         timeHint.setText(time);
     }
@@ -106,6 +108,7 @@ public class InformationActivityEditionDialog extends AppCompatActivity
                 time = timeHint.getText().toString();
 
                 String encodedName;
+                String encodedPhoneNumber;
                 String identifierDate;
                 String encodedDate;
                 String encodedTime;
@@ -115,17 +118,24 @@ public class InformationActivityEditionDialog extends AppCompatActivity
                         BirthDaySharedPref.getInstance(InformationActivityEditionDialog.this);
                 birthDaySharedPref.remove(name);
 
-                // Prepare the new key and value to store in shared prefs
+                // Prepare the new key and value to store in shared prefs EOF
                 name = nameEdt.getText().toString();
+                phoneNumber = phoneNumberEdt.getText().toString();
+
                 EncodeDecodeString encoding = new EncodeDecodeString();
                 encodedName = encoding.encodeIt(name);
+
                 identifierDate = String.valueOf(
                         String.valueOf(year) + String.valueOf(month) + String.valueOf(day)
                 );
                 identifierDate += ("_" + encodedName);
+
+                encodedPhoneNumber = encoding.encodeIt(phoneNumber);
                 encodedDate = encoding.encodeIt(date);
                 encodedTime = encoding.encodeIt(time);
-                String[] info = {encodedName, encodedDate, encodedTime};
+                // EOF
+
+                String[] info = {encodedName, encodedDate, encodedTime, encodedPhoneNumber};
 
                 // Store the new ones
                 if (birthDaySharedPref.put(identifierDate, info)) {

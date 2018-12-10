@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -32,10 +31,26 @@
         android:gravity="right"
         android:hint="@string/name"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@id/birth_date_container_dialog"
+        app:layout_constraintBottom_toTopOf="@id/phone_number_edt_dialog"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edition_title" />
+
+    <EditText
+        android:id="@+id/phone_number_edt_dialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/sixteen_dp"
+        android:layout_marginRight="@dimen/sixteen_dp"
+        android:layout_marginTop="@dimen/sixteen_dp"
+        android:background="@drawable/edit_text_style"
+        android:gravity="right"
+        android:hint="@string/phone_number"
+        android:inputType="phone"
+        app:layout_constraintBottom_toTopOf="@id/birth_date_container_dialog"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name_edt_dialog" />
 
     <LinearLayout
         android:id="@+id/birth_date_container_dialog"
@@ -48,7 +63,7 @@
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/birth_time_container_dialog"
-        app:layout_constraintTop_toBottomOf="@id/name_edt_dialog">
+        app:layout_constraintTop_toBottomOf="@id/phone_number_edt_dialog">
 
         <Button
             android:id="@+id/birth_date_picker_dialog"
@@ -83,7 +98,7 @@
         android:orientation="vertical"
         app:layout_constraintLeft_toRightOf="@id/birth_date_container_dialog"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/name_edt_dialog">
+        app:layout_constraintTop_toBottomOf="@id/phone_number_edt_dialog">
 
         <Button
             android:id="@+id/birth_time_picker_dialog"

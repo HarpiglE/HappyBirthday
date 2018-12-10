@@ -12,11 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 
 public class InformationActivity extends AppCompatActivity
@@ -41,19 +36,21 @@ public class InformationActivity extends AppCompatActivity
             public void onClickListener(
                     @NonNull String name,
                     @Nullable String date,
-                    @Nullable String time
+                    @Nullable String time,
+                    @Nullable String phoneNumber
             ) {
                 InformationActivityDeletionDialog dialog = new InformationActivityDeletionDialog();
 
                 Bundle info = new Bundle();
                 info.putString("name", name);
 
-                if (date == null && time == null) {
+                if (date == null || time == null || phoneNumber == null) {
                     dialog.setArguments(info);
                     dialog.show(getSupportFragmentManager(), "DELETION_DIALOG");
                 } else {
                     info.putString("date", date);
                     info.putString("time", time);
+                    info.putString("phone_number", phoneNumber);
 
                     Intent informationActivityEditionDialog = new Intent(
                             InformationActivity.this,

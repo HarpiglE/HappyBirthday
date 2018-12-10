@@ -75,9 +75,9 @@ public class InformationActivityAdapter
         public void onClick(View v) {
             String[] item = information.get(getAdapterPosition());
             if (v.toString().contains("delete_information"))
-                listener.onClickListener(item[0], null, null);
+                listener.onClickListener(item[0], null, null, null);
             else
-                listener.onClickListener(item[0], item[1], item[2]);
+                listener.onClickListener(item[0], item[1], item[2], item[3]);
         }
     }
 }

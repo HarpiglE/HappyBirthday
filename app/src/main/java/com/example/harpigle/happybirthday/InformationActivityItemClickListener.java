@@ -7,6 +7,7 @@ public interface InformationActivityItemClickListener {
     void onClickListener(
             @NonNull String name,
             @Nullable String date,
-            @Nullable String time
+            @Nullable String time,
+            @Nullable String phoneNumber
     );
 }
