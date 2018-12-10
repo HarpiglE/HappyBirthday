@@ -2,7 +2,6 @@ package com.example.harpigle.happybirthday;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -99,19 +98,21 @@ public final class BirthDaySharedPref {
         ArrayList<String[]> ListsArray = new ArrayList<>();
         EncodeDecodeString decoding = new EncodeDecodeString();
 
+        /*
+        Get encoded name, date, time and phone number respectively;
+        decode them and store in the valuesList
+        */
         for (int i = 0; i < allPrefs.size(); i++) {
             JSONArray jsonArray;
-            String[] valuesList = new String[3];
+            String[] valuesList = new String[4];
 
             try {
                 jsonArray = new JSONArray(stringsToJsonArrays[i]);
 
-                /* Get encoded name, date and time respectively;
-                   decode them and store in the valuesList
-                 */
                 valuesList[0] = decoding.decodeIt(jsonArray.get(0).toString());
                 valuesList[1] = decoding.decodeIt(jsonArray.get(1).toString());
                 valuesList[2] = decoding.decodeIt(jsonArray.get(2).toString());
+                valuesList[3] = decoding.decodeIt(jsonArray.get(3).toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

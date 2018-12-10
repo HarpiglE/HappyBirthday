@@ -32,4 +32,6 @@
     <string name="edition_cancel">لغو</string>
     <string name="phone_number">شماره همراه</string>
     <string name="register_title">اطلاعات فرد را وارد نمایید</string>
+    <string name="enter_valid_phone_number">لطفا شماره همراه معتبر وارد کنید</string>
+    <string name="phone_number_exists">شخصی با این شماره همراه موجود است</string>
 </resources>

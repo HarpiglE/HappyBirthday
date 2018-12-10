@@ -18,8 +18,7 @@ import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class RegisterActivity extends AppCompatActivity
@@ -41,12 +40,13 @@ public class RegisterActivity extends AppCompatActivity
     private int minute;
 
     private String nameString;
+    private String phoneNumberString;
     private String identifierDate;
     private String properFormattingDateString;
     private String properFormattingTimeString;
     private String encodedNameString;
 
-    EncodeDecodeString encoding = new EncodeDecodeString();
+    private EncodeDecodeString encoding = new EncodeDecodeString();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +98,7 @@ public class RegisterActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 nameString = nameEdt.getText().toString();
+                phoneNumberString = phoneNumberEdt.getText().toString();
 
                 // Encoded nameString to utf-8 to store properly in shared preferences
                 encodedNameString = encoding.encodeIt(nameString);
@@ -107,6 +108,12 @@ public class RegisterActivity extends AppCompatActivity
                         Toast.makeText(
                                 RegisterActivity.this,
                                 getString(R.string.person_exists),
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    else if (isPhoneNumberExited(phoneNumberString))
+                        Toast.makeText(
+                                RegisterActivity.this,
+                                getString(R.string.phone_number_exists),
                                 Toast.LENGTH_SHORT
                         ).show();
                     else {
@@ -164,10 +171,18 @@ public class RegisterActivity extends AppCompatActivity
     private boolean isInformationTrue() {
         boolean truthFlag = true;
 
-        if (nameEdt.getText().toString().equals("")) {
+        if (nameString.equals("")) {
             Toast.makeText(
                     this,
                     getString(R.string.name_not_entered),
+                    Toast.LENGTH_SHORT
+            ).show();
+            truthFlag = false;
+        }
+        if (!phoneNumberString.matches("^0?9[0-9]{9}$")) {
+            Toast.makeText(
+                    this,
+                    getString(R.string.enter_valid_phone_number),
                     Toast.LENGTH_SHORT
             ).show();
             truthFlag = false;
@@ -208,9 +223,11 @@ public class RegisterActivity extends AppCompatActivity
         // Encode date and time string to store in the shared prefs
         properFormattingDateString = encoding.encodeIt(properFormattingDateString);
         properFormattingTimeString = encoding.encodeIt(properFormattingTimeString);
+        phoneNumberString = encoding.encodeIt(phoneNumberString);
 
         String[] info =
-                {encodedNameString, properFormattingDateString, properFormattingTimeString};
+                {encodedNameString, properFormattingDateString,
+                        properFormattingTimeString, phoneNumberString};
 
         BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance();
         if (birthDaySharedPref.put(identifierDate, info)) {
@@ -223,13 +240,30 @@ public class RegisterActivity extends AppCompatActivity
     }
 
     private boolean isPersonExited(String name) {
-        BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance(RegisterActivity.this);
+        BirthDaySharedPref birthDaySharedPref =
+                BirthDaySharedPref.getInstance(RegisterActivity.this);
         String[] keys = birthDaySharedPref.getKeys();
 
         for (int i = 0; i < keys.length; i++) {
-            if (keys[i].contains(name)) {
+            if (keys[i].contains(name))
                 return true;
-            }
+        }
+
+        return false;
+    }
+
+    private boolean isPhoneNumberExited(String phoneNumber) {
+        BirthDaySharedPref birthDaySharedPref =
+                BirthDaySharedPref.getInstance(RegisterActivity.this);
+
+        if (phoneNumber.charAt(0) == '0')
+            phoneNumber = phoneNumber.replaceFirst("0", "");
+
+        ArrayList<String[]> values = birthDaySharedPref.getValues();
+
+        for (int i = 0; i < values.size(); i++) {
+            if (values.get(i)[3].equals(phoneNumber))
+                return true;
         }
 
         return false;
@@ -237,6 +271,7 @@ public class RegisterActivity extends AppCompatActivity
 
     private void emptyEverything() {
         nameEdt.setText("");
+        phoneNumberEdt.setText("");
         dateShow.setText("");
         timeShow.setText("");
         dateShow.setHint(getString(R.string.date_not_selected));
@@ -247,6 +282,7 @@ public class RegisterActivity extends AppCompatActivity
         properFormattingDateString = "";
         properFormattingTimeString = "";
         encodedNameString = "";
+        phoneNumberString = "";
 
         year = 0;
         hour = 0;

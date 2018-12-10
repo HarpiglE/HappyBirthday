@@ -57,6 +57,7 @@
             android:layout_marginBottom="@dimen/sixteen_dp"
             android:layout_marginTop="@dimen/sixteen_dp"
             android:background="@drawable/edit_text_style"
+            android:gravity="right"
             android:hint="@string/phone_number"
             android:inputType="phone"
             app:layout_constraintBottom_toTopOf="@+id/birth_date_and_time_container_register"
