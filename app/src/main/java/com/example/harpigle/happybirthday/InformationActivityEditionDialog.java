@@ -3,6 +3,7 @@ package com.example.harpigle.happybirthday;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -22,6 +23,8 @@ public class InformationActivityEditionDialog extends AppCompatActivity
     private String date;
     private String time;
     private String phoneNumber;
+    private String initialName;
+    private String initialPhoneNumber;
 
     private EditText nameEdt;
     private EditText phoneNumberEdt;
@@ -63,6 +66,9 @@ public class InformationActivityEditionDialog extends AppCompatActivity
         date = info.getString("date");
         time = info.getString("time");
         phoneNumber = info.getString("phone_number");
+
+        initialName = name;
+        initialPhoneNumber = phoneNumber;
     }
 
     private void findViews() {
@@ -113,11 +119,6 @@ public class InformationActivityEditionDialog extends AppCompatActivity
                 String encodedDate;
                 String encodedTime;
 
-                // Remove previous person information
-                BirthDaySharedPref birthDaySharedPref =
-                        BirthDaySharedPref.getInstance(InformationActivityEditionDialog.this);
-                birthDaySharedPref.remove(name);
-
                 // Prepare the new key and value to store in shared prefs EOF
                 name = nameEdt.getText().toString();
                 phoneNumber = phoneNumberEdt.getText().toString();
@@ -135,22 +136,69 @@ public class InformationActivityEditionDialog extends AppCompatActivity
                 encodedTime = utility.encodeIt(time);
                 // EOF
 
-                String[] info = {encodedName, encodedDate, encodedTime, encodedPhoneNumber};
+                // Check for existence values
+                boolean personFlag =
+                        utility.isPersonExited(
+                                InformationActivityEditionDialog.this,
+                                encodedName
+                        );
+                boolean phoneNumberFlag =
+                        utility.isPhoneNumberExited(
+                                InformationActivityEditionDialog.this,
+                                encodedPhoneNumber
+                        );
 
-                // Store the new ones
-                if (birthDaySharedPref.put(identifierDate, info)) {
-                    Toast.makeText(
-                            InformationActivityEditionDialog.this,
-                            getString(R.string.person_registered, name),
-                            Toast.LENGTH_SHORT
-                    ).show();
+                if (isInformationTrue()) {
+                    if (name.equals(initialName) && phoneNumber.equals(initialPhoneNumber)) {
+                        finish();
+
+                    } else if (personFlag && phoneNumberFlag) {
+                        Toast.makeText(
+                                InformationActivityEditionDialog.this,
+                                getString(R.string.person_exists),
+                                Toast.LENGTH_SHORT
+                        ).show();
+                        Toast.makeText(
+                                InformationActivityEditionDialog.this,
+                                getString(R.string.phone_number_exists),
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    }
+                    else if (personFlag)
+                        Toast.makeText(
+                                InformationActivityEditionDialog.this,
+                                getString(R.string.person_exists),
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    else if (phoneNumberFlag)
+                        Toast.makeText(
+                                InformationActivityEditionDialog.this,
+                                getString(R.string.phone_number_exists),
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    else {
+                        // Remove previous person information
+                        BirthDaySharedPref birthDaySharedPref =
+                                BirthDaySharedPref
+                                        .getInstance(InformationActivityEditionDialog.this);
+
+                        String[] info = {encodedName, encodedDate, encodedTime, encodedPhoneNumber};
+
+                        // Store the new ones
+                        if (birthDaySharedPref.put(identifierDate, info)) {
+                            Toast.makeText(
+                                    InformationActivityEditionDialog.this,
+                                    getString(R.string.person_registered, name),
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                        Intent intent = new Intent();
+                        intent.putExtra("isEditionDone", true);
+                        setResult(RESULT_OK, intent);
+
+                        finish();
+                    }
                 }
-
-                Intent intent = new Intent();
-                intent.putExtra("isEditionDone", true);
-                setResult(RESULT_OK, intent);
-
-                finish();
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -201,6 +249,29 @@ public class InformationActivityEditionDialog extends AppCompatActivity
                 true
         );
         timePickerDialog.show(getFragmentManager(), getString(R.string.persian_time_picker));
+    }
+
+    private boolean isInformationTrue() {
+        boolean truthFlag = true;
+
+        if (name.equals("")) {
+            Toast.makeText(
+                    this,
+                    getString(R.string.name_not_entered),
+                    Toast.LENGTH_SHORT
+            ).show();
+            truthFlag = false;
+        }
+        if (!phoneNumber.matches("^09[0-9]{9}$")) {
+            Toast.makeText(
+                    this,
+                    getString(R.string.enter_valid_phone_number),
+                    Toast.LENGTH_SHORT
+            ).show();
+            truthFlag = false;
+        }
+
+        return truthFlag;
     }
 
     @Override

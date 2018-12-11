@@ -123,19 +123,19 @@ public final class BirthDaySharedPref {
         return ListsArray;
     }
 
-    public boolean remove(String name) {
+    public boolean remove(String plainName) {
         String[] keys = this.getKeys();
 
         // Encode name to compare with keys in shared prefs
         try {
-            name = URLEncoder.encode(name, "utf-8");
+            plainName = URLEncoder.encode(plainName, "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
         // Look for a key that contains the given name and remove it
         for (int i = 0; i < keys.length; i++) {
-            if (keys[i].contains(name)) {
+            if (keys[i].contains(plainName)) {
                 editor.remove(keys[i]);
                 editor.apply();
                 return true;

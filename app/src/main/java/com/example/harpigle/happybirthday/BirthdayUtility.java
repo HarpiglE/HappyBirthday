@@ -1,6 +1,7 @@
 package com.example.harpigle.happybirthday;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -31,30 +32,27 @@ public class BirthdayUtility {
         return string;
     }
 
-    public boolean isPersonExited(Context context, String name) {
+    public boolean isPersonExited(Context context, String encodedName) {
         BirthDaySharedPref birthDaySharedPref =
                 BirthDaySharedPref.getInstance(context);
         String[] keys = birthDaySharedPref.getKeys();
 
         for (int i = 0; i < keys.length; i++) {
-            if (keys[i].contains(name))
+            if (keys[i].contains(encodedName))
                 return true;
         }
-
         return false;
     }
 
     public boolean isPhoneNumberExited(Context context, String phoneNumber) {
         BirthDaySharedPref birthDaySharedPref =
                 BirthDaySharedPref.getInstance(context);
-
         ArrayList<String[]> values = birthDaySharedPref.getValues();
 
         for (int i = 0; i < values.size(); i++) {
             if (values.get(i)[3].equals(phoneNumber))
                 return true;
         }
-
         return false;
     }
 }
