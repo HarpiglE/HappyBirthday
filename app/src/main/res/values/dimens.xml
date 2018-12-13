@@ -4,4 +4,5 @@
     <dimen name="eight_dp">8dp</dimen>
     <dimen name="sixteen_dp">16dp</dimen>
     <dimen name="thirty_two_dp">32dp</dimen>
+    <dimen name="toolbar_elevation">5dp</dimen>
 </resources>

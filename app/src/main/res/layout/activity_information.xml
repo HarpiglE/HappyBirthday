@@ -11,6 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
+        android:elevation="@dimen/toolbar_elevation"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintBottom_toTopOf="@id/information_recycler_view"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -26,5 +27,31 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/information_toolbar" />
+
+    <ImageView
+        android:id="@+id/warning_logo_information"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/svg_warning"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/information_toolbar"
+        app:layout_constraintVertical_bias="0.42" />
+
+    <TextView
+        android:id="@+id/warning_text_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_information_to_show"
+        android:textColor="@color/primaryText"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/information_toolbar"
+        app:layout_constraintVertical_bias="0.58" />
 
 </android.support.constraint.ConstraintLayout>

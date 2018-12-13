@@ -11,6 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -22,6 +25,8 @@ public class InformationActivity extends AppCompatActivity
     private InformationActivityItemClickListener itemClickListener;
 
     private Toolbar toolbar;
+    private ImageView warningLogo;
+    private TextView warningText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +73,8 @@ public class InformationActivity extends AppCompatActivity
     private void findViews() {
         recyclerView = findViewById(R.id.information_recycler_view);
         toolbar = findViewById(R.id.information_toolbar);
+        warningLogo = findViewById(R.id.warning_logo_information);
+        warningText = findViewById(R.id.warning_text_information);
     }
 
     private void configureActionBar() {
@@ -90,6 +97,9 @@ public class InformationActivity extends AppCompatActivity
     private void setUpRecyclerView() {
         ArrayList<String[]> information = extractInformation();
 
+        // Show warning logo and text to notify to user that there's no data to show
+        showWarning(information.size());
+
         adapter = new InformationActivityAdapter(information, itemClickListener);
         recyclerView.setLayoutManager(new LinearLayoutManager(
                 this,
@@ -97,6 +107,13 @@ public class InformationActivity extends AppCompatActivity
                 false
         ));
         recyclerView.setAdapter(adapter);
+    }
+
+    private void showWarning(int size) {
+        if (size == 0) {
+            warningLogo.setVisibility(View.VISIBLE);
+            warningText.setVisibility(View.VISIBLE);
+        }
     }
 
     // Deletion dialog callback
