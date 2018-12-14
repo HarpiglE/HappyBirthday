@@ -40,4 +40,5 @@
     <string name="clear_information_action">Clear</string>
     <string name="persons_counter_title">Persons Counter</string>
     <string name="persons_count_message">تاکنون اطلاعات %d نفر ثبت شده است</string>
+    <string name="remove_person">حذف</string>
 </resources>

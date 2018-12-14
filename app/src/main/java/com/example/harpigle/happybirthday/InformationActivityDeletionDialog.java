@@ -50,6 +50,10 @@ public class InformationActivityDeletionDialog extends DialogFragment {
         AlertDialog.Builder prompt =
                 new AlertDialog.Builder(getActivity());
 
+        /*
+        If the name is null, it means that the user tapped the clear action in action bar;
+        else it means that the user wants to delete a certain person
+        */
         if (name == null) {
             prompt.setMessage(getString(R.string.clear_prompt_message));
             prompt.setPositiveButton(getString(R.string.deletion_prompt_yes),

@@ -3,159 +3,62 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/eight_dp">
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
 
-    <TextView
-        android:id="@+id/number_information"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginLeft="@dimen/eight_dp"
-        android:gravity="center"
-        android:text="1"
-        android:textColor="@color/primaryText"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/information_container"
+    <View
+        android:id="@+id/divider_item"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/colorDivider"
+        app:layout_constraintBottom_toTopOf="@id/person_pic_item"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/information_container"
+    <ImageView
+        android:id="@+id/person_pic_item"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="@dimen/sixteen_dp"
+        android:layout_marginRight="@dimen/sixteen_dp"
+        android:layout_marginTop="@dimen/sixteen_dp"
+        android:src="@drawable/ic_account_circle_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/person_name_item"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider_item" />
+
+    <TextView
+        android:id="@+id/person_name_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/view_border"
-        android:paddingTop="@dimen/eight_dp"
+        android:layout_marginRight="@dimen/sixteen_dp"
+        android:text="مازیار برومند"
+        android:textColor="@color/primaryText"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/person_pic_item"
+        app:layout_constraintLeft_toRightOf="@id/etc_item"
+        app:layout_constraintRight_toLeftOf="@id/person_pic_item"
+        app:layout_constraintTop_toTopOf="@id/person_pic_item" />
+
+    <ImageView
+        android:id="@+id/etc_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/twenty_four"
+        android:layout_marginLeft="@dimen/sixteen_dp"
+        android:layout_marginTop="@dimen/twenty_four"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingLeft="@dimen/eight_dp"
+        android:paddingRight="@dimen/eight_dp"
+        android:src="@drawable/ic_more_vert_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/number_information"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/name_title_information"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/name"
-            app:layout_constraintBottom_toTopOf="@id/name_title_information"
-            app:layout_constraintLeft_toLeftOf="@id/name_information"
-            app:layout_constraintRight_toRightOf="@id/name_information"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/name_information"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="یوسف حسنی قناعت"
-            android:textColor="@color/primaryText"
-            android:textSize="20sp"
-            app:layout_constraintLeft_toRightOf="@id/date_information"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_title_information" />
-
-        <TextView
-            android:id="@+id/date_title_information"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/birth_date"
-            app:layout_constraintBottom_toTopOf="@id/date_information"
-            app:layout_constraintLeft_toLeftOf="@id/date_information"
-            app:layout_constraintRight_toRightOf="@id/date_information"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/date_information"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1390/02/22"
-            android:textColor="@color/primaryText"
-            android:textSize="20sp"
-            app:layout_constraintLeft_toRightOf="@id/time_information"
-            app:layout_constraintRight_toLeftOf="@id/name_information"
-            app:layout_constraintTop_toBottomOf="@id/date_title_information" />
-
-        <TextView
-            android:id="@+id/time_title_information"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/birth_time"
-            app:layout_constraintLeft_toLeftOf="@id/time_information"
-            app:layout_constraintRight_toRightOf="@id/time_information"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/time_information"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="15:30"
-            android:textColor="@color/primaryText"
-            android:textSize="20sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/date_information"
-            app:layout_constraintTop_toBottomOf="@id/time_title_information" />
-
-        <TextView
-            android:id="@+id/phone_number_title_information"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/phone_number"
-            app:layout_constraintBottom_toTopOf="@id/edit_information"
-            app:layout_constraintLeft_toRightOf="@id/phone_number_information"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_information" />
-
-        <TextView
-            android:id="@+id/phone_number_information"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="09112223344"
-            android:textColor="@color/primaryText"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@id/phone_number_title_information"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/phone_number_title_information"
-            app:layout_constraintTop_toTopOf="@id/phone_number_title_information" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="@color/primaryText"
-            app:layout_constraintBottom_toTopOf="@id/edit_information"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
-        <ImageView
-            android:id="@+id/edit_information"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/eight_dp"
-            android:padding="@dimen/eight_dp"
-            android:src="@drawable/ic_mode_edit_black_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/icons_divider_information"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/phone_number_information" />
-
-        <View
-            android:id="@+id/icons_divider_information"
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:background="@color/primaryText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/delete_information"
-            app:layout_constraintRight_toLeftOf="@id/edit_information"
-            app:layout_constraintTop_toTopOf="@id/edit_information" />
-
-        <ImageView
-            android:id="@+id/delete_information"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/eight_dp"
-            android:padding="@dimen/eight_dp"
-            android:src="@drawable/ic_delete_black_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/icons_divider_information"
-            app:layout_constraintTop_toBottomOf="@id/phone_number_information" />
-
-    </android.support.constraint.ConstraintLayout>
+        app:layout_constraintRight_toLeftOf="@id/person_name_item"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

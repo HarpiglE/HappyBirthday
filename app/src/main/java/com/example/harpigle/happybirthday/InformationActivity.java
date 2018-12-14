@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -27,7 +28,7 @@ public class InformationActivity extends AppCompatActivity
 
     private RecyclerView recyclerView;
     private InformationActivityAdapter adapter;
-    private InformationActivityItemClickListener itemClickListener;
+    private InformationActivityItemClickListener etcClickListener;
 
     private Toolbar toolbar;
     private ImageView warningLogo;
@@ -43,34 +44,53 @@ public class InformationActivity extends AppCompatActivity
         findViews();
         configureActionBar();
 
-        itemClickListener = new InformationActivityItemClickListener() {
+        etcClickListener = new InformationActivityItemClickListener() {
             @Override
             public void onClickListener(
+                    @NonNull View view,
                     @NonNull String name,
-                    @Nullable String date,
-                    @Nullable String time,
-                    @Nullable String phoneNumber
+                    @NonNull final String date,
+                    @NonNull final String time,
+                    @NonNull final String phoneNumber
             ) {
-                InformationActivityDeletionDialog dialog = new InformationActivityDeletionDialog();
-
-                Bundle info = new Bundle();
+                final Bundle info = new Bundle();
                 info.putString("name", name);
 
-                if (date == null || time == null || phoneNumber == null) {
-                    dialog.setArguments(info);
-                    dialog.show(getSupportFragmentManager(), "DELETION_DIALOG");
-                } else {
-                    info.putString("date", date);
-                    info.putString("time", time);
-                    info.putString("phone_number", phoneNumber);
+                // Show etc image (...) and set it's items listener
+                PopupMenu etcItemMenu = new PopupMenu(InformationActivity.this, view);
+                etcItemMenu.getMenuInflater()
+                        .inflate(R.menu.item_popup_menu, etcItemMenu.getMenu());
+                etcItemMenu.show();
+                etcItemMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.edition_item:
+                                info.putString("date", date);
+                                info.putString("time", time);
+                                info.putString("phone_number", phoneNumber);
 
-                    Intent informationActivityEditionDialog = new Intent(
-                            InformationActivity.this,
-                            InformationActivityEditionDialog.class
-                    );
-                    informationActivityEditionDialog.putExtra("information", info);
-                    startActivityForResult(informationActivityEditionDialog, 0);
-                }
+                                Intent informationActivityEditionDialog = new Intent(
+                                        InformationActivity.this,
+                                        InformationActivityEditionDialog.class
+                                );
+                                informationActivityEditionDialog.putExtra(
+                                        "information",
+                                        info
+                                );
+                                startActivityForResult(informationActivityEditionDialog, 0);
+                                break;
+
+                            case R.id.deletion_item:
+                                InformationActivityDeletionDialog dialog =
+                                        new InformationActivityDeletionDialog();
+                                dialog.setArguments(info);
+                                dialog.show(getSupportFragmentManager(), "DELETION_DIALOG");
+                                break;
+                        }
+                        return true;
+                    }
+                });
             }
         };
 
@@ -107,7 +127,7 @@ public class InformationActivity extends AppCompatActivity
         // Show warning logo and text to notify to user that there's no data to show
         showWarning(information.size());
 
-        adapter = new InformationActivityAdapter(information, itemClickListener);
+        adapter = new InformationActivityAdapter(information, etcClickListener);
         recyclerView.setLayoutManager(new LinearLayoutManager(
                 this,
                 LinearLayoutManager.VERTICAL,

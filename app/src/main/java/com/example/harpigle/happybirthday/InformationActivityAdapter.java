@@ -33,11 +33,9 @@ public class InformationActivityAdapter
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.counter.setText(String.valueOf(i + 1));
         viewHolder.name.setText(information.get(i)[0]);
-        viewHolder.date.setText(information.get(i)[1]);
-        viewHolder.time.setText(information.get(i)[2]);
-        viewHolder.phoneNumber.setText(information.get(i)[3]);
+        if (i == 0)
+            viewHolder.divider.setVisibility(View.GONE);
     }
 
     @Override
@@ -47,37 +45,24 @@ public class InformationActivityAdapter
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView counter;
+        private View divider;
         private TextView name;
-        private TextView date;
-        private TextView time;
-        private TextView phoneNumber;
-
-        private ImageView delete;
-        private ImageView edit;
+        private ImageView etc;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            counter = itemView.findViewById(R.id.number_information);
-            name = itemView.findViewById(R.id.name_information);
-            date = itemView.findViewById(R.id.date_information);
-            time = itemView.findViewById(R.id.time_information);
-            phoneNumber = itemView.findViewById(R.id.phone_number_information);
-            delete = itemView.findViewById(R.id.delete_information);
-            edit = itemView.findViewById(R.id.edit_information);
+            divider = itemView.findViewById(R.id.divider_item);
+            name = itemView.findViewById(R.id.person_name_item);
+            etc = itemView.findViewById(R.id.etc_item);
 
-            delete.setOnClickListener(this);
-            edit.setOnClickListener(this);
+            etc.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             String[] item = information.get(getAdapterPosition());
-            if (v.toString().contains("delete_information"))
-                listener.onClickListener(item[0], null, null, null);
-            else
-                listener.onClickListener(item[0], item[1], item[2], item[3]);
+            listener.onClickListener(etc, item[0], item[1], item[2], item[3]);
         }
     }
 }
