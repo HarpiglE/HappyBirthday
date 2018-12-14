@@ -78,18 +78,20 @@ public class RegisterActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if (dateShow.getHint().equals(getString(R.string.wrong_date))
-                        || dateShow.getHint().equals(getString(R.string.date_not_selected)))
+                        || dateShow.getHint().equals(getString(R.string.date_not_selected))) {
+                    dateShow.setHint("");
                     configureDatePicker();
-                else
+                } else
                     configureCurrentPickedDateOnPicker();
             }
         });
         timePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (timeShow.getHint().equals(getString(R.string.time_not_selected)))
+                if (timeShow.getHint().equals(getString(R.string.time_not_selected))) {
+                    timeShow.setHint("");
                     configureTimePicker();
-                else
+                } else
                     configureCurrentPickedTimeOnPicker();
             }
         });
@@ -168,7 +170,7 @@ public class RegisterActivity extends AppCompatActivity
         DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
                 this,
                 year,
-                month,
+                month - 1,
                 day
         );
         datePickerDialog.show(getFragmentManager(), getString(R.string.persian_date_picker));
