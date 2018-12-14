@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,6 +28,8 @@ public class InformationActivity extends AppCompatActivity
     private Toolbar toolbar;
     private ImageView warningLogo;
     private TextView warningText;
+
+    private ArrayList<String[]> information = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +98,7 @@ public class InformationActivity extends AppCompatActivity
     }
 
     private void setUpRecyclerView() {
-        ArrayList<String[]> information = extractInformation();
+        information = extractInformation();
 
         // Show warning logo and text to notify to user that there's no data to show
         showWarning(information.size());
@@ -131,11 +134,23 @@ public class InformationActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.information_activity, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
+            case R.id.clear_information:
+                if (information.size() > 0) {
+                    InformationActivityDeletionDialog clearDialog =
+                            new InformationActivityDeletionDialog();
+                    clearDialog.show(getSupportFragmentManager(), "CLEAR_DIALOG");
+                }
         }
         return super.onOptionsItemSelected(item);
     }

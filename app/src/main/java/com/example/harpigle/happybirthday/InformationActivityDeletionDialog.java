@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -49,40 +50,70 @@ public class InformationActivityDeletionDialog extends DialogFragment {
         AlertDialog.Builder prompt =
                 new AlertDialog.Builder(getActivity());
 
-        prompt.setMessage(getString(R.string.deletion_prompt_message, name));
-        prompt.setPositiveButton(getString(R.string.deletion_prompt_yes),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance();
-                        if (birthDaySharedPref.remove(name)) {
-                            Toast.makeText(
-                                    getActivity(),
-                                    getString(R.string.deletion_successful, name),
-                                    Toast.LENGTH_SHORT
-                            ).show();
-                            listener.deletionDone();
-                        } else
-                            Toast.makeText(
-                                    getActivity(),
-                                    getString(R.string.deletion_failed),
-                                    Toast.LENGTH_SHORT
-                            ).show();
-                    }
-                });
-        prompt.setNegativeButton(getString(R.string.deletion_prompt_no),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dismiss();
-                    }
-                });
+        if (name == null) {
+            prompt.setMessage(getString(R.string.clear_prompt_message));
+            prompt.setPositiveButton(getString(R.string.deletion_prompt_yes),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            BirthDaySharedPref sharedPref =
+                                    BirthDaySharedPref.getInstance(getContext());
+                            if (sharedPref.clear()) {
+                                Toast.makeText(
+                                        getActivity(),
+                                        getString(R.string.clear_successful),
+                                        Toast.LENGTH_SHORT
+                                ).show();
+                                listener.deletionDone();
+                            }
+                        }
+                    });
+            prompt.setNegativeButton(getString(R.string.deletion_prompt_no),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dismiss();
+                        }
+                    });
 
-        return prompt.create();
+            return prompt.create();
+        } else {
+            prompt.setMessage(getString(R.string.deletion_prompt_message, name));
+            prompt.setPositiveButton(getString(R.string.deletion_prompt_yes),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            BirthDaySharedPref birthDaySharedPref =
+                                    BirthDaySharedPref.getInstance();
+                            if (birthDaySharedPref.remove(name)) {
+                                Toast.makeText(
+                                        getActivity(),
+                                        getString(R.string.deletion_successful, name),
+                                        Toast.LENGTH_SHORT
+                                ).show();
+                                listener.deletionDone();
+                            } else
+                                Toast.makeText(
+                                        getActivity(),
+                                        getString(R.string.deletion_failed),
+                                        Toast.LENGTH_SHORT
+                                ).show();
+                        }
+                    });
+            prompt.setNegativeButton(getString(R.string.deletion_prompt_no),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dismiss();
+                        }
+                    });
+
+            return prompt.create();
+        }
     }
 
     private void getArgs() {
         Bundle bundle = getArguments();
-        this.name = bundle.getString("name");
+        this.name = bundle != null ? bundle.getString("name") : null;
     }
 }

@@ -144,4 +144,10 @@ public final class BirthDaySharedPref {
 
         return false;
     }
+
+    public boolean clear() {
+        editor.clear();
+        editor.apply();
+        return true;
+    }
 }
