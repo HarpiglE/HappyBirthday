@@ -17,4 +17,6 @@
 
     <color name="colorAppBackground">#FFFFFF</color>
 
+    <color name="colorBadge">#FFC107</color>
+
 </resources>

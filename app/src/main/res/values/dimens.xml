@@ -5,4 +5,5 @@
     <dimen name="sixteen_dp">16dp</dimen>
     <dimen name="thirty_two_dp">32dp</dimen>
     <dimen name="toolbar_elevation">5dp</dimen>
+    <dimen name="badge_count_text_size">14sp</dimen>
 </resources>

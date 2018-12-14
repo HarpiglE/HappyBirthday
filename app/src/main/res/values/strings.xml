@@ -38,4 +38,6 @@
     <string name="clear_prompt_message">آیا از حذف تمامی اطلاعات افراد مطمئن هستید؟</string>
     <string name="clear_successful">اطلاعات افراد با موفقیت حذف شد</string>
     <string name="clear_information_action">Clear</string>
+    <string name="persons_counter_title">Persons Counter</string>
+    <string name="persons_count_message">تاکنون اطلاعات %d نفر ثبت شده است</string>
 </resources>
