@@ -1,11 +1,10 @@
 package com.example.harpigle.happybirthday;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -71,6 +70,11 @@ public class RegisterActivity extends AppCompatActivity
     private void setActionBar() {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(getString(R.string.add_person_main_menu));
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        } else
+            Log.e("ActionBar", "Register activity action bar is null");
     }
 
     private void setButtonsListener() {
@@ -247,14 +251,19 @@ public class RegisterActivity extends AppCompatActivity
                 {encodedNameString, properFormattingDateString,
                         properFormattingTimeString, phoneNumberString};
 
-        BirthDaySharedPref birthDaySharedPref = BirthDaySharedPref.getInstance();
-        if (birthDaySharedPref.put(identifierDate, info)) {
+        PersonsSharedPrefs personsSharedPrefs = PersonsSharedPrefs.getInstance();
+        if (personsSharedPrefs.put(identifierDate, info))
             Toast.makeText(
                     this,
                     getString(R.string.person_registered, nameString),
                     Toast.LENGTH_SHORT
             ).show();
-        }
+        else
+            Toast.makeText(
+                    RegisterActivity.this,
+                    getString(R.string.error_occurred),
+                    Toast.LENGTH_SHORT
+            ).show();
     }
 
     private void emptyEverything() {
@@ -340,26 +349,12 @@ public class RegisterActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-
-        getMenuInflater().inflate(R.menu.birthday_popup_menu, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
-
         switch (item.getItemId()) {
-            case R.id.show_information_popup:
-                Intent birthdayInformationActivity = new Intent(
-                        RegisterActivity.this,
-                        InformationActivity.class
-                );
-                startActivity(birthdayInformationActivity);
+            case android.R.id.home:
+                finish();
         }
-
         return true;
     }
 }

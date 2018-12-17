@@ -1,7 +1,6 @@
 package com.example.harpigle.happybirthday;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -33,9 +32,9 @@ public class BirthdayUtility {
     }
 
     public boolean isPersonExited(Context context, String encodedName) {
-        BirthDaySharedPref birthDaySharedPref =
-                BirthDaySharedPref.getInstance(context);
-        String[] keys = birthDaySharedPref.getKeys();
+        PersonsSharedPrefs personsSharedPrefs =
+                PersonsSharedPrefs.getInstance(context);
+        String[] keys = personsSharedPrefs.getKeys();
 
         for (int i = 0; i < keys.length; i++) {
             if (keys[i].contains(encodedName))
@@ -45,13 +44,24 @@ public class BirthdayUtility {
     }
 
     public boolean isPhoneNumberExited(Context context, String phoneNumber) {
-        BirthDaySharedPref birthDaySharedPref =
-                BirthDaySharedPref.getInstance(context);
-        ArrayList<String[]> values = birthDaySharedPref.getValues();
+        PersonsSharedPrefs personsSharedPrefs =
+                PersonsSharedPrefs.getInstance(context);
+        ArrayList<String[]> values = personsSharedPrefs.getValues();
 
         for (int i = 0; i < values.size(); i++) {
             if (values.get(i)[3].equals(phoneNumber))
                 return true;
+        }
+        return false;
+    }
+
+    public boolean isMessageExited(MessagesSharedPrefs messagesSharedPrefs, String plainMessage) {
+        String encodedMessage = this.encodeIt(plainMessage);
+        String[] values = messagesSharedPrefs.getAll();
+        for (String value : values) {
+            if (value.equals(encodedMessage)) {
+                return true;
+            }
         }
         return false;
     }

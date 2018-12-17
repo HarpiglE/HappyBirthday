@@ -8,12 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class InformationActivityDeletionDialog extends DialogFragment {
@@ -60,8 +54,8 @@ public class InformationActivityDeletionDialog extends DialogFragment {
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            BirthDaySharedPref sharedPref =
-                                    BirthDaySharedPref.getInstance(getContext());
+                            PersonsSharedPrefs sharedPref =
+                                    PersonsSharedPrefs.getInstance(getContext());
                             if (sharedPref.clear()) {
                                 Toast.makeText(
                                         getActivity(),
@@ -87,9 +81,9 @@ public class InformationActivityDeletionDialog extends DialogFragment {
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            BirthDaySharedPref birthDaySharedPref =
-                                    BirthDaySharedPref.getInstance();
-                            if (birthDaySharedPref.remove(name)) {
+                            PersonsSharedPrefs personsSharedPrefs =
+                                    PersonsSharedPrefs.getInstance();
+                            if (personsSharedPrefs.remove(name)) {
                                 Toast.makeText(
                                         getActivity(),
                                         getString(R.string.deletion_successful, name),

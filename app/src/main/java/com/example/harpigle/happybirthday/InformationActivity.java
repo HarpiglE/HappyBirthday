@@ -108,17 +108,17 @@ public class InformationActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("اطلاعات افراد");
+            actionBar.setTitle(getString(R.string.persons_list_main_menu));
             actionBar.setDisplayHomeAsUpEnabled(true);
         } else
             Log.e("ActionBar", "Information activity action bar is null");
     }
 
     private ArrayList<String[]> extractInformation() {
-        BirthDaySharedPref birthDaySharedPref =
-                BirthDaySharedPref.getInstance(InformationActivity.this);
+        PersonsSharedPrefs personsSharedPrefs =
+                PersonsSharedPrefs.getInstance(InformationActivity.this);
 
-        return birthDaySharedPref.getValues();
+        return personsSharedPrefs.getValues();
     }
 
     private void setUpRecyclerView() {
@@ -213,7 +213,6 @@ public class InformationActivity extends AppCompatActivity
                     ).show();
                 }
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

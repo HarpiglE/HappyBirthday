@@ -18,7 +18,6 @@
     <string name="person_registered">%s ثبت شد!</string>
     <string name="person_exists">شخصی با این نام موجود است</string>
     <string name="person_not_exists">شخصی با این نام موجود نیست</string>
-    <string name="first_click_check_btn">لطفا ابتدا دکمه ی بررسی را بزنید</string>
     <string name="wrong_date">تاریخ نادرست</string>
     <string name="show_information_popup">نمایش اطلاعات</string>
     <string name="setting_popup">تنظیمات</string>
@@ -41,4 +40,15 @@
     <string name="persons_counter_title">Persons Counter</string>
     <string name="persons_count_message">تاکنون اطلاعات %d نفر ثبت شده است</string>
     <string name="remove_person">حذف</string>
+    <string name="add_person_main_menu">افزودن فرد</string>
+    <string name="persons_list_main_menu">فهرست افراد</string>
+    <string name="add_message_main_menu">افزودن پیام</string>
+    <string name="messages_list_main_menu">فهرست پیام ها</string>
+    <string name="message_context">متن پیام</string>
+    <string name="message_registering">ثبت پیام</string>
+    <string name="message_registered">پیام واردشده با موفقیت ثبت شد!</string>
+    <string name="message_exists">پیامی با این محتوا موجود است</string>
+    <string name="error_occurred">خطایی رخ داده است</string>
+    <string name="message_not_entered">لطفا متن پیام را وارد نمایید</string>
+    <string name="message_characters_not_enough">متن پیام حداقل باید شامل 10 کاراکتر باشد</string>
 </resources>

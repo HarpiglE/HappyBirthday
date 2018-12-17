@@ -3,7 +3,6 @@ package com.example.harpigle.happybirthday;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -178,14 +177,14 @@ public class InformationActivityEditionDialog extends AppCompatActivity
                         ).show();
                     else {
                         // Remove previous person information
-                        BirthDaySharedPref birthDaySharedPref =
-                                BirthDaySharedPref
+                        PersonsSharedPrefs personsSharedPrefs =
+                                PersonsSharedPrefs
                                         .getInstance(InformationActivityEditionDialog.this);
 
                         String[] info = {encodedName, encodedDate, encodedTime, encodedPhoneNumber};
 
                         // Store the new ones
-                        if (birthDaySharedPref.put(identifierDate, info)) {
+                        if (personsSharedPrefs.put(identifierDate, info)) {
                             Toast.makeText(
                                     InformationActivityEditionDialog.this,
                                     getString(R.string.person_registered, name),

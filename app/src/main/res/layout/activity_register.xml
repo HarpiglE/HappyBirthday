@@ -8,9 +8,9 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_register"
         android:layout_width="0dp"
-        android:elevation="@dimen/toolbar_elevation"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
+        android:elevation="@dimen/toolbar_elevation"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

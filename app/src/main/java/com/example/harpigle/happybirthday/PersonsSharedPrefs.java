@@ -12,28 +12,28 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
-public final class BirthDaySharedPref {
+public final class PersonsSharedPrefs {
 
     private static final String BIRTHDAY_SHARED_PREF = "BirthDay";
-    private static BirthDaySharedPref instance;
+    private static PersonsSharedPrefs instance;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-    private BirthDaySharedPref(Context context) {
+    private PersonsSharedPrefs(Context context) {
         sharedPreferences = context.getSharedPreferences(
                 BIRTHDAY_SHARED_PREF, Context.MODE_PRIVATE
         );
         editor = sharedPreferences.edit();
     }
 
-    public static BirthDaySharedPref getInstance(Context context) {
+    public static PersonsSharedPrefs getInstance(Context context) {
         if (instance == null) {
-            instance = new BirthDaySharedPref(context);
+            instance = new PersonsSharedPrefs(context);
         }
         return instance;
     }
 
-    public static BirthDaySharedPref getInstance() {
+    public static PersonsSharedPrefs getInstance() {
         if (instance != null) {
             return instance;
         }

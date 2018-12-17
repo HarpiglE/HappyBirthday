@@ -2,11 +2,11 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@drawable/ic_group"
+        android:drawable="@drawable/ic_user_list"
         android:gravity="center" />
 
     <item
         android:id="@+id/persons_count_element"
-        android:drawable="@drawable/ic_group" />
+        android:drawable="@drawable/ic_user_list" />
 
 </layer-list>
