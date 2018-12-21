@@ -1,4 +1,4 @@
-package com.example.harpigle.happybirthday;
+package com.example.harpigle.happybirthday.Messages.Activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -11,6 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.harpigle.happybirthday.BirthdayUtility;
+import com.example.harpigle.happybirthday.Messages.MessagesSharedPrefs;
+import com.example.harpigle.happybirthday.R;
 
 public class AddMessageActivity extends AppCompatActivity {
 
@@ -39,14 +43,14 @@ public class AddMessageActivity extends AppCompatActivity {
                 if (messageString.equals("")) {
                     Toast.makeText(
                             AddMessageActivity.this,
-                            getString(R.string.message_not_entered),
+                            getString(R.string.message_not_entered_add_message),
                             Toast.LENGTH_SHORT
                     ).show();
                     return;
                 } else if (messageString.length() < 10) {
                     Toast.makeText(
                             AddMessageActivity.this,
-                            getString(R.string.message_characters_not_enough),
+                            getString(R.string.message_characters_not_enough_add_message),
                             Toast.LENGTH_SHORT
                     ).show();
                     return;
@@ -57,7 +61,7 @@ public class AddMessageActivity extends AppCompatActivity {
                     if (messagesSharedPrefs.put(messageString)) {
                         Toast.makeText(
                                 AddMessageActivity.this,
-                                getString(R.string.message_registered),
+                                getString(R.string.message_registered_add_message),
                                 Toast.LENGTH_SHORT
                         ).show();
                         message.setText("");
@@ -72,7 +76,7 @@ public class AddMessageActivity extends AppCompatActivity {
                 } else
                     Toast.makeText(
                             AddMessageActivity.this,
-                            getString(R.string.message_exists),
+                            getString(R.string.message_exists_add_message),
                             Toast.LENGTH_SHORT
                     ).show();
             }

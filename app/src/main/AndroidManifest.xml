@@ -19,10 +19,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name=".Persons.Activity.AddPersonActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".InformationActivity"
+            android:name=".Persons.Activity.PersonsListActivity"
             android:screenOrientation="portrait" />
 
         <!--
@@ -31,10 +31,10 @@
              else you can use @android:style/Theme.Holo.Dialog
         -->
         <activity
-            android:name=".InformationActivityEditionDialog"
+            android:name=".Persons.PersonsListActivityEditionDialog"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
         <activity
-            android:name=".AddMessageActivity"
+            android:name=".Messages.Activity.AddMessageActivity"
             android:screenOrientation="portrait" />
     </application>
 

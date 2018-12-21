@@ -2,6 +2,9 @@ package com.example.harpigle.happybirthday;
 
 import android.content.Context;
 
+import com.example.harpigle.happybirthday.Messages.MessagesSharedPrefs;
+import com.example.harpigle.happybirthday.Persons.PersonsSharedPrefs;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;

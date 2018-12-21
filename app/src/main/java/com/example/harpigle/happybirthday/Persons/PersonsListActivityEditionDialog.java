@@ -1,4 +1,4 @@
-package com.example.harpigle.happybirthday;
+package com.example.harpigle.happybirthday.Persons;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +10,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.harpigle.happybirthday.BirthdayUtility;
+import com.example.harpigle.happybirthday.R;
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
-public class InformationActivityEditionDialog extends AppCompatActivity
+public class PersonsListActivityEditionDialog extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private String name;
@@ -50,7 +52,7 @@ public class InformationActivityEditionDialog extends AppCompatActivity
           */
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        setContentView(R.layout.edition_information_activity);
+        setContentView(R.layout.dialog_persons_list_edition);
 
         getInformation();
         findViews();
@@ -92,7 +94,7 @@ public class InformationActivityEditionDialog extends AppCompatActivity
         dateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (dateHint.getHint().toString().equals(getString(R.string.wrong_date))) {
+                if (dateHint.getHint().toString().equals(getString(R.string.wrong_date_add_person))) {
                     dateHint.setHint("");
                     configureDatePicker();
                 } else {
@@ -138,12 +140,12 @@ public class InformationActivityEditionDialog extends AppCompatActivity
                 // Check for existence values
                 boolean personFlag =
                         utility.isPersonExited(
-                                InformationActivityEditionDialog.this,
+                                PersonsListActivityEditionDialog.this,
                                 encodedName
                         );
                 boolean phoneNumberFlag =
                         utility.isPhoneNumberExited(
-                                InformationActivityEditionDialog.this,
+                                PersonsListActivityEditionDialog.this,
                                 encodedPhoneNumber
                         );
 
@@ -153,41 +155,41 @@ public class InformationActivityEditionDialog extends AppCompatActivity
 
                     } else if (personFlag && phoneNumberFlag) {
                         Toast.makeText(
-                                InformationActivityEditionDialog.this,
-                                getString(R.string.person_exists),
+                                PersonsListActivityEditionDialog.this,
+                                getString(R.string.person_exists_add_person),
                                 Toast.LENGTH_SHORT
                         ).show();
                         Toast.makeText(
-                                InformationActivityEditionDialog.this,
-                                getString(R.string.phone_number_exists),
+                                PersonsListActivityEditionDialog.this,
+                                getString(R.string.phone_number_exists_add_person),
                                 Toast.LENGTH_SHORT
                         ).show();
                     }
                     else if (personFlag)
                         Toast.makeText(
-                                InformationActivityEditionDialog.this,
-                                getString(R.string.person_exists),
+                                PersonsListActivityEditionDialog.this,
+                                getString(R.string.person_exists_add_person),
                                 Toast.LENGTH_SHORT
                         ).show();
                     else if (phoneNumberFlag)
                         Toast.makeText(
-                                InformationActivityEditionDialog.this,
-                                getString(R.string.phone_number_exists),
+                                PersonsListActivityEditionDialog.this,
+                                getString(R.string.phone_number_exists_add_person),
                                 Toast.LENGTH_SHORT
                         ).show();
                     else {
                         // Remove previous person information
                         PersonsSharedPrefs personsSharedPrefs =
                                 PersonsSharedPrefs
-                                        .getInstance(InformationActivityEditionDialog.this);
+                                        .getInstance(PersonsListActivityEditionDialog.this);
 
                         String[] info = {encodedName, encodedDate, encodedTime, encodedPhoneNumber};
 
                         // Store the new ones
                         if (personsSharedPrefs.put(identifierDate, info)) {
                             Toast.makeText(
-                                    InformationActivityEditionDialog.this,
-                                    getString(R.string.person_registered, name),
+                                    PersonsListActivityEditionDialog.this,
+                                    getString(R.string.person_registered_add_person, name),
                                     Toast.LENGTH_SHORT
                             ).show();
                         }
@@ -256,7 +258,7 @@ public class InformationActivityEditionDialog extends AppCompatActivity
         if (name.equals("")) {
             Toast.makeText(
                     this,
-                    getString(R.string.name_not_entered),
+                    getString(R.string.name_not_entered_add_person),
                     Toast.LENGTH_SHORT
             ).show();
             truthFlag = false;
@@ -264,7 +266,7 @@ public class InformationActivityEditionDialog extends AppCompatActivity
         if (!phoneNumber.matches("^09[0-9]{9}$")) {
             Toast.makeText(
                     this,
-                    getString(R.string.enter_valid_phone_number),
+                    getString(R.string.enter_valid_phone_number_add_person),
                     Toast.LENGTH_SHORT
             ).show();
             truthFlag = false;
@@ -283,11 +285,11 @@ public class InformationActivityEditionDialog extends AppCompatActivity
                 && dayOfMonth > persianCalendar.getPersianDay()) {
 
             dateHint.setText("");
-            dateHint.setHint(getString(R.string.wrong_date));
+            dateHint.setHint(getString(R.string.wrong_date_add_person));
 
         } else if (year > persianCalendar.getPersianYear()) {
             dateHint.setText("");
-            dateHint.setHint(getString(R.string.wrong_date));
+            dateHint.setHint(getString(R.string.wrong_date_add_person));
 
         } else {
             this.year = year;

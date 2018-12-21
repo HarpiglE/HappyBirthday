@@ -1,4 +1,4 @@
-package com.example.harpigle.happybirthday;
+package com.example.harpigle.happybirthday.Persons;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,26 +8,31 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.harpigle.happybirthday.R;
+
 import java.util.ArrayList;
 
-public class InformationActivityAdapter
-        extends RecyclerView.Adapter<InformationActivityAdapter.ViewHolder> {
+public class PersonsListActivityAdapter
+        extends RecyclerView.Adapter<PersonsListActivityAdapter.ViewHolder> {
 
-    private ArrayList<String[]> information = new ArrayList<>();
-    private InformationActivityItemClickListener listener;
+    private ArrayList<String[]> information;
+    private PersonsListActivityItemClickListener listener;
 
-    public InformationActivityAdapter(ArrayList<String[]> information,
-                                      InformationActivityItemClickListener listener) {
+    public PersonsListActivityAdapter(ArrayList<String[]> information,
+                                      PersonsListActivityItemClickListener listener) {
         this.information = information;
         this.listener = listener;
     }
 
     @NonNull
     @Override
-    public InformationActivityAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public PersonsListActivityAdapter.ViewHolder onCreateViewHolder(
+            @NonNull ViewGroup viewGroup,
+            int i
+    ) {
         View view = LayoutInflater
                 .from(viewGroup.getContext())
-                .inflate(R.layout.item_information_activity, viewGroup, false);
+                .inflate(R.layout.item_persons_list, viewGroup, false);
         return new ViewHolder(view);
     }
 

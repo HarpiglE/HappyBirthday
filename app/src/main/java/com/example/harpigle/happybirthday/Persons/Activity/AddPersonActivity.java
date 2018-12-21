@@ -1,4 +1,4 @@
-package com.example.harpigle.happybirthday;
+package com.example.harpigle.happybirthday.Persons.Activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.harpigle.happybirthday.BirthdayUtility;
+import com.example.harpigle.happybirthday.Persons.PersonsSharedPrefs;
+import com.example.harpigle.happybirthday.R;
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
@@ -19,7 +22,7 @@ import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
 import java.util.Calendar;
 
-public class RegisterActivity extends AppCompatActivity
+public class AddPersonActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private Toolbar toolbar;
@@ -49,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_add_person);
 
         findViews();
         setActionBar();
@@ -81,8 +84,10 @@ public class RegisterActivity extends AppCompatActivity
         datePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (dateShow.getHint().equals(getString(R.string.wrong_date))
-                        || dateShow.getHint().equals(getString(R.string.date_not_selected))) {
+                if (dateShow.getHint().equals(getString(R.string.wrong_date_add_person))
+                        || dateShow.getHint().equals(getString(
+                        R.string.date_not_selected_add_person
+                ))) {
                     dateShow.setHint("");
                     configureDatePicker();
                 } else
@@ -92,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity
         timePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (timeShow.getHint().equals(getString(R.string.time_not_selected))) {
+                if (timeShow.getHint().equals(getString(R.string.time_not_selected_add_person))) {
                     timeShow.setHint("");
                     configureTimePicker();
                 } else
@@ -110,32 +115,32 @@ public class RegisterActivity extends AppCompatActivity
                 encodedNameString = utility.encodeIt(nameString);
 
                 boolean personFlag =
-                        utility.isPersonExited(RegisterActivity.this, encodedNameString);
+                        utility.isPersonExited(AddPersonActivity.this, encodedNameString);
                 boolean phoneNumberFlag =
-                        utility.isPhoneNumberExited(RegisterActivity.this, phoneNumberString);
+                        utility.isPhoneNumberExited(AddPersonActivity.this, phoneNumberString);
 
                 if (isInformationTrue()) {
                     if (personFlag && phoneNumberFlag) {
                         Toast.makeText(
-                                RegisterActivity.this,
-                                getString(R.string.person_exists),
+                                AddPersonActivity.this,
+                                getString(R.string.person_exists_add_person),
                                 Toast.LENGTH_SHORT
                         ).show();
                         Toast.makeText(
-                                RegisterActivity.this,
-                                getString(R.string.phone_number_exists),
+                                AddPersonActivity.this,
+                                getString(R.string.phone_number_exists_add_person),
                                 Toast.LENGTH_SHORT
                         ).show();
                     } else if (personFlag)
                         Toast.makeText(
-                                RegisterActivity.this,
-                                getString(R.string.person_exists),
+                                AddPersonActivity.this,
+                                getString(R.string.person_exists_add_person),
                                 Toast.LENGTH_SHORT
                         ).show();
                     else if (phoneNumberFlag)
                         Toast.makeText(
-                                RegisterActivity.this,
-                                getString(R.string.phone_number_exists),
+                                AddPersonActivity.this,
+                                getString(R.string.phone_number_exists_add_person),
                                 Toast.LENGTH_SHORT
                         ).show();
                     else {
@@ -196,7 +201,7 @@ public class RegisterActivity extends AppCompatActivity
         if (nameString.equals("")) {
             Toast.makeText(
                     this,
-                    getString(R.string.name_not_entered),
+                    getString(R.string.name_not_entered_add_person),
                     Toast.LENGTH_SHORT
             ).show();
             truthFlag = false;
@@ -204,7 +209,7 @@ public class RegisterActivity extends AppCompatActivity
         if (!phoneNumberString.matches("^09[0-9]{9}$")) {
             Toast.makeText(
                     this,
-                    getString(R.string.enter_valid_phone_number),
+                    getString(R.string.enter_valid_phone_number_add_person),
                     Toast.LENGTH_SHORT
             ).show();
             truthFlag = false;
@@ -212,7 +217,7 @@ public class RegisterActivity extends AppCompatActivity
         if (year == 0) {
             Toast.makeText(
                     this,
-                    getString(R.string.date_not_entered),
+                    getString(R.string.date_not_entered_add_person),
                     Toast.LENGTH_SHORT
             ).show();
             truthFlag = false;
@@ -220,7 +225,7 @@ public class RegisterActivity extends AppCompatActivity
         if (hour == 0) {
             Toast.makeText(
                     this,
-                    getString(R.string.time_not_entered),
+                    getString(R.string.time_not_entered_add_person),
                     Toast.LENGTH_SHORT
             ).show();
             truthFlag = false;
@@ -255,12 +260,12 @@ public class RegisterActivity extends AppCompatActivity
         if (personsSharedPrefs.put(identifierDate, info))
             Toast.makeText(
                     this,
-                    getString(R.string.person_registered, nameString),
+                    getString(R.string.person_registered_add_person, nameString),
                     Toast.LENGTH_SHORT
             ).show();
         else
             Toast.makeText(
-                    RegisterActivity.this,
+                    AddPersonActivity.this,
                     getString(R.string.error_occurred),
                     Toast.LENGTH_SHORT
             ).show();
@@ -271,8 +276,8 @@ public class RegisterActivity extends AppCompatActivity
         phoneNumberEdt.setText("");
         dateShow.setText("");
         timeShow.setText("");
-        dateShow.setHint(getString(R.string.date_not_selected));
-        timeShow.setHint(getString(R.string.time_not_selected));
+        dateShow.setHint(getString(R.string.date_not_selected_add_person));
+        timeShow.setHint(getString(R.string.time_not_selected_add_person));
 
         nameString = "";
         identifierDate = "";
@@ -298,7 +303,7 @@ public class RegisterActivity extends AppCompatActivity
             this.year = 0;
 
             dateShow.setText("");
-            dateShow.setHint(getString(R.string.wrong_date));
+            dateShow.setHint(getString(R.string.wrong_date_add_person));
 
         } else if (year > persianCalendar.getPersianYear()) {
 
@@ -306,7 +311,7 @@ public class RegisterActivity extends AppCompatActivity
             this.year = 0;
 
             dateShow.setText("");
-            dateShow.setHint(getString(R.string.wrong_date));
+            dateShow.setHint(getString(R.string.wrong_date_add_person));
 
         } else {
             this.year = year;

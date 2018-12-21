@@ -9,6 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.harpigle.happybirthday.Messages.Activity.AddMessageActivity;
+import com.example.harpigle.happybirthday.Persons.Activity.AddPersonActivity;
+import com.example.harpigle.happybirthday.Persons.Activity.PersonsListActivity;
+
 public class MainMenuActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
@@ -29,14 +33,14 @@ public class MainMenuActivity extends AppCompatActivity {
         addPerson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent registerActivity = new Intent(MainMenuActivity.this, RegisterActivity.class);
+                Intent registerActivity = new Intent(MainMenuActivity.this, AddPersonActivity.class);
                 startActivity(registerActivity);
             }
         });
         personsList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent informationActivity = new Intent(MainMenuActivity.this, InformationActivity.class);
+                Intent informationActivity = new Intent(MainMenuActivity.this, PersonsListActivity.class);
                 startActivity(informationActivity);
             }
         });
@@ -59,7 +63,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu_menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

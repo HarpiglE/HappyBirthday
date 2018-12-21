@@ -1,7 +1,9 @@
-package com.example.harpigle.happybirthday;
+package com.example.harpigle.happybirthday.Messages;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.example.harpigle.happybirthday.BirthdayUtility;
 
 import java.util.Map;
 

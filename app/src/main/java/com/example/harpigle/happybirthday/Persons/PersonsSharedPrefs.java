@@ -1,7 +1,9 @@
-package com.example.harpigle.happybirthday;
+package com.example.harpigle.happybirthday.Persons;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.example.harpigle.happybirthday.BirthdayUtility;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,14 +16,14 @@ import java.util.Map;
 
 public final class PersonsSharedPrefs {
 
-    private static final String BIRTHDAY_SHARED_PREF = "BirthDay";
+    private static final String PERSONS_SHARED_PREF = "Persons";
     private static PersonsSharedPrefs instance;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
     private PersonsSharedPrefs(Context context) {
         sharedPreferences = context.getSharedPreferences(
-                BIRTHDAY_SHARED_PREF, Context.MODE_PRIVATE
+                PERSONS_SHARED_PREF, Context.MODE_PRIVATE
         );
         editor = sharedPreferences.edit();
     }

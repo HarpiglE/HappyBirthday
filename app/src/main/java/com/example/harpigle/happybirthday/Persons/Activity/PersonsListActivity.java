@@ -1,4 +1,4 @@
-package com.example.harpigle.happybirthday;
+package com.example.harpigle.happybirthday.Persons.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,14 +21,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.harpigle.happybirthday.Persons.PersonsListActivityAdapter;
+import com.example.harpigle.happybirthday.Persons.PersonsListActivityDeletionDialog;
+import com.example.harpigle.happybirthday.Persons.PersonsListActivityEditionDialog;
+import com.example.harpigle.happybirthday.Persons.PersonsListActivityItemClickListener;
+import com.example.harpigle.happybirthday.Persons.PersonsListCounterDrawable;
+import com.example.harpigle.happybirthday.Persons.PersonsSharedPrefs;
+import com.example.harpigle.happybirthday.R;
+
 import java.util.ArrayList;
 
-public class InformationActivity extends AppCompatActivity
-        implements InformationActivityDeletionDialog.DeletionDialogListener {
+public class PersonsListActivity extends AppCompatActivity
+        implements PersonsListActivityDeletionDialog.DeletionDialogListener {
 
     private RecyclerView recyclerView;
-    private InformationActivityAdapter adapter;
-    private InformationActivityItemClickListener etcClickListener;
+    private PersonsListActivityAdapter adapter;
+    private PersonsListActivityItemClickListener etcClickListener;
 
     private Toolbar toolbar;
     private ImageView warningLogo;
@@ -39,12 +47,12 @@ public class InformationActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_information);
+        setContentView(R.layout.activity_persons_list);
 
         findViews();
         configureActionBar();
 
-        etcClickListener = new InformationActivityItemClickListener() {
+        etcClickListener = new PersonsListActivityItemClickListener() {
             @Override
             public void onClickListener(
                     @NonNull View view,
@@ -57,9 +65,9 @@ public class InformationActivity extends AppCompatActivity
                 info.putString("name", name);
 
                 // Show etc image (...) and set it's items listener
-                PopupMenu etcItemMenu = new PopupMenu(InformationActivity.this, view);
+                PopupMenu etcItemMenu = new PopupMenu(PersonsListActivity.this, view);
                 etcItemMenu.getMenuInflater()
-                        .inflate(R.menu.item_popup_menu, etcItemMenu.getMenu());
+                        .inflate(R.menu.item_persons_list_popup, etcItemMenu.getMenu());
                 etcItemMenu.show();
                 etcItemMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -71,8 +79,8 @@ public class InformationActivity extends AppCompatActivity
                                 info.putString("phone_number", phoneNumber);
 
                                 Intent informationActivityEditionDialog = new Intent(
-                                        InformationActivity.this,
-                                        InformationActivityEditionDialog.class
+                                        PersonsListActivity.this,
+                                        PersonsListActivityEditionDialog.class
                                 );
                                 informationActivityEditionDialog.putExtra(
                                         "information",
@@ -82,8 +90,8 @@ public class InformationActivity extends AppCompatActivity
                                 break;
 
                             case R.id.deletion_item:
-                                InformationActivityDeletionDialog dialog =
-                                        new InformationActivityDeletionDialog();
+                                PersonsListActivityDeletionDialog dialog =
+                                        new PersonsListActivityDeletionDialog();
                                 dialog.setArguments(info);
                                 dialog.show(getSupportFragmentManager(), "DELETION_DIALOG");
                                 break;
@@ -116,7 +124,7 @@ public class InformationActivity extends AppCompatActivity
 
     private ArrayList<String[]> extractInformation() {
         PersonsSharedPrefs personsSharedPrefs =
-                PersonsSharedPrefs.getInstance(InformationActivity.this);
+                PersonsSharedPrefs.getInstance(PersonsListActivity.this);
 
         return personsSharedPrefs.getValues();
     }
@@ -127,7 +135,7 @@ public class InformationActivity extends AppCompatActivity
         // Show warning logo and text to notify to user that there's no data to show
         showWarning(information.size());
 
-        adapter = new InformationActivityAdapter(information, etcClickListener);
+        adapter = new PersonsListActivityAdapter(information, etcClickListener);
         recyclerView.setLayoutManager(new LinearLayoutManager(
                 this,
                 LinearLayoutManager.VERTICAL,
@@ -162,13 +170,13 @@ public class InformationActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.information_activity, menu);
+        getMenuInflater().inflate(R.menu.activity_persons_list, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        setCount(InformationActivity.this, menu, String.valueOf(information.size()));
+        setCount(PersonsListActivity.this, menu, String.valueOf(information.size()));
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -176,14 +184,14 @@ public class InformationActivity extends AppCompatActivity
     public void setCount(Context context, Menu menu, String count) {
         MenuItem menuItem = menu.findItem(R.id.persons_count);
         LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
-        PersonsCountDrawable badge;
+        PersonsListCounterDrawable badge;
 
         // Reuse drawable if possible
         Drawable reuse = icon.findDrawableByLayerId(R.id.persons_count_element);
-        if (reuse != null && reuse instanceof PersonsCountDrawable) {
-            badge = (PersonsCountDrawable) reuse;
+        if (reuse != null && reuse instanceof PersonsListCounterDrawable) {
+            badge = (PersonsListCounterDrawable) reuse;
         } else {
-            badge = new PersonsCountDrawable(context);
+            badge = new PersonsListCounterDrawable(context);
         }
 
         badge.setCount(count);
@@ -199,16 +207,16 @@ public class InformationActivity extends AppCompatActivity
                 break;
             case R.id.clear_information:
                 if (information.size() > 0) {
-                    InformationActivityDeletionDialog clearDialog =
-                            new InformationActivityDeletionDialog();
+                    PersonsListActivityDeletionDialog clearDialog =
+                            new PersonsListActivityDeletionDialog();
                     clearDialog.show(getSupportFragmentManager(), "CLEAR_DIALOG");
                 }
                 break;
             case R.id.persons_count:
                 if (information.size() > 0) {
                     Toast.makeText(
-                            InformationActivity.this,
-                            getString(R.string.persons_count_message, information.size()),
+                            PersonsListActivity.this,
+                            getString(R.string.persons_count_message_persons_list, information.size()),
                             Toast.LENGTH_SHORT
                     ).show();
                 }

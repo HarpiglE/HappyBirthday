@@ -44,7 +44,7 @@
         android:id="@+id/warning_text_information"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/no_information_to_show"
+        android:text="@string/no_information_to_show_persons_list"
         android:textColor="@color/primaryText"
         android:textSize="18sp"
         android:visibility="gone"

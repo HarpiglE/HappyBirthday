@@ -12,7 +12,7 @@
         android:background="@color/colorPrimary"
         android:gravity="center"
         android:padding="@dimen/sixteen_dp"
-        android:text="@string/edition_title"
+        android:text="@string/person_edition_title_persons_list"
         android:textColor="@color/colorAppBackground"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -29,7 +29,7 @@
         android:layout_marginRight="@dimen/sixteen_dp"
         android:background="@drawable/edit_text_style"
         android:gravity="right"
-        android:hint="@string/name"
+        android:hint="@string/name_hint_add_person"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@id/phone_number_edt_dialog"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -45,7 +45,7 @@
         android:layout_marginTop="@dimen/sixteen_dp"
         android:background="@drawable/edit_text_style"
         android:gravity="right"
-        android:hint="@string/phone_number"
+        android:hint="@string/phone_number_hint_add_person"
         android:inputType="phone"
         app:layout_constraintBottom_toTopOf="@id/birth_date_container_dialog"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/sixteen_dp"
             android:paddingTop="@dimen/sixteen_dp"
-            android:text="@string/birth_date"
+            android:text="@string/birth_date_btn_title_add_person"
             android:textColor="@color/primaryText"
             android:textSize="20sp" />
 
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/eight_dp"
             android:gravity="center"
-            android:hint="@string/date_not_selected"
+            android:hint="@string/date_not_selected_add_person"
             android:textColor="@color/primaryText"
             android:textSize="16sp" />
 
@@ -106,7 +106,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/sixteen_dp"
             android:paddingTop="@dimen/sixteen_dp"
-            android:text="@string/birth_time"
+            android:text="@string/birth_time_btn_title_add_person"
             android:textColor="@color/primaryText"
             android:textSize="20sp" />
 
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/eight_dp"
             android:gravity="center"
-            android:hint="@string/time_not_selected"
+            android:hint="@string/time_not_selected_add_person"
             android:textColor="@color/primaryText"
             android:textSize="16sp" />
 
@@ -129,7 +129,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/eight_dp"
         android:layout_marginTop="@dimen/sixteen_dp"
-        android:text="@string/edition_conform"
+        android:text="@string/conform"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/birth_time_container_dialog" />
 
@@ -139,7 +139,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/sixteen_dp"
-        android:text="@string/edition_cancel"
+        android:text="@string/cancel"
         app:layout_constraintRight_toLeftOf="@id/conform_dialog"
         app:layout_constraintTop_toBottomOf="@id/birth_time_container_dialog" />
 

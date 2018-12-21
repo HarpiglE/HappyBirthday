@@ -1,4 +1,4 @@
-package com.example.harpigle.happybirthday;
+package com.example.harpigle.happybirthday.Persons;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -12,7 +12,9 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
-public class PersonsCountDrawable extends Drawable {
+import com.example.harpigle.happybirthday.R;
+
+public class PersonsListCounterDrawable extends Drawable {
 
     private Paint mBadgePaint;
     private Paint mTextPaint;
@@ -21,7 +23,7 @@ public class PersonsCountDrawable extends Drawable {
     private String mCount = "";
     private boolean mWillDraw;
 
-    public PersonsCountDrawable(Context context) {
+    public PersonsListCounterDrawable(Context context) {
         float mTextSize = context.getResources().getDimension(R.dimen.badge_count_text_size);
 
         mBadgePaint = new Paint();

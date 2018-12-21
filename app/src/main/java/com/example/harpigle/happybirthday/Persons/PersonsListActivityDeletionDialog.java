@@ -1,4 +1,4 @@
-package com.example.harpigle.happybirthday;
+package com.example.harpigle.happybirthday.Persons;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -10,11 +10,13 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
-public class InformationActivityDeletionDialog extends DialogFragment {
+import com.example.harpigle.happybirthday.R;
+
+public class PersonsListActivityDeletionDialog extends DialogFragment {
 
     private String name;
 
-    public InformationActivityDeletionDialog() {
+    public PersonsListActivityDeletionDialog() {
 
     }
 
@@ -49,8 +51,8 @@ public class InformationActivityDeletionDialog extends DialogFragment {
         else it means that the user wants to delete a certain person
         */
         if (name == null) {
-            prompt.setMessage(getString(R.string.clear_prompt_message));
-            prompt.setPositiveButton(getString(R.string.deletion_prompt_yes),
+            prompt.setMessage(getString(R.string.persons_clear_prompt_message_persons_list));
+            prompt.setPositiveButton(getString(R.string.yes),
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -59,14 +61,14 @@ public class InformationActivityDeletionDialog extends DialogFragment {
                             if (sharedPref.clear()) {
                                 Toast.makeText(
                                         getActivity(),
-                                        getString(R.string.clear_successful),
+                                        getString(R.string.successfully_cleared_persons_list),
                                         Toast.LENGTH_SHORT
                                 ).show();
                                 listener.deletionDone();
                             }
                         }
                     });
-            prompt.setNegativeButton(getString(R.string.deletion_prompt_no),
+            prompt.setNegativeButton(getString(R.string.no),
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -76,8 +78,8 @@ public class InformationActivityDeletionDialog extends DialogFragment {
 
             return prompt.create();
         } else {
-            prompt.setMessage(getString(R.string.deletion_prompt_message, name));
-            prompt.setPositiveButton(getString(R.string.deletion_prompt_yes),
+            prompt.setMessage(getString(R.string.person_deletion_prompt_message_persons_list, name));
+            prompt.setPositiveButton(getString(R.string.yes),
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -86,19 +88,22 @@ public class InformationActivityDeletionDialog extends DialogFragment {
                             if (personsSharedPrefs.remove(name)) {
                                 Toast.makeText(
                                         getActivity(),
-                                        getString(R.string.deletion_successful, name),
+                                        getString(
+                                                R.string.person_deletion_successful_persons_list,
+                                                name
+                                        ),
                                         Toast.LENGTH_SHORT
                                 ).show();
                                 listener.deletionDone();
                             } else
                                 Toast.makeText(
                                         getActivity(),
-                                        getString(R.string.deletion_failed),
+                                        getString(R.string.person_deletion_failed_persons_list),
                                         Toast.LENGTH_SHORT
                                 ).show();
                         }
                     });
-            prompt.setNegativeButton(getString(R.string.deletion_prompt_no),
+            prompt.setNegativeButton(getString(R.string.no),
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
