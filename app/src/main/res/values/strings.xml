@@ -21,9 +21,9 @@
     <string name="yes">بله</string>
     <string name="no">خیر</string>
     <string name="person_deletion_successful_persons_list">%s با موفقیت حذف شد</string>
-    <string name="person_deletion_failed_persons_list">فرآیند حذف با مشکل روبرو شده است</string>
-    <string name="person_edition_title_persons_list">ویرایش اطلاعات</string>
-    <string name="conform">تأیید</string>
+    <string name="deletion_failed">فرآیند حذف با مشکل روبرو شده است</string>
+    <string name="edit">ویرایش</string>
+    <string name="confirm">تأیید</string>
     <string name="cancel">لغو</string>
     <string name="phone_number_hint_add_person">شماره همراه</string>
     <string name="add_person_title">اطلاعات فرد را وارد نمایید</string>
@@ -51,4 +51,15 @@
         متن پیام حداقل باید شامل 10 کاراکتر باشد
     </string>
     <string name="setting_action_main_menu">تنظیمات</string>
+    <string name="message_deletion_prompt_message_messages_list">
+        آیا از حذف این پیام مطمئن هستید؟
+    </string>
+    <string name="message_deletion_successful_messages_list">پیام موردنظر با موفقیت حذف شد</string>
+    <string name="no_messages_to_show_messages_list">پیامی جهت نمایش وجود ندارد</string>
+    <string name="messages_counter_title_messages_list">Messages Counter</string>
+    <string name="messages_count_message_messages_list">تاکنون %d پیام ثبت شده است</string>
+    <string name="messages_clear_prompt_message_messages_list">
+        آیا از حذف تمامی پیام ها مطمئن هستید؟
+    </string>
+    <string name="successfully_cleared_messages_list">پیام ها با موفقیت حذف شد</string>
 </resources>

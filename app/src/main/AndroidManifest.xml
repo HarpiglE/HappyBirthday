@@ -36,6 +36,7 @@
         <activity
             android:name=".Messages.Activity.AddMessageActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".Messages.Activity.MessagesListActivity"></activity>
     </application>
 
 </manifest>

@@ -1,15 +1,16 @@
 package com.example.harpigle.happybirthday;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.harpigle.happybirthday.Messages.Activity.AddMessageActivity;
+import com.example.harpigle.happybirthday.Messages.Activity.MessagesListActivity;
 import com.example.harpigle.happybirthday.Persons.Activity.AddPersonActivity;
 import com.example.harpigle.happybirthday.Persons.Activity.PersonsListActivity;
 
@@ -49,6 +50,13 @@ public class MainMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent addMessageActivity = new Intent(MainMenuActivity.this, AddMessageActivity.class);
                 startActivity(addMessageActivity);
+            }
+        });
+        messagesList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent messagesListActivity = new Intent(MainMenuActivity.this, MessagesListActivity.class);
+                startActivity(messagesListActivity);
             }
         });
     }

@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.harpigle.happybirthday.Persons.PersonsListActivityAdapter;
-import com.example.harpigle.happybirthday.Persons.PersonsListActivityDeletionDialog;
+import com.example.harpigle.happybirthday.DeletionDialog;
 import com.example.harpigle.happybirthday.Persons.PersonsListActivityEditionDialog;
 import com.example.harpigle.happybirthday.Persons.PersonsListActivityItemClickListener;
 import com.example.harpigle.happybirthday.Persons.PersonsListCounterDrawable;
@@ -32,7 +32,7 @@ import com.example.harpigle.happybirthday.R;
 import java.util.ArrayList;
 
 public class PersonsListActivity extends AppCompatActivity
-        implements PersonsListActivityDeletionDialog.DeletionDialogListener {
+        implements DeletionDialog.PersonsDeletionDialogListener {
 
     private RecyclerView recyclerView;
     private PersonsListActivityAdapter adapter;
@@ -90,10 +90,12 @@ public class PersonsListActivity extends AppCompatActivity
                                 break;
 
                             case R.id.deletion_item:
-                                PersonsListActivityDeletionDialog dialog =
-                                        new PersonsListActivityDeletionDialog();
+                                info.putString("type", "PERSONS_LIST_ITEM_REMOVE");
+
+                                DeletionDialog dialog =
+                                        new DeletionDialog();
                                 dialog.setArguments(info);
-                                dialog.show(getSupportFragmentManager(), "DELETION_DIALOG");
+                                dialog.show(getSupportFragmentManager(), "PERSONS_ITEM_DELETION_DIALOG");
                                 break;
                         }
                         return true;
@@ -153,7 +155,7 @@ public class PersonsListActivity extends AppCompatActivity
 
     // Deletion dialog callback
     @Override
-    public void deletionDone() {
+    public void personDeletionDone() {
         // Update action bar
         invalidateOptionsMenu();
 
@@ -171,6 +173,7 @@ public class PersonsListActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_persons_list, menu);
+        menu.findItem(R.id.persons_count).setVisible(true);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -188,11 +191,10 @@ public class PersonsListActivity extends AppCompatActivity
 
         // Reuse drawable if possible
         Drawable reuse = icon.findDrawableByLayerId(R.id.persons_count_element);
-        if (reuse != null && reuse instanceof PersonsListCounterDrawable) {
+        if (reuse != null && reuse instanceof PersonsListCounterDrawable)
             badge = (PersonsListCounterDrawable) reuse;
-        } else {
+        else
             badge = new PersonsListCounterDrawable(context);
-        }
 
         badge.setCount(count);
         icon.mutate();
@@ -205,21 +207,27 @@ public class PersonsListActivity extends AppCompatActivity
             case android.R.id.home:
                 finish();
                 break;
+
             case R.id.clear_information:
                 if (information.size() > 0) {
-                    PersonsListActivityDeletionDialog clearDialog =
-                            new PersonsListActivityDeletionDialog();
-                    clearDialog.show(getSupportFragmentManager(), "CLEAR_DIALOG");
+                    Bundle info = new Bundle();
+                    info.putString("type", "PERSONS_LIST_CLEAR");
+
+                    DeletionDialog clearDialog =
+                            new DeletionDialog();
+                    clearDialog.setArguments(info);
+                    clearDialog.show(getSupportFragmentManager(), "PERSONS_CLEAR_DIALOG");
                 }
                 break;
+
             case R.id.persons_count:
-                if (information.size() > 0) {
+                if (information.size() > 0)
                     Toast.makeText(
                             PersonsListActivity.this,
                             getString(R.string.persons_count_message_persons_list, information.size()),
                             Toast.LENGTH_SHORT
                     ).show();
-                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

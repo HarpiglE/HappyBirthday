@@ -8,15 +8,14 @@
     <color name="secondaryText">#757575</color>
     <color name="colorDivider">#BDBDBD</color>
 
-    <color name="editTextBg">#F9FBE7</color>
-    <color name="editTextBorder">#DCE775</color>
-
     <!-- Date Picker colors -->
     <color name="mdtp_accent_color">@color/colorPrimary</color>
     <color name="mdtp_accent_color_dark">@color/colorPrimaryDark</color>
 
+    <color name="editTextBg">#F9FBE7</color>
+    <color name="editTextBorder">#DCE775</color>
     <color name="colorAppBackground">#FFFFFF</color>
-
     <color name="colorBadge">#FFC107</color>
+    <color name="colorExpandText">#f1f1f1</color>
 
 </resources>

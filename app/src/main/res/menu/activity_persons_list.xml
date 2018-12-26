@@ -9,8 +9,16 @@
 
     <item
         android:id="@+id/persons_count"
-        android:icon="@drawable/badge_information_activity"
+        android:icon="@drawable/badge_persons_list"
         android:title="@string/persons_counter_title_persons_list"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/messages_count"
+        android:icon="@drawable/badge_messages_list"
+        android:title="@string/messages_counter_title_messages_list"
+        android:visible="false"
         app:showAsAction="ifRoom" />
 
 </menu>

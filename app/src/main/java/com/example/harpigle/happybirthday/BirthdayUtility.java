@@ -35,14 +35,13 @@ public class BirthdayUtility {
     }
 
     public boolean isPersonExited(Context context, String encodedName) {
-        PersonsSharedPrefs personsSharedPrefs =
-                PersonsSharedPrefs.getInstance(context);
+        PersonsSharedPrefs personsSharedPrefs = PersonsSharedPrefs.getInstance(context);
         String[] keys = personsSharedPrefs.getKeys();
 
-        for (int i = 0; i < keys.length; i++) {
+        for (int i = 0; i < keys.length; i++)
             if (keys[i].contains(encodedName))
                 return true;
-        }
+
         return false;
     }
 
@@ -51,21 +50,21 @@ public class BirthdayUtility {
                 PersonsSharedPrefs.getInstance(context);
         ArrayList<String[]> values = personsSharedPrefs.getValues();
 
-        for (int i = 0; i < values.size(); i++) {
+        for (int i = 0; i < values.size(); i++)
             if (values.get(i)[3].equals(phoneNumber))
                 return true;
-        }
+
         return false;
     }
 
     public boolean isMessageExited(MessagesSharedPrefs messagesSharedPrefs, String plainMessage) {
         String encodedMessage = this.encodeIt(plainMessage);
-        String[] values = messagesSharedPrefs.getAll();
-        for (String value : values) {
-            if (value.equals(encodedMessage)) {
+        ArrayList<String> values = messagesSharedPrefs.getAll();
+
+        for (String value : values)
+            if (value.equals(encodedMessage))
                 return true;
-            }
-        }
+
         return false;
     }
 }

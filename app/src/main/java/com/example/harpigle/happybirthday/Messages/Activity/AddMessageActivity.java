@@ -56,9 +56,9 @@ public class AddMessageActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Check for existence, then put to the shared prefs
+                // Check for existence, then putValue to the shared prefs
                 if (!birthdayUtility.isMessageExited(messagesSharedPrefs, messageString)) {
-                    if (messagesSharedPrefs.put(messageString)) {
+                    if (messagesSharedPrefs.putValue(messageString)) {
                         Toast.makeText(
                                 AddMessageActivity.this,
                                 getString(R.string.message_registered_add_message),
@@ -96,7 +96,7 @@ public class AddMessageActivity extends AppCompatActivity {
             actionBar.setTitle(getString(R.string.add_message_main_menu));
             actionBar.setDisplayHomeAsUpEnabled(true);
         } else
-            Log.e("ActionBar", "Register activity action bar is null");
+            Log.e("ActionBar", "Add message activity action bar is null");
     }
 
     private void setMessageEntryMaxHeight() {
