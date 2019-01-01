@@ -1,9 +1,6 @@
 package com.example.harpigle.happybirthday;
 
-import android.content.Context;
-
 import com.example.harpigle.happybirthday.Messages.MessagesSharedPrefs;
-import com.example.harpigle.happybirthday.Persons.PersonsSharedPrefs;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -34,32 +31,9 @@ public class BirthdayUtility {
         return string;
     }
 
-    public boolean isPersonExited(Context context, String encodedName) {
-        PersonsSharedPrefs personsSharedPrefs = PersonsSharedPrefs.getInstance(context);
-        String[] keys = personsSharedPrefs.getKeys();
-
-        for (int i = 0; i < keys.length; i++)
-            if (keys[i].contains(encodedName))
-                return true;
-
-        return false;
-    }
-
-    public boolean isPhoneNumberExited(Context context, String phoneNumber) {
-        PersonsSharedPrefs personsSharedPrefs =
-                PersonsSharedPrefs.getInstance(context);
-        ArrayList<String[]> values = personsSharedPrefs.getValues();
-
-        for (int i = 0; i < values.size(); i++)
-            if (values.get(i)[3].equals(phoneNumber))
-                return true;
-
-        return false;
-    }
-
     public boolean isMessageExited(MessagesSharedPrefs messagesSharedPrefs, String plainMessage) {
         String encodedMessage = this.encodeIt(plainMessage);
-        ArrayList<String> values = messagesSharedPrefs.getAll();
+        ArrayList<String> values = messagesSharedPrefs.getValues();
 
         for (String value : values)
             if (value.equals(encodedMessage))

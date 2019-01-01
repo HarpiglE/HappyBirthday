@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.harpigle.happybirthday.BirthdayUtility;
 import com.example.harpigle.happybirthday.Persons.PersonsSharedPrefs;
 import com.example.harpigle.happybirthday.R;
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
@@ -27,7 +26,7 @@ public class AddPersonActivity extends AppCompatActivity
 
     private Toolbar toolbar;
     private EditText nameEdt;
-    private EditText phoneNumberEdt;
+    private EditText numberEdt;
     private Button datePicker;
     private Button timePicker;
     private TextView dateShow;
@@ -41,18 +40,18 @@ public class AddPersonActivity extends AppCompatActivity
     private int minute;
 
     private String nameString;
-    private String phoneNumberString;
-    private String identifierDate;
+    private String numberString;
     private String properFormattingDateString;
     private String properFormattingTimeString;
-    private String encodedNameString;
 
-    private BirthdayUtility utility = new BirthdayUtility();
+    private PersonsSharedPrefs personsSharedPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_person);
+
+        personsSharedPrefs = PersonsSharedPrefs.getInstance(AddPersonActivity.this);
 
         findViews();
         setActionBar();
@@ -62,7 +61,7 @@ public class AddPersonActivity extends AppCompatActivity
     private void findViews() {
         toolbar = findViewById(R.id.toolbar_register);
         nameEdt = findViewById(R.id.name_register);
-        phoneNumberEdt = findViewById(R.id.phone_number_register);
+        numberEdt = findViewById(R.id.phone_number_register);
         datePicker = findViewById(R.id.birth_date_picker);
         timePicker = findViewById(R.id.birth_time_picker);
         dateShow = findViewById(R.id.date_show_tv);
@@ -77,7 +76,7 @@ public class AddPersonActivity extends AppCompatActivity
             actionBar.setTitle(getString(R.string.add_person_main_menu));
             actionBar.setDisplayHomeAsUpEnabled(true);
         } else
-            Log.e("ActionBar", "Register activity action bar is null");
+            Log.e("ERROR", "AddPersonActivity action bar is null");
     }
 
     private void setButtonsListener() {
@@ -107,17 +106,11 @@ public class AddPersonActivity extends AppCompatActivity
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 nameString = nameEdt.getText().toString();
-                phoneNumberString = phoneNumberEdt.getText().toString();
+                numberString = numberEdt.getText().toString();
 
-                // Encoded nameString to utf-8 to store properly in shared preferences
-                encodedNameString = utility.encodeIt(nameString);
-
-                boolean personFlag =
-                        utility.isPersonExited(AddPersonActivity.this, encodedNameString);
-                boolean phoneNumberFlag =
-                        utility.isPhoneNumberExited(AddPersonActivity.this, phoneNumberString);
+                boolean personFlag = personsSharedPrefs.isPersonExited(nameString);
+                boolean phoneNumberFlag = personsSharedPrefs.isPhoneNumberExited(numberString);
 
                 if (isInformationTrue()) {
                     if (personFlag && phoneNumberFlag) {
@@ -144,7 +137,6 @@ public class AddPersonActivity extends AppCompatActivity
                                 Toast.LENGTH_SHORT
                         ).show();
                     else {
-                        createIdentifierDate();
                         registeringPerson();
                         emptyEverything();
                     }
@@ -206,7 +198,7 @@ public class AddPersonActivity extends AppCompatActivity
             ).show();
             truthFlag = false;
         }
-        if (!phoneNumberString.matches("^09[0-9]{9}$")) {
+        if (!numberString.matches("^09[0-9]{9}$")) {
             Toast.makeText(
                     this,
                     getString(R.string.enter_valid_phone_number_add_person),
@@ -234,30 +226,11 @@ public class AddPersonActivity extends AppCompatActivity
         return truthFlag;
     }
 
-    private void createIdentifierDate() {
-        /* This variable is important. the program will look at the current system date and compare
-           it and will send SMS according to this variable
-          */
-        identifierDate = String.valueOf(
-                String.valueOf(year) + String.valueOf(month) + String.valueOf(day)
-        );
-    }
-
     private void registeringPerson() {
-        // Register date by 'date_encodedName' pattern
-        identifierDate += ("_" + encodedNameString);
-
-        // Encode date and time string to store in the shared prefs
-        properFormattingDateString = utility.encodeIt(properFormattingDateString);
-        properFormattingTimeString = utility.encodeIt(properFormattingTimeString);
-        phoneNumberString = utility.encodeIt(phoneNumberString);
-
         String[] info =
-                {encodedNameString, properFormattingDateString,
-                        properFormattingTimeString, phoneNumberString};
+                {nameString, numberString, properFormattingDateString, properFormattingTimeString};
 
-        PersonsSharedPrefs personsSharedPrefs = PersonsSharedPrefs.getInstance();
-        if (personsSharedPrefs.put(identifierDate, info))
+        if (personsSharedPrefs.putValue(info))
             Toast.makeText(
                     this,
                     getString(R.string.person_registered_add_person, nameString),
@@ -273,18 +246,16 @@ public class AddPersonActivity extends AppCompatActivity
 
     private void emptyEverything() {
         nameEdt.setText("");
-        phoneNumberEdt.setText("");
+        numberEdt.setText("");
         dateShow.setText("");
         timeShow.setText("");
         dateShow.setHint(getString(R.string.date_not_selected_add_person));
         timeShow.setHint(getString(R.string.time_not_selected_add_person));
 
         nameString = "";
-        identifierDate = "";
         properFormattingDateString = "";
         properFormattingTimeString = "";
-        encodedNameString = "";
-        phoneNumberString = "";
+        numberString = "";
 
         year = 0;
         hour = 0;

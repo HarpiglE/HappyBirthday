@@ -8,8 +8,8 @@ public interface PersonsListActivityItemClickListener {
     void onClickListener(
             @NonNull View view,
             @NonNull String name,
+            @NonNull String number,
             @NonNull String date,
-            @NonNull String time,
-            @NonNull String phoneNumber
+            @NonNull String time
     );
 }

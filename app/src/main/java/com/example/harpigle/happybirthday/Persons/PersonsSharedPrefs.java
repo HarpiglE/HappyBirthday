@@ -2,16 +2,15 @@ package com.example.harpigle.happybirthday.Persons;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.harpigle.happybirthday.BirthdayUtility;
 
-import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 public final class PersonsSharedPrefs {
@@ -21,6 +20,9 @@ public final class PersonsSharedPrefs {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
+    private BirthdayUtility utility = new BirthdayUtility();
+    private HashMap<String, String[]> keyAndPersons = new HashMap<>();
+
     private PersonsSharedPrefs(Context context) {
         sharedPreferences = context.getSharedPreferences(
                 PERSONS_SHARED_PREF, Context.MODE_PRIVATE
@@ -29,62 +31,91 @@ public final class PersonsSharedPrefs {
     }
 
     public static PersonsSharedPrefs getInstance(Context context) {
-        if (instance == null) {
+        if (instance == null)
             instance = new PersonsSharedPrefs(context);
-        }
         return instance;
     }
 
-    public static PersonsSharedPrefs getInstance() {
-        if (instance != null) {
-            return instance;
-        }
+    public boolean putValue(String[] plainValues) {
+        int count = sharedPreferences.getAll().size() + 1;
 
-        throw new IllegalArgumentException(
-                "Should use getInstance(Context) at least once before using this method."
-        );
-    }
+        for (int i = 0; i < plainValues.length; i++)
+            plainValues[i] = utility.encodeIt(plainValues[i]);
 
-    public boolean put(String key, String[] value) {
-        JSONArray jsonArray = null;
-
-        // Store key and values to the shared preferences
+        JSONObject encodedValuesJson = new JSONObject();
         try {
-            jsonArray = new JSONArray(Arrays.toString(value));
-        } catch (Exception e) {
+            encodedValuesJson.put("name", plainValues[0]);
+            encodedValuesJson.put("number", plainValues[1]);
+            encodedValuesJson.put("date", plainValues[2]);
+            encodedValuesJson.put("time", plainValues[3]);
+        } catch (JSONException e) {
+            Log.e("ERROR", "JSONException in PersonsSharedPreferences putValue method");
             e.printStackTrace();
         }
 
-        if (jsonArray != null) {
-            editor.putString(key, jsonArray.toString());
+        try {
+            editor.putString(String.valueOf(count), encodedValuesJson.toString());
             editor.apply();
             return true;
-        } else
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
+        }
     }
 
-    public JSONArray get(String key) {
-        String personInformationJson = sharedPreferences.getString(key, "KeyNotAvailable");
+    public boolean putValue(String key, String[] plainValues) {
+        for (int i = 0; i < plainValues.length; i++)
+            plainValues[i] = utility.encodeIt(plainValues[i]);
 
-        if (personInformationJson.equals("KeyNotAvailable"))
-            return null;
-        else {
-            JSONArray jsonArray = null;
-
-            try {
-                jsonArray = new JSONArray(personInformationJson);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return jsonArray;
+        JSONObject encodedValuesJson = new JSONObject();
+        try {
+            encodedValuesJson.put("name", plainValues[0]);
+            encodedValuesJson.put("number", plainValues[1]);
+            encodedValuesJson.put("date", plainValues[2]);
+            encodedValuesJson.put("time", plainValues[3]);
+        } catch (JSONException e) {
+            Log.e("ERROR", "JSONException in PersonsSharedPreferences putValue method");
+            e.printStackTrace();
         }
 
+        try {
+            editor.putString(key, encodedValuesJson.toString());
+            editor.apply();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public JSONObject getValue(String key) {
+        String valueString = sharedPreferences.getString(key, null);
+
+        if (valueString != null) {
+            JSONObject valueJson;
+            try {
+                valueJson = new JSONObject(valueString);
+                return valueJson;
+
+            } catch (JSONException e) {
+                Log.e("ERROR", "JSONException in PersonsSharedPreferences getValue method");
+                e.printStackTrace();
+            }
+            return null;
+
+        } else
+            return null;
+    }
+
+    public String getKey(String plainName) {
+        for (Map.Entry<String, String[]> entry : keyAndPersons.entrySet())
+            if (entry.getValue()[0].equals(plainName))
+                return entry.getKey();
+
+        return null;
     }
 
     public String[] getKeys() {
         Map<String, ?> allPrefs = sharedPreferences.getAll();
-
         String[] keysArray = new String[allPrefs.size()];
         allPrefs.keySet().toArray(keysArray);
 
@@ -92,64 +123,73 @@ public final class PersonsSharedPrefs {
     }
 
     public ArrayList<String[]> getValues() {
-        Map<String, ?> allPrefs = sharedPreferences.getAll();
-
-        String[] stringsToJsonArrays = new String[allPrefs.size()];
-        allPrefs.values().toArray(stringsToJsonArrays);
-
-        ArrayList<String[]> ListsArray = new ArrayList<>();
+        int personsCount = sharedPreferences.getAll().size();
+        JSONObject valueJson;
+        ArrayList<String[]> valuesArraysList = new ArrayList<>();
         BirthdayUtility utility = new BirthdayUtility();
 
-        /*
-        Get encoded name, date, time and phone number respectively;
-        decode them and store in the valuesList
-        */
-        for (int i = 0; i < allPrefs.size(); i++) {
-            JSONArray jsonArray;
+        for (int i = 1; i <= personsCount; i++) {
             String[] valuesList = new String[4];
+            valueJson = this.getValue(String.valueOf(i));
 
-            try {
-                jsonArray = new JSONArray(stringsToJsonArrays[i]);
+            if (valueJson == null) {
+                ++personsCount;
+                continue;
+            } else {
 
-                valuesList[0] = utility.decodeIt(jsonArray.get(0).toString());
-                valuesList[1] = utility.decodeIt(jsonArray.get(1).toString());
-                valuesList[2] = utility.decodeIt(jsonArray.get(2).toString());
-                valuesList[3] = "0" + utility.decodeIt(jsonArray.get(3).toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
+                try {
+                    valuesList[0] = utility.decodeIt(valueJson.getString("name"));
+                    valuesList[1] = utility.decodeIt(valueJson.getString("number"));
+                    valuesList[2] = utility.decodeIt(valueJson.getString("date"));
+                    valuesList[3] = utility.decodeIt(valueJson.getString("time"));
+
+                } catch (JSONException e) {
+                    Log.e("ERROR", "JSONException in PersonsSharedPreferences getValues method");
+                    e.printStackTrace();
+                }
+                String[] stringArray = {valuesList[0], valuesList[1]};
+                keyAndPersons.put(String.valueOf(i), stringArray);
+
+                valuesArraysList.add(valuesList);
             }
-
-            ListsArray.add(valuesList);
         }
-
-        return ListsArray;
+        return valuesArraysList;
     }
 
     public boolean remove(String plainName) {
-        String[] keys = this.getKeys();
-
-        // Encode name to compare with keys in shared prefs
-        try {
-            plainName = URLEncoder.encode(plainName, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        // Look for a key that contains the given name and remove it
-        for (int i = 0; i < keys.length; i++) {
-            if (keys[i].contains(plainName)) {
-                editor.remove(keys[i]);
+        for (Map.Entry<String, String[]> entry : keyAndPersons.entrySet())
+            if (entry.getValue()[0].equals(plainName)) {
+                editor.remove(entry.getKey());
                 editor.apply();
                 return true;
             }
-        }
-
         return false;
     }
 
     public boolean clear() {
-        editor.clear();
-        editor.apply();
-        return true;
+        try {
+            editor.clear();
+            editor.apply();
+            return true;
+        } catch (Exception e) {
+            Log.e("ERROR", "Exception in PersonsSharedPreferences clear method");
+            return false;
+        }
+    }
+
+    public boolean isPersonExited(String plainName) {
+        for (Map.Entry<String, String[]> entry : keyAndPersons.entrySet()) {
+            if (entry.getValue()[0].equals(plainName))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean isPhoneNumberExited(String number) {
+        for (Map.Entry<String, String[]> entry : keyAndPersons.entrySet()) {
+            if (entry.getValue()[1].equals(number))
+                return true;
+        }
+        return false;
     }
 }

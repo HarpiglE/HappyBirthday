@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.harpigle.happybirthday.BirthdayUtility;
 import com.example.harpigle.happybirthday.R;
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
@@ -23,12 +22,10 @@ public class PersonsListActivityEditionDialog extends AppCompatActivity
     private String name;
     private String date;
     private String time;
-    private String phoneNumber;
-    private String initialName;
-    private String initialPhoneNumber;
+    private String number;
 
     private EditText nameEdt;
-    private EditText phoneNumberEdt;
+    private EditText numberEdt;
     private Button dateBtn;
     private Button timeBtn;
     private TextView dateHint;
@@ -64,17 +61,14 @@ public class PersonsListActivityEditionDialog extends AppCompatActivity
         Bundle info = getIntent().getBundleExtra("information");
 
         name = info.getString("name");
+        number = info.getString("number");
         date = info.getString("date");
         time = info.getString("time");
-        phoneNumber = info.getString("phone_number");
-
-        initialName = name;
-        initialPhoneNumber = phoneNumber;
     }
 
     private void findViews() {
         nameEdt = findViewById(R.id.name_edt_dialog);
-        phoneNumberEdt = findViewById(R.id.phone_number_edt_dialog);
+        numberEdt = findViewById(R.id.phone_number_edt_dialog);
         dateBtn = findViewById(R.id.birth_date_picker_dialog);
         timeBtn = findViewById(R.id.birth_time_picker_dialog);
         dateHint = findViewById(R.id.date_show_tv_dialog);
@@ -85,7 +79,7 @@ public class PersonsListActivityEditionDialog extends AppCompatActivity
 
     private void setTextsIntoViews() {
         nameEdt.setText(name);
-        phoneNumberEdt.setText(phoneNumber);
+        numberEdt.setText(number);
         dateHint.setText(date);
         timeHint.setText(time);
     }
@@ -111,97 +105,40 @@ public class PersonsListActivityEditionDialog extends AppCompatActivity
         conform.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                PersonsSharedPrefs personsSharedPrefs =
+                        PersonsSharedPrefs.getInstance(PersonsListActivityEditionDialog.this);
+                String key = personsSharedPrefs.getKey(name);
+
+                name = nameEdt.getText().toString();
+                number = numberEdt.getText().toString();
                 date = dateHint.getText().toString();
                 time = timeHint.getText().toString();
 
-                String encodedName;
-                String encodedPhoneNumber;
-                String identifierDate;
-                String encodedDate;
-                String encodedTime;
+                String[] info = {name, number, date, time};
 
-                // Prepare the new key and value to store in shared prefs EOF
-                name = nameEdt.getText().toString();
-                phoneNumber = phoneNumberEdt.getText().toString();
+                // Store the new ones
+                if (isInformationTrue() && personsSharedPrefs.putValue(key, info)) {
+                    Toast.makeText(
+                            PersonsListActivityEditionDialog.this,
+                            getString(R.string.person_registered_add_person, name),
+                            Toast.LENGTH_SHORT
+                    ).show();
+                    Intent intent = new Intent();
+                    intent.putExtra("isEditionDone", true);
+                    setResult(RESULT_OK, intent);
+                    finish();
 
-                BirthdayUtility utility = new BirthdayUtility();
-                encodedName = utility.encodeIt(name);
-
-                identifierDate = String.valueOf(
-                        String.valueOf(year) + String.valueOf(month) + String.valueOf(day)
-                );
-                identifierDate += ("_" + encodedName);
-
-                encodedPhoneNumber = utility.encodeIt(phoneNumber);
-                encodedDate = utility.encodeIt(date);
-                encodedTime = utility.encodeIt(time);
-                // EOF
-
-                // Check for existence values
-                boolean personFlag =
-                        utility.isPersonExited(
-                                PersonsListActivityEditionDialog.this,
-                                encodedName
-                        );
-                boolean phoneNumberFlag =
-                        utility.isPhoneNumberExited(
-                                PersonsListActivityEditionDialog.this,
-                                encodedPhoneNumber
-                        );
-
-                if (isInformationTrue()) {
-                    if (name.equals(initialName) && phoneNumber.equals(initialPhoneNumber)) {
-                        finish();
-
-                    } else if (personFlag && phoneNumberFlag) {
-                        Toast.makeText(
-                                PersonsListActivityEditionDialog.this,
-                                getString(R.string.person_exists_add_person),
-                                Toast.LENGTH_SHORT
-                        ).show();
-                        Toast.makeText(
-                                PersonsListActivityEditionDialog.this,
-                                getString(R.string.phone_number_exists_add_person),
-                                Toast.LENGTH_SHORT
-                        ).show();
-                    }
-                    else if (personFlag)
-                        Toast.makeText(
-                                PersonsListActivityEditionDialog.this,
-                                getString(R.string.person_exists_add_person),
-                                Toast.LENGTH_SHORT
-                        ).show();
-                    else if (phoneNumberFlag)
-                        Toast.makeText(
-                                PersonsListActivityEditionDialog.this,
-                                getString(R.string.phone_number_exists_add_person),
-                                Toast.LENGTH_SHORT
-                        ).show();
-                    else {
-                        // Remove previous person information
-                        PersonsSharedPrefs personsSharedPrefs =
-                                PersonsSharedPrefs
-                                        .getInstance(PersonsListActivityEditionDialog.this);
-
-                        String[] info = {encodedName, encodedDate, encodedTime, encodedPhoneNumber};
-
-                        // Store the new ones
-                        if (personsSharedPrefs.put(identifierDate, info)) {
-                            Toast.makeText(
-                                    PersonsListActivityEditionDialog.this,
-                                    getString(R.string.person_registered_add_person, name),
-                                    Toast.LENGTH_SHORT
-                            ).show();
-                        }
-                        Intent intent = new Intent();
-                        intent.putExtra("isEditionDone", true);
-                        setResult(RESULT_OK, intent);
-
-                        finish();
-                    }
+                } else {
+                    Toast.makeText(
+                            PersonsListActivityEditionDialog.this,
+                            getString(R.string.error_occurred),
+                            Toast.LENGTH_SHORT
+                    ).show();
+                    finish();
                 }
             }
         });
+
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -263,7 +200,7 @@ public class PersonsListActivityEditionDialog extends AppCompatActivity
             ).show();
             truthFlag = false;
         }
-        if (!phoneNumber.matches("^09[0-9]{9}$")) {
+        if (!number.matches("^09[0-9]{9}$")) {
             Toast.makeText(
                     this,
                     getString(R.string.enter_valid_phone_number_add_person),

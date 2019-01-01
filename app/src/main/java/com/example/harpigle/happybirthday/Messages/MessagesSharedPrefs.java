@@ -34,16 +34,27 @@ public final class MessagesSharedPrefs {
     }
 
     public boolean putValue(String plainMessage) {
-        int count = this.getAll().size() + 1;
-        editor.putString(String.valueOf(count), utility.encodeIt(plainMessage));
-        editor.apply();
-        return true;
+        int count = this.getValues().size() + 1;
+        try {
+            editor.putString(String.valueOf(count), utility.encodeIt(plainMessage));
+            editor.apply();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
     public boolean putValue(String key, String plainMessage) {
-        editor.putString(key, utility.encodeIt(plainMessage));
-        editor.apply();
-        return true;
+        try {
+            editor.putString(key, utility.encodeIt(plainMessage));
+            editor.apply();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public String getValue(String key) {
@@ -62,18 +73,18 @@ public final class MessagesSharedPrefs {
         return null;
     }
 
-    public ArrayList<String> getAll() {
+    public ArrayList<String> getValues() {
         int messagesCount = this.getKeys().length;
         ArrayList<String> sortedValues = new ArrayList<>();
         String retrievedMessage;
 
         for (int i = 0; i < messagesCount; i++) {
-            retrievedMessage = this.getValue(String.valueOf(i + 1));
+            retrievedMessage = this.getValue(String.valueOf(i));
             if (retrievedMessage == null) {
                 ++messagesCount;
                 continue;
             } else {
-                keyAndMessages.put(String.valueOf(i + 1), utility.decodeIt(retrievedMessage));
+                keyAndMessages.put(String.valueOf(i), utility.decodeIt(retrievedMessage));
                 sortedValues.add(utility.decodeIt(retrievedMessage));
             }
         }
@@ -96,13 +107,17 @@ public final class MessagesSharedPrefs {
                 editor.apply();
                 return true;
             }
-
         return false;
     }
 
     public boolean clear() {
-        editor.clear();
-        editor.apply();
-        return true;
+        try {
+            editor.clear();
+            editor.apply();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

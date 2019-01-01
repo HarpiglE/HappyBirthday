@@ -144,7 +144,7 @@ public class MessagesListActivity extends AppCompatActivity implements
     private ArrayList<String> extractMessages() {
         MessagesSharedPrefs messagesSharedPrefs =
                 MessagesSharedPrefs.getInstance(MessagesListActivity.this);
-        return messagesSharedPrefs.getAll();
+        return messagesSharedPrefs.getValues();
     }
 
     private void showWarning(int size) {

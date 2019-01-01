@@ -21,8 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.harpigle.happybirthday.Persons.PersonsListActivityAdapter;
 import com.example.harpigle.happybirthday.DeletionDialog;
+import com.example.harpigle.happybirthday.Persons.PersonsListActivityAdapter;
 import com.example.harpigle.happybirthday.Persons.PersonsListActivityEditionDialog;
 import com.example.harpigle.happybirthday.Persons.PersonsListActivityItemClickListener;
 import com.example.harpigle.happybirthday.Persons.PersonsListCounterDrawable;
@@ -57,9 +57,9 @@ public class PersonsListActivity extends AppCompatActivity
             public void onClickListener(
                     @NonNull View view,
                     @NonNull String name,
+                    @NonNull final String number,
                     @NonNull final String date,
-                    @NonNull final String time,
-                    @NonNull final String phoneNumber
+                    @NonNull final String time
             ) {
                 final Bundle info = new Bundle();
                 info.putString("name", name);
@@ -74,9 +74,9 @@ public class PersonsListActivity extends AppCompatActivity
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case R.id.edition_item:
+                                info.putString("number", number);
                                 info.putString("date", date);
                                 info.putString("time", time);
-                                info.putString("phone_number", phoneNumber);
 
                                 Intent informationActivityEditionDialog = new Intent(
                                         PersonsListActivity.this,
